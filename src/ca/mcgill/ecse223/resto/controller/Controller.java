@@ -17,7 +17,7 @@ public class Controller {
 				
 		for( Table currentTable : currentTables){
 			if(currentTable.doesOverlap(x, y, width, length)){
-				throw new InvalidInputException("Överlapped");
+				throw new InvalidInputException("Overlapped");
 			}
 		}
 		
@@ -29,6 +29,29 @@ public class Controller {
 		}
 
 	}
+	
+	public static void removeTable(Table table) throws InvalidInputException {
+		
+		RestoApp r = RestoAppApplication.getRestoApp();
+		
+		if(table.getReservations() != null) {
+			throw new InvalidInputException("Table is reserved");
+		}
+		
+		for(Order order : r.getCurrentOrders()) {
+			List<Table> tables = order.getTables();
+			
+			boolean inUse = tables.contains(table);
+			
+			if(inUse) {
+				throw new InvalidInputException("Table is in use");
+			}
+		}
+		r.removeCurrentTable(table);
+		
+		//persistence XStream save
+	}
+	
 	
 	public static void updateTable(Table table, int newNumber, int numberOfSeats ) throws InvalidInputException{
 		
