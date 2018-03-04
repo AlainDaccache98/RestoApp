@@ -53,10 +53,11 @@ public class Controller {
 	}
 	
 	
-	public static void updateTable(Table table, int newNumber, int numberOfSeats ) throws InvalidInputException{
+	//implemented 2 different methods for updating table number and updating table seats
+	public static void updateTable(Table table, int newNumber, int numberOfSeats) throws InvalidInputException{
 		
 		//update table number
-		if(table==null || newNumber < 0 || numberOfSeats<0){
+		if(table==null || newNumber < 0 || numberOfSeats <0){
 			throw new InvalidInputException("Invalid arguments");
 		}
 		
@@ -86,25 +87,26 @@ public class Controller {
 		}
 		catch(RuntimeException e){
 			throw new InvalidInputException("New table number has already been assigned to a table");
-		}
-		
-		//update number of seats
-		
+		}		
+
 		//add seat
 		int n = table.numberOfCurrentSeats();
-		
+				
 		for(int i=0; i<(numberOfSeats-n);i++){
 			Seat seat = table.addSeat();
 			table.addCurrentSeat(seat);
 		}
-		
+				
 		//remove seat
 		for(int i=1; i<(n-numberOfSeats);i++){
 			Seat seat = table.getCurrentSeat(0);
 			table.removeCurrentSeat(seat);
-		}			
+		}
+		
+		//save data later
 		
 	}
+	
 
 	public static List<Table> getTables() {
 		return RestoAppApplication.getRestoApp().getTables();

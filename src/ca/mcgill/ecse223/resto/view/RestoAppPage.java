@@ -1,6 +1,7 @@
 package ca.mcgill.ecse223.resto.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 import ca.mcgill.ecse223.resto.controller.Controller;
+import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.Table;
 
 public class RestoAppPage extends JFrame {
@@ -25,21 +27,25 @@ public class RestoAppPage extends JFrame {
 	//private JPanel contentPane;
 	private static final long serialVersionUID = -4426310869335015542L;
 	
+	private JLabel errorMessage;
+
 	private JComboBox<String> tableList;
 	private JLabel tableNumberSelected;
 	
 	private JLabel newTableNumberLabel;
 	private JTextField newTableNumberTextField;
-	private JButton newTableNumberButton;
 
 	private JLabel updatedSeatsLabel;
 	private JTextField updatedSeatsTextField;
-	private JButton updatedSeatsButton;
 	
+	private JButton updateTableFeaturesButton;
+
 	//temp elements
 	//private JLabel hint1;
 	//private JLabel hint2;
-	
+
+	private String error = null;
+
 	private Integer selectedTableNumber = -1;
 	private HashMap<Integer, Table> tables;
 
@@ -54,6 +60,8 @@ public class RestoAppPage extends JFrame {
 	
 	private void initComponents() {
 		
+		errorMessage = new JLabel();
+		errorMessage.setForeground(Color.RED);
 		//label for selecting table whose features are to be updated
 		tableNumberSelected = new JLabel();
 		
@@ -69,12 +77,11 @@ public class RestoAppPage extends JFrame {
 		//UI elements for updating table number
 		newTableNumberLabel = new JLabel();
 		newTableNumberTextField = new JTextField();
-		newTableNumberButton = new JButton();
+		updateTableFeaturesButton = new JButton();
 		
 		//UI elements for updating seats
 		updatedSeatsLabel = new JLabel();
 		updatedSeatsTextField = new JTextField();
-		updatedSeatsButton = new JButton();
 		
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("RestoApp");
@@ -83,10 +90,10 @@ public class RestoAppPage extends JFrame {
 		newTableNumberLabel.setText("New table number: ");
 		updatedSeatsLabel.setText("New number of seats: ");
 		
-		newTableNumberButton.setText("Update");
-		updatedSeatsButton.setText("Update");
+		updateTableFeaturesButton.setText("Update");
+		//updatedSeatsButton.setText("Update");
 		
-		newTableNumberButton.addActionListener(new java.awt.event.ActionListener(){
+		updateTableFeaturesButton.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt){
 				newTableNumberButtonActionPerformed(evt);
 			}
@@ -95,12 +102,12 @@ public class RestoAppPage extends JFrame {
 		});
 		
 		
-		updatedSeatsButton.addActionListener(new java.awt.event.ActionListener(){
+		/*updatedSeatsButton.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt){
 				updateSeatsButtonActionPerformed(evt);
 			}
 
-		});
+		});*/
 		
 		JSeparator horizontalLineTop = new JSeparator();
 		JSeparator horizontalLineMiddle = new JSeparator();
@@ -113,6 +120,7 @@ public class RestoAppPage extends JFrame {
 		
 		layout.setHorizontalGroup(
 				layout.createParallelGroup()
+				.addComponent(errorMessage)
 				.addComponent(horizontalLineTop)
 				.addComponent(horizontalLineMiddle)
 				.addComponent(horizontalLineBottom)
@@ -124,19 +132,19 @@ public class RestoAppPage extends JFrame {
 						.addGroup(layout.createParallelGroup()
 								.addComponent(tableList)
 								.addComponent(newTableNumberTextField,200,200,400)
-								.addComponent(newTableNumberButton)
-								.addComponent(updatedSeatsTextField,200,200,400)
-								.addComponent(updatedSeatsButton))
+								.addComponent(updateTableFeaturesButton, 70,70,140)
+								.addComponent(updatedSeatsTextField,200,200,400))
 				
 				));
 		
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {newTableNumberTextField, newTableNumberButton});
+		/*layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {newTableNumberTextField, newTableNumberButton});
 
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {updatedSeatsTextField, updatedSeatsButton});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {updatedSeatsTextField, updatedSeatsButton});*/
 
 		
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
+				.addComponent(errorMessage)				
 				.addGroup(layout.createParallelGroup()
 						.addComponent(tableNumberSelected)
 						.addComponent(tableList))
@@ -146,17 +154,17 @@ public class RestoAppPage extends JFrame {
 						.addComponent(newTableNumberLabel)
 						.addComponent(newTableNumberTextField))
 				.addGroup(layout.createParallelGroup()
-						.addComponent(newTableNumberButton))
+						.addComponent(updateTableFeaturesButton))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(horizontalLineMiddle))		
 				.addGroup(layout.createParallelGroup()
 						.addComponent(updatedSeatsLabel)
 						.addComponent(updatedSeatsTextField))
 				.addGroup(layout.createParallelGroup()
-						.addComponent(updatedSeatsButton))
+						/*.addComponent(updatedSeatsButton))*/
 				.addGroup(layout.createParallelGroup()
 						.addComponent(horizontalLineBottom))
-						);
+						));
 		pack();
 
 	}
@@ -164,33 +172,49 @@ public class RestoAppPage extends JFrame {
 	//action after pressing the update table number button
 	private void newTableNumberButtonActionPerformed(ActionEvent evt) {
 		
-		
-	}
-	//action after pressing the update seats button
-	private void updateSeatsButtonActionPerformed(ActionEvent evt) {
+		// clear error message
+		error = null;
+				
+		// call the controller
+		try {
+			int newTableNumber = Integer.parseInt(newTableNumberTextField.getText());
+			Table table = Table.getWithNumber(newTableNumber);
+			int newSeatCount = Integer.parseInt(updatedSeatsTextField.getText());
+			Controller.updateTable(table, newTableNumber, newSeatCount );
+		} catch (InvalidInputException e) {
+			error = e.getMessage();
+		}
+				
+		// update visuals
+		refreshData();
 		
 	}
 
 	//refreshing the data after a new entry
 	private void refreshData() {
 		
-		//update 2 text fields
-		newTableNumberTextField.setText("");
-		updatedSeatsTextField.setText("");
-		
-		//update the combo box
-		tables = new HashMap<Integer, Table>();
-		tableList.removeAllItems();
-		Integer index = 0;
-		
-		for(Table table : Controller.getTables()){
-			tables.put(index, table);
-			tableList.addItem("# " + table.getNumber());
-			index++;
+		errorMessage.setText(error);
+		if (error == null || error.length() == 0) {
+
+			//update 2 text fields
+			newTableNumberTextField.setText("");
+			updatedSeatsTextField.setText("");
+			
+			//update the combo box
+			tables = new HashMap<Integer, Table>();
+			tableList.removeAllItems();
+			Integer index = 0;
+			
+			for(Table table : Controller.getTables()){
+				tables.put(index, table);
+				tableList.addItem("# " + table.getNumber());
+				index++;
+			}
+			
+			selectedTableNumber = -1;
+			tableList.setSelectedIndex(selectedTableNumber);
+			
 		}
-		
-		selectedTableNumber = -1;
-		tableList.setSelectedIndex(selectedTableNumber);	
 		
 		pack();
 		
