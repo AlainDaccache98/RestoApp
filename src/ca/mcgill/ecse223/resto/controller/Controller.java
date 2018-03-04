@@ -104,6 +104,10 @@ public class Controller {
 			table.removeCurrentSeat(seat);
 		}			
 		
+	}
+
+	public static List<Table> getTables() {
+		return RestoAppApplication.getRestoApp().getTables();
 	}		
 
 }

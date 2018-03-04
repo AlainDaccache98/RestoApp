@@ -14,8 +14,10 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
+import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.model.Table;
 
 public class RestoAppPage extends JFrame {
@@ -73,6 +75,9 @@ public class RestoAppPage extends JFrame {
 		updatedSeatsLabel = new JLabel();
 		updatedSeatsTextField = new JTextField();
 		updatedSeatsButton = new JButton();
+		
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setTitle("RestoApp");
 		
 		tableNumberSelected.setText("Select table: ");
 		newTableNumberLabel.setText("New table number: ");
@@ -168,6 +173,26 @@ public class RestoAppPage extends JFrame {
 
 	//refreshing the data after a new entry
 	private void refreshData() {
+		
+		//update 2 text fields
+		newTableNumberTextField.setText("");
+		updatedSeatsTextField.setText("");
+		
+		//update the combo box
+		tables = new HashMap<Integer, Table>();
+		tableList.removeAllItems();
+		Integer index = 0;
+		
+		for(Table table : Controller.getTables()){
+			tables.put(index, table);
+			tableList.addItem("# " + table.getNumber());
+			index++;
+		}
+		
+		selectedTableNumber = -1;
+		tableList.setSelectedIndex(selectedTableNumber);	
+		
+		pack();
 		
 	}
 
