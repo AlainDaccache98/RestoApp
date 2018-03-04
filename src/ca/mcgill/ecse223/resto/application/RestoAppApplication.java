@@ -25,7 +25,7 @@ private static RestoApp resto;
 		if (resto == null) {
 			// load model
 			// TODO
-			// for now, we are just creating an empty BTMS
+			// for now, we are just creating an empty Resto
 			resto = new RestoApp();
 		}
  		return resto;
