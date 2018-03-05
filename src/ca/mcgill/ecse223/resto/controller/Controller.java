@@ -7,6 +7,7 @@ import ca.mcgill.ecse223.resto.model.Order;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Table;
+import ca.mcgill.ecse223.resto.persistence.PersistenceObjectStream;
 
 public class Controller {
 
@@ -28,6 +29,7 @@ public class Controller {
       table.addCurrentSeat(seat);
     }
 
+    RestoAppApplication.save();
   }
 
   public static void removeTable(Table table) throws InvalidInputException {
@@ -49,7 +51,7 @@ public class Controller {
     }
     r.removeCurrentTable(table);
 
-    //persistence XStream save
+    RestoAppApplication.save();
   }
 
 
@@ -128,7 +130,7 @@ public class Controller {
       }
       table.setX(x);
       table.setY(y);
-      //RestoAppApplication.save();
+      RestoAppApplication.save();
     } catch (RuntimeException e) {
       throw new InvalidInputException(e.getMessage());
     }
