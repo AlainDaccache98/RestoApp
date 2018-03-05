@@ -27,6 +27,8 @@ public class RemoveTablePage extends JFrame {
 	private JComboBox<Table> tableList;
 	private JLabel tableNumberSelected;
 	
+	private TableVisualizer tbView;
+	
 	private JButton removeTableButton;
 
 	private String error = null;
@@ -48,6 +50,8 @@ public class RemoveTablePage extends JFrame {
 		errorMessage.setForeground(Color.RED);
 		//label for selecting table whose features are to be updated
 		tableNumberSelected = new JLabel();
+		
+		tbView = new TableVisualizer();
 		
 		//comboBox for selecting from the existing tables 
 		tableList = new JComboBox<Table>();
@@ -88,32 +92,41 @@ public class RemoveTablePage extends JFrame {
 		
 		layout.setHorizontalGroup(
 				layout.createParallelGroup()
+				.addGroup(layout.createParallelGroup()
+						)
+				
 				.addComponent(errorMessage)
 				.addComponent(horizontalLineTop)
 				.addComponent(horizontalLineMiddle)
 				.addComponent(horizontalLineBottom)
+				.addGroup(layout.createParallelGroup()
+						.addComponent(tbView))
 				.addGroup(layout.createSequentialGroup()
-						.addGroup(layout.createParallelGroup()
-								.addComponent(tableNumberSelected))
-						.addGroup(layout.createParallelGroup()
-								.addComponent(tableList)
-								.addComponent(removeTableButton, 70,70,140))
+					.addGroup(layout.createParallelGroup()
+							.addComponent(tableNumberSelected))
+					.addGroup(layout.createParallelGroup()
+							.addComponent(tableList)
+							.addComponent(removeTableButton, 70,70,140))
 				));
 		
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
-				.addComponent(errorMessage)				
+					.addComponent(errorMessage)	
+				.addGroup(layout.createParallelGroup()
+						.addComponent(horizontalLineTop))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(horizontalLineMiddle))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(tableNumberSelected)
 						.addComponent(tableList))
 				.addGroup(layout.createParallelGroup()
-						.addComponent(horizontalLineTop))
+						.addComponent(horizontalLineMiddle))
 				.addGroup(layout.createParallelGroup()
-						.addComponent(removeTableButton))
-				.addGroup(layout.createParallelGroup()
-						.addComponent(horizontalLineMiddle))		
+						.addComponent(removeTableButton))		
 				.addGroup(layout.createParallelGroup()
 						.addComponent(horizontalLineBottom))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(tbView))
 						);
 		pack();
 
