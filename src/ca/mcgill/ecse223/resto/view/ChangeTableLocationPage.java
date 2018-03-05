@@ -4,12 +4,14 @@ import java.awt.Color;
 import java.util.HashMap;
 
 import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
@@ -78,7 +80,11 @@ public class ChangeTableLocationPage extends JFrame {
       }
     });
 
-
+    // horizontal line elements
+    JSeparator horizontalLineTop = new JSeparator();
+    JSeparator horizontalLineMiddle1 = new JSeparator();
+    JSeparator horizontalLineMiddle2 = new JSeparator();
+    JSeparator horizontalLineBottom = new JSeparator();
 
     // layout
     GroupLayout layout = new GroupLayout(getContentPane());
@@ -86,68 +92,59 @@ public class ChangeTableLocationPage extends JFrame {
     layout.setAutoCreateGaps(true);
     layout.setAutoCreateContainerGaps(true);
     layout.setHorizontalGroup(
-        layout.createParallelGroup(Alignment.LEADING)
+        layout.createParallelGroup()
+        .addComponent(errorMessage)
+        .addComponent(horizontalLineTop)
+        .addComponent(horizontalLineMiddle1)
+        .addComponent(horizontalLineMiddle2)
+        .addComponent(horizontalLineBottom)
+
         .addGroup(layout.createSequentialGroup()
-
-            .addGroup(layout.createParallelGroup(Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(updateTableLocationButton)
-                    )
-
-                .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(newYLabel)
-                            .addComponent(newYTextField, 0, 0, Short.MAX_VALUE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(newXLabel)
-                            .addComponent(newYTextField, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(tableNumberLabel)
-                    .addComponent(tableNumberList, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
-                    )))
-        );
-
-    layout.setVerticalGroup(
-        layout.createParallelGroup(Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-
-            .addGroup(layout.createParallelGroup(Alignment.BASELINE)
-                .addComponent(newXLabel)
-                .addComponent(newXTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addComponent(tableNumberList, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createParallelGroup()
                 .addComponent(tableNumberLabel)
-                )
+                .addComponent(newXLabel)
+                .addComponent(newYLabel))
 
-            .addGroup(layout.createParallelGroup(Alignment.BASELINE)
-                .addComponent(newYLabel)
-                .addComponent(newYTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-            .addComponent(updateTableLocationButton)
+            .addGroup(layout.createParallelGroup()
+                .addComponent(tableNumberList)
+                .addComponent(newXTextField, 200, 200, 400)
+                .addComponent(newYTextField, 200, 200, 400)
+                .addComponent(updateTableLocationButton, 70, 70, 140))
             )
         );
-  }
-  private void refreshData() {
-    // error
-    errorMessage.setText(error);
-    if (error == null || error.length() == 0) {
-      // populate page with data
-      // new X
-      newXTextField.setText("");
-      // new Y
-      newYTextField.setText("");
 
-      // selected table
-      currentTables = new HashMap<Integer, Table>();
-      tableNumberList.removeAllItems();
-      RestoApp r = RestoAppApplication.getRestoApp();
-      int index = 0;
-      for (Table table : r.getCurrentTables()) {
-        currentTables.put(index, table);
-        tableNumberList.addItem("#" + table.getNumber());
-        index++;
-      };
-      selectedTable = -1;
-      tableNumberList.setSelectedIndex(selectedTable);
-    }
+    //layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {driverNameTextField, addDriverButton});
+
+    layout.setVerticalGroup(
+        layout.createParallelGroup()
+        .addGroup(layout.createSequentialGroup()
+            .addComponent(errorMessage)
+            .addGroup(layout.createParallelGroup()
+                .addComponent(tableNumberLabel)
+                .addComponent(tableNumberList)
+                )
+            .addGroup(layout.createParallelGroup()
+                .addComponent(horizontalLineTop))
+            .addGroup(layout.createParallelGroup()
+                .addComponent(newXLabel)
+                .addComponent(newXTextField, 200, 200, 400)
+                )
+            .addGroup(layout.createParallelGroup()
+                .addComponent(horizontalLineMiddle1))
+            .addGroup(layout.createParallelGroup()
+                .addComponent(newYLabel)
+                .addComponent(newYTextField, 200, 200, 400)
+                )
+            .addGroup(layout.createParallelGroup()
+                .addComponent(horizontalLineMiddle2))
+            .addGroup(layout.createParallelGroup()
+                .addComponent(updateTableLocationButton, 70, 70, 140)
+                )
+            .addGroup(layout.createParallelGroup()
+                .addComponent(horizontalLineBottom))
+            )
+        );
+    pack();
   }
   private void updatetableLocationButtonActionPerformed(java.awt.event.ActionEvent evt) {
     // clear error message
@@ -171,5 +168,31 @@ public class ChangeTableLocationPage extends JFrame {
     }
     // update visuals
     refreshData();
+  }
+
+  private void refreshData() {
+    // error
+    errorMessage.setText(error);
+    if (error == null || error.length() == 0) {
+      // populate page with data
+      // new X
+      newXTextField.setText("");
+      // new Y
+      newYTextField.setText("");
+
+      // selected table
+      currentTables = new HashMap<Integer, Table>();
+      tableNumberList.removeAllItems();
+      RestoApp r = RestoAppApplication.getRestoApp();
+      int index = 0;
+      for (Table table : r.getCurrentTables()) {
+        currentTables.put(index, table);
+        tableNumberList.addItem("#" + table.getNumber());
+        index++;
+      };
+      selectedTable = -1;
+      tableNumberList.setSelectedIndex(selectedTable);
+    }
+    pack();
   }
 }
