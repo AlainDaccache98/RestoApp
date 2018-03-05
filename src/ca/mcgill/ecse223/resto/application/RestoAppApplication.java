@@ -2,7 +2,7 @@ package ca.mcgill.ecse223.resto.application;
 
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.persistence.PersistenceObjectStream;
-import ca.mcgill.ecse223.resto.view.RestoAppPage;
+import ca.mcgill.ecse223.resto.view.UpdateTable;
 
 
 public class RestoAppApplication {
@@ -17,7 +17,7 @@ public class RestoAppApplication {
 		// start UI
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-            	new RestoAppPage().setVisible(true);
+            	new UpdateTable().setVisible(true);
             }
         });
         

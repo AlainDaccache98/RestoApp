@@ -22,7 +22,7 @@ import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.Table;
 
-public class RestoAppPage extends JFrame {
+public class UpdateTable extends JFrame {
 
 	//private JPanel contentPane;
 	private static final long serialVersionUID = -4426310869335015542L;
@@ -53,7 +53,7 @@ public class RestoAppPage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public RestoAppPage() {
+	public UpdateTable() {
 		initComponents();
 		refreshData();
 	}
@@ -132,8 +132,8 @@ public class RestoAppPage extends JFrame {
 						.addGroup(layout.createParallelGroup()
 								.addComponent(tableList)
 								.addComponent(newTableNumberTextField,200,200,400)
-								.addComponent(updateTableFeaturesButton, 70,70,140)
-								.addComponent(updatedSeatsTextField,200,200,400))
+								.addComponent(updatedSeatsTextField,200,200,400)
+								.addComponent(updateTableFeaturesButton, 70,70,140))
 				
 				));
 		
@@ -153,13 +153,14 @@ public class RestoAppPage extends JFrame {
 				.addGroup(layout.createParallelGroup()
 						.addComponent(newTableNumberLabel)
 						.addComponent(newTableNumberTextField))
-				.addGroup(layout.createParallelGroup()
-						.addComponent(updateTableFeaturesButton))
+				
 				.addGroup(layout.createParallelGroup()
 						.addComponent(horizontalLineMiddle))		
 				.addGroup(layout.createParallelGroup()
 						.addComponent(updatedSeatsLabel)
 						.addComponent(updatedSeatsTextField))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(updateTableFeaturesButton))
 				.addGroup(layout.createParallelGroup()
 						/*.addComponent(updatedSeatsButton))*/
 				.addGroup(layout.createParallelGroup()
