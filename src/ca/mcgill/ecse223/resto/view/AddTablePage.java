@@ -21,7 +21,7 @@ import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 
 
 
-public class RestoAppPage extends JFrame {
+public class AddTablePage extends JFrame {
     
     private static final long serialVersionUID = -4426310869335015542L;
     
@@ -51,7 +51,7 @@ public class RestoAppPage extends JFrame {
 
 	private String error = null;
 
-    public RestoAppPage() {
+    public AddTablePage() {
         initComponents();
         refreshData();
     }
