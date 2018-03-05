@@ -2,12 +2,14 @@
 /*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 package ca.mcgill.ecse223.resto.model;
+import java.io.Serializable;
 import java.util.*;
 
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 
-// line 24 "../../../../../RestoApp.ump"
-public class Table
+// line 14 "../../../../../RestoPersistence.ump"
+// line 26 "../../../../../RestoApp.ump"
+public class Table implements Serializable
 {
 
   //------------------------
@@ -651,6 +653,14 @@ public class Table
     }
   }
 
+  // line 20 "../../../../../RestoPersistence.ump"
+   public static  void reinitializeUniqueNumber(List<Table> tables){
+    tablesByNumber = new HashMap<Integer, Table>();
+  	for(Table table: tables){
+  		tablesByNumber.put(table.getNumber(), table);
+  	}
+  }
+
 
   public String toString()
   {
@@ -661,10 +671,8 @@ public class Table
             "width" + ":" + getWidth()+ "," +
             "length" + ":" + getLength()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
-  }
+  } 
   
-
-
   public boolean doesOverlap(int x1, int y1, int width, int length){
 	  	RestoApp r = RestoAppApplication.getRestoApp();
 		int x2 = x1 + width;
@@ -688,4 +696,12 @@ public class Table
 		
 		return true;
 	}
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 17 "../../../../../RestoPersistence.ump"
+  private static final long serialVersionUID = 2315072607928790501L ;
+
+  
 }

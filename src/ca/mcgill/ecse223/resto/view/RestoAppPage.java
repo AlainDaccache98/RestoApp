@@ -187,7 +187,7 @@ public class RestoAppPage extends JFrame {
 				
 		// update visuals
 		refreshData();
-		
+			
 	}
 
 	//refreshing the data after a new entry
