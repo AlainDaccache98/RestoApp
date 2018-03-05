@@ -93,16 +93,20 @@ public class Controller {
     //add seat
     int n = table.numberOfCurrentSeats();
 
-    for(int i=0; i<(numberOfSeats-n);i++){
-      Seat seat = table.addSeat();
-      table.addCurrentSeat(seat);
+    if(numberOfSeats-n >0){
+	    for(int i=0; i<(numberOfSeats-n);i++){
+	      Seat seat = table.addSeat();
+	      table.addCurrentSeat(seat);
+	    }
     }
 
-    //remove seat
-    for(int i=1; i<(n-numberOfSeats);i++){
-      Seat seat = table.getCurrentSeat(0);
-      table.removeCurrentSeat(seat);
-    }			
+    else if(numberOfSeats-n <0){
+	    //remove seat
+	    for(int i=1; i<(n-numberOfSeats);i++){
+	      Seat seat = table.getCurrentSeat(0);
+	      table.removeCurrentSeat(seat);
+	    }			
+    }
 
   }		
   public static void moveTable(Table table, int x, int y) throws InvalidInputException   { 
