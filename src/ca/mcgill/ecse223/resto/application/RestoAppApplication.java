@@ -1,7 +1,7 @@
 package ca.mcgill.ecse223.resto.application;
 
 import ca.mcgill.ecse223.resto.model.RestoApp;
-import ca.mcgill.ecse223.resto.view.RestoAppPage;
+import ca.mcgill.ecse223.resto.view.*;
 
 
 public class RestoAppApplication {
@@ -15,7 +15,7 @@ private static RestoApp resto;
 		// start UI
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-            	new RestoAppPage().setVisible(true);
+            	new RemoveTablePage().setVisible(true);
             }
         });
         
@@ -25,7 +25,7 @@ private static RestoApp resto;
 		if (resto == null) {
 			// load model
 			// TODO
-			// for now, we are just creating an empty BTMS
+			// for now, we are just creating an empty 
 			resto = new RestoApp();
 		}
  		return resto;

@@ -128,7 +128,7 @@ public class Controller {
       }
       table.setX(x);
       table.setY(y);
-      RestoAppApplication.save();
+      //RestoAppApplication.save();
     } catch (RuntimeException e) {
       throw new InvalidInputException(e.getMessage());
     }
