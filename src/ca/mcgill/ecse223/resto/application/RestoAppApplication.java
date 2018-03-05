@@ -15,7 +15,7 @@ private static RestoApp resto;
 		// start UI
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-            	new RemoveTablePage().setVisible(true);
+            	new RestoAppPage().setVisible(true);
             }
         });
         
