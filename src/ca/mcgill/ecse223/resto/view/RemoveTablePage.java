@@ -1,6 +1,7 @@
 package ca.mcgill.ecse223.resto.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
@@ -27,7 +28,7 @@ public class RemoveTablePage extends JFrame {
 	private JComboBox<Table> tableList;
 	private JLabel tableNumberSelected;
 	
-	private TableVisualizer tbView;
+	private TableVisualizer tableVisualizer;
 	
 	private JButton removeTableButton;
 
@@ -35,6 +36,10 @@ public class RemoveTablePage extends JFrame {
 
 	private Integer selectedTableNumber = -1;
 	private ArrayList<Table> tables;
+	
+	private static final int WIDTH_Table_VISUALIZATION = 200;
+	private static final int HEIGHT_Table_VISUALIZATION = 200;
+	
 
 	/**
 	 * Create the frame.
@@ -51,13 +56,19 @@ public class RemoveTablePage extends JFrame {
 		//label for selecting table whose features are to be updated
 		tableNumberSelected = new JLabel();
 		
-		tbView = new TableVisualizer();
+		tableVisualizer.setMinimumSize(new Dimension(WIDTH_Table_VISUALIZATION, HEIGHT_Table_VISUALIZATION));
+		
+		tableVisualizer = new TableVisualizer();
 				
 		//comboBox for selecting from the existing tables 
 		tableList = new JComboBox<Table>();
 //		System.out.println(tableList.getItemCount());
 		completeTableList(tableList);
 //		System.out.println(tableList.getItemCount());
+		
+        // global settings and listeners
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setTitle("resto Management System");
 
 		tableList.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt){ 
@@ -103,7 +114,7 @@ public class RemoveTablePage extends JFrame {
 				.addComponent(horizontalLineMiddle)
 				.addComponent(horizontalLineBottom)
 				.addGroup(layout.createParallelGroup()
-						.addComponent(tbView))
+						.addComponent(tableVisualizer))
 				.addGroup(layout.createSequentialGroup()
 					.addGroup(layout.createParallelGroup()
 							.addComponent(tableNumberSelected))
@@ -129,7 +140,7 @@ public class RemoveTablePage extends JFrame {
 				.addGroup(layout.createParallelGroup()
 						.addComponent(horizontalLineBottom))
 				.addGroup(layout.createParallelGroup()
-						.addComponent(tbView))
+						.addComponent(tableVisualizer))
 						);
 		pack();
 
@@ -144,9 +155,6 @@ public class RemoveTablePage extends JFrame {
 		for(Table table : r.getCurrentTables()){
 			tableList.add(("# " + table.getNumber()), tableList);
 		}
-		
-//		Table t1 = new Table(123, 100, 200, 100, 100, r);
-//		tableList.addItem(t1);
 		
 	}
 

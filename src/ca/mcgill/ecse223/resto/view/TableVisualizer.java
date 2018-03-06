@@ -4,8 +4,10 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,18 +73,10 @@ class TableVisualizer extends JPanel {
 		repaint();
 	}
 
-	public void moveUp() {
-		if (firstVisibleTable > 0) {
-			firstVisibleTable--;			
-			repaint();
-		}
-	}
 
 	private void doDrawing(Graphics g) {
-		RestoApp r = RestoAppApplication.getRestoApp();
-
 		int number = 0;
-		
+		RestoApp r = RestoAppApplication.getRestoApp();
 			Graphics2D g2d = (Graphics2D) g.create();
 			BasicStroke thickStroke = new BasicStroke(4);
 			g2d.setStroke(thickStroke);
@@ -95,25 +89,33 @@ class TableVisualizer extends JPanel {
 			Tables.clear();
 			int index = 0;
 			int visibleIndex = 0;
-			for (Table Table : r.getTables()) {
-				if (index >= firstVisibleTable) {
-					Rectangle2D rectangle = new Rectangle2D.Float(LINEX - RECTWIDTH / 2, LINETOPY - RECTHEIGHT / 2 + visibleIndex * (RECTHEIGHT + SPACING), RECTWIDTH, RECTHEIGHT);
-					rectangles.add(rectangle);
-					Tables.put(rectangle, Table);
 
-					g2d.setColor(Color.WHITE);
-					g2d.fill(rectangle);
-					g2d.setColor(Color.BLACK);
-					g2d.draw(rectangle);
-					g2d.drawString(new Integer(Table.getNumber()).toString(), LINEX - RECTWIDTH / 4, LINETOPY + RECTHEIGHT / 4 + visibleIndex * (RECTHEIGHT + SPACING));
+	        g2d.setPaint(new Color(150, 150, 150));
 
+	        RenderingHints rh = new RenderingHints(
+	                RenderingHints.KEY_ANTIALIASING,
+	                RenderingHints.VALUE_ANTIALIAS_ON);
+
+	        rh.put(RenderingHints.KEY_RENDERING,
+	               RenderingHints.VALUE_RENDER_QUALITY);
+
+	        g2d.setRenderingHints(rh);
+	        g2d.fillRect(100, 100, 100, 100);
+
+
+			for (Table Table : r.getCurrentTables()) {
+		        g2d.fillRect(table.getY(), table.getX(), table.getWidth(), table.getLength());
+
+
+					
+					g2d.drawString(new Integer(Table.getNumber()).toString(), table.getX()+1000 - table.getWidth() / 4, table.getY() + table.getLength() / 4 + visibleIndex * (table.getLength() + SPACING));
+					System.out.println("done");
 					if (selectedTable != null && selectedTable.equals(Table)) {
-						g2d.drawString(TableDetails, LINEX + RECTWIDTH * 3 / 4, LINETOPY + RECTHEIGHT / 4 + visibleIndex * (RECTHEIGHT + SPACING));
+						g2d.drawString(TableDetails, table.getX() + table.getWidth() * 3 / 4, table.getY() + table.getLength() / 4 + visibleIndex * (table.getLength() + SPACING));
 					}
 
 					visibleIndex++;
-				}
-				index++;
+				
 			}
 	}
 
