@@ -31,7 +31,7 @@ public class Controller {
       table.addCurrentSeat(seat);
     }
 
-    RestoAppApplication.save();
+    //RestoAppApplication.save();
   }
 
   public static void removeTable(Table table) throws InvalidInputException {
