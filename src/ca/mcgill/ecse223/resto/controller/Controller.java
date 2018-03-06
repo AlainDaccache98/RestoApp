@@ -136,4 +136,9 @@ public class Controller {
     }
   }
 
+  public static ArrayList<MenuItem> getMenuItems(MenuItem.ItemCategory itemCategory) throws InvalidInputException {
+		if (itemCategory.equals(null)) {
+			throw new InvalidInputException("Invalid input!");
+		}
+		ArrayList<MenuItem> list = new ArrayList<MenuItem>();
 }
