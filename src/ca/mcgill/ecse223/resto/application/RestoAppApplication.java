@@ -18,7 +18,7 @@ public class RestoAppApplication {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
             	//new AddTablePage().setVisible(true);
-            	new RemoveTablePage().setVisible(true);
+            	new UpdateTablePage().setVisible(true);
             }
         });
         
