@@ -1,7 +1,7 @@
 package ca.mcgill.ecse223.resto.view;
 
 import java.awt.Color;
-
+import java.awt.Dimension;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -47,6 +47,11 @@ public class AddTablePage extends JFrame {
     private JLabel numberOfSeatsLabel;
     
     private JButton addTableButton;
+    
+    private TableVisualizer tableVisualizer;
+    
+	private static final int WIDTH_Table_VISUALIZATION = 200;
+	private static final int HEIGHT_Table_VISUALIZATION = 200;
 
 
 	private String error = null;
@@ -60,6 +65,9 @@ public class AddTablePage extends JFrame {
         // elements for error message
         errorMessage = new JLabel();
         errorMessage.setForeground(Color.RED);
+        
+		tableVisualizer = new TableVisualizer();
+		tableVisualizer.setMinimumSize(new Dimension(WIDTH_Table_VISUALIZATION, HEIGHT_Table_VISUALIZATION));
         
         // elements for driver
         tableNumberTextField = new JTextField();
@@ -126,8 +134,10 @@ public class AddTablePage extends JFrame {
 								.addComponent(widthTextField,200,200,400)
 								.addComponent(numberOfSeatsTextField,200,200,400))
 						.addGroup(layout.createParallelGroup()
-								.addComponent(addTableButton, 70,70,140))
-				));
+								.addComponent(addTableButton, 70,70,140)))
+				.addGroup(layout.createParallelGroup()
+						.addGroup(layout.createParallelGroup()
+						.addComponent(tableVisualizer))));
 		
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
@@ -170,7 +180,10 @@ public class AddTablePage extends JFrame {
 						.addComponent(horizontalLineBottom))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(addTableButton))
-						);
+				.addGroup(layout.createSequentialGroup()
+						.addGroup(layout.createSequentialGroup()
+						.addComponent(tableVisualizer)))
+				);
 
         
         pack();
@@ -185,6 +198,7 @@ public class AddTablePage extends JFrame {
                                         yTextField.setText("");
                                         lengthTextField.setText("");
                                         widthTextField.setText("");
+                                        numberOfSeatsTextField.setText("");
                                     }
                                     pack();
             

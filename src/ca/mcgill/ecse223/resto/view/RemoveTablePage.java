@@ -56,7 +56,7 @@ public class RemoveTablePage extends JFrame {
 		//label for selecting table whose features are to be updated
 		tableNumberSelected = new JLabel();
 		
-		tableVisualizer.setMinimumSize(new Dimension(WIDTH_Table_VISUALIZATION, HEIGHT_Table_VISUALIZATION));
+		//tableVisualizer.setMinimumSize(new Dimension(WIDTH_Table_VISUALIZATION, HEIGHT_Table_VISUALIZATION));
 		
 		tableVisualizer = new TableVisualizer();
 				
