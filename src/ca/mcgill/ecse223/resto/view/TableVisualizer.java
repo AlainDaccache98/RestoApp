@@ -122,7 +122,7 @@ class TableVisualizer extends JPanel {
 						seats.add(seat);
 						g2d.draw(seat);
 						tempX += distance;
-						System.out.println("aaaaaaaaaaaaaa");
+						//System.out.println("aaaaaaaaaaaaaa");
 					}
 					
 					tempX = Table.getX();
@@ -133,7 +133,7 @@ class TableVisualizer extends JPanel {
 						seats.add(seat);
 						g2d.draw(seat);
 						tempY += distance;
-						System.out.println("bbbbbbbbbbbbbbbb");
+						//System.out.println("bbbbbbbbbbbbbbbb");
 					}
 					
 					tempX = Table.getX();
@@ -144,7 +144,7 @@ class TableVisualizer extends JPanel {
 						seats.add(seat);
 						g2d.draw(seat);
 						tempX += distance;
-						System.out.println("ccccccccccccccc");
+						//System.out.println("ccccccccccccccc");
 					}
 					
 					tempX = Table.getX();
@@ -155,7 +155,7 @@ class TableVisualizer extends JPanel {
 						seats.add(seat);
 						g2d.draw(seat);
 						tempY += distance;
-						System.out.println("dddddddddddddddd");
+						//System.out.println("dddddddddddddddd");
 					}
 					
 					
