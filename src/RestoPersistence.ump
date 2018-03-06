@@ -48,3 +48,19 @@ class Table{
    isA Serializable; 
    private static final long serialVersionUID = 3920747180157391048L; 
  }
+ class Menu {   
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = -7403802774454467836L;
+}
+
+class MenuItem {
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = -1776230320092632776L;
+}
+class PricedMenuItem {
+   depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = -4855219931984388104L;
+}
