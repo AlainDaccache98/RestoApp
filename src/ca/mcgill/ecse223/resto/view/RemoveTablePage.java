@@ -52,10 +52,13 @@ public class RemoveTablePage extends JFrame {
 		tableNumberSelected = new JLabel();
 		
 		tbView = new TableVisualizer();
-		
+				
 		//comboBox for selecting from the existing tables 
 		tableList = new JComboBox<Table>();
+//		System.out.println(tableList.getItemCount());
 		completeTableList(tableList);
+//		System.out.println(tableList.getItemCount());
+
 		tableList.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt){ 
 				JComboBox<Table> cb   = (JComboBox<Table>) evt.getSource();
@@ -134,11 +137,17 @@ public class RemoveTablePage extends JFrame {
 	
 	private void completeTableList(JComboBox<Table> tableList2) {
 		// TODO Auto-generated method stub
+		RestoAppApplication.load();
 		RestoApp r = RestoAppApplication.getRestoApp();
 
-		for(Table table : r.getTables()){
-			tableList.add("# " + table.getNumber(), tableList);
+//		System.out.println("Size: " + r.getCurrentTables().size());
+		for(Table table : r.getCurrentTables()){
+			tableList.add(("# " + table.getNumber()), tableList);
 		}
+		
+//		Table t1 = new Table(123, 100, 200, 100, 100, r);
+//		tableList.addItem(t1);
+		
 	}
 
 	//action after pressing the update table number button

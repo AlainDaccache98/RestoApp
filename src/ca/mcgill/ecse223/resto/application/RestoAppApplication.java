@@ -8,7 +8,7 @@ import ca.mcgill.ecse223.resto.view.*;
 public class RestoAppApplication {
 
 	private static RestoApp resto;
-	private static String filename = "data.btms";
+	private static String filename = "data.txt";
 	
 	/**
 	 * @param args
@@ -17,6 +17,7 @@ public class RestoAppApplication {
 		// start UI
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+            	//new AddTablePage().setVisible(true);
             	new RemoveTablePage().setVisible(true);
             }
         });
