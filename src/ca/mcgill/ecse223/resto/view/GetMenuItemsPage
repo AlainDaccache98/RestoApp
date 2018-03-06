@@ -23,7 +23,7 @@ import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 
 public class GetMenuItemsPage extends JFrame {
     
-    private static final long serialVersionUID = -7403802774454467836;
+    private static final long serialVersionUID = -7403802774454467836L;
     
     // UI elements
     private JLabel errorMessage;
