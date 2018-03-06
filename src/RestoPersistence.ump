@@ -28,21 +28,7 @@ class Table{
   depend java.io.Serializable;
   isA Serializable;
   private static final long serialVersionUID = 386717977557499839L; 
- }
- 
- 
- class Menu{
-   depend java.io.Serializable;
-   isA Serializable; 
-   private static final long serialVersionUID = 2045406856025012133L; 
- }
- 
- class PricedMenuItem{
-   depend java.io.Serializable;
-   isA Serializable; 
-   private static final long serialVersionUID = -7403802774454467836L;
- }
- 
+ } 
  class Bill{
    depend java.io.Serializable;
    isA Serializable; 
