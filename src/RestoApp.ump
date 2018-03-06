@@ -1,3 +1,4 @@
+use RestoPersistence.ump
 namespace ca.mcgill.ecse223.resto.model;
 
 class RestoApp {
