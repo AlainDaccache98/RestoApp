@@ -12,11 +12,6 @@ public class Controller {
 
 
 	
-
-	public static List<Table> getTables() {
-		return RestoAppApplication.getRestoApp().getTables();
-	}		
-
   public static void createTable(int number, int x, int y, int width, int length, int numberOfSeats) throws InvalidInputException {
     RestoApp r = RestoAppApplication.getRestoApp();
 
@@ -97,10 +92,10 @@ public class Controller {
 
     //update number of seats
 
-    //add seat
     int n = table.numberOfCurrentSeats();
 
     if(numberOfSeats-n >0){
+        //add seat
 	    for(int i=0; i<(numberOfSeats-n);i++){
 	      Seat seat = table.addSeat();
 	      table.addCurrentSeat(seat);
@@ -144,5 +139,9 @@ public class Controller {
       throw new InvalidInputException(e.getMessage());
     }
   }
+
+  public static List<Table> getTables() {
+		return RestoAppApplication.getRestoApp().getTables();
+	}		
 
 }
