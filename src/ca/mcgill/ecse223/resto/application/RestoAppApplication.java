@@ -27,6 +27,9 @@ public class RestoAppApplication {
 		if (resto == null) {
 			// load model
 			resto = load();
+			// TODO
+			// for now, we are just creating an empty 
+			resto = new RestoApp();
 		}
  		return resto;
 	}
