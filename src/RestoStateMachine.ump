@@ -1,0 +1,40 @@
+
+class Table{
+  Status{ 
+    Available{ 
+      groupArrived / {makeTableInUse(table)} -> InUse;
+    } 
+    InUse{ 
+
+      IdleOrder{ 
+        orderItem(MenuItem item, Seat... allSeats)/{addMenuItemForSeats(item, allSeats);} -> ItemOrdered; 
+        makeTableAvailable(table) / {deleteCurrentOrder();}-> Available; 
+      }
+
+      ItemOrdered{
+        cancelItem(MenuItem item, Seat seat)[itemsOrdered()>0 && !isBilled(seat)]/{deleteMenuItemForSeat(seat, item);}-> InUse; 
+        [itemsOrdered() == 0]-> IdleOrder;
+        assignToBill(Seat... allSeats)/{createBill(allSeats);} -> Billed;
+      }
+
+      Billed{ 
+        do {makeBill(Seat... allSeats);}
+        removeBill(Seat seat)[!isLastBill()]/{deleteBill(seat);} -> Billed;
+        makeTableAvailable(table)[allSeatsBilled()]/{deleteCurrentOrder();} -> Available;
+      }
+    }
+  }
+  private void addMenuItemForSeats(Menultem menuItem, Seat... allSeats){} 
+  private void makeTableAvailable(table){}
+  private void makeTableInUse(table){}
+  private void deleteMenultemForSeat(MenuItem menuItem, Seat seat){} 
+  private void makeBill(Seat... allSeats){} 
+  private void deleteCurrentOrder(){} 
+  private void removeBill(Seat seat){}
+  private void deleteBill(seat){}
+  private int itemsOrdered(){return 0;}
+  private boolean allSeatsBilled(){return false;} 
+  private boolean isLastBill(){return false;}
+  private boolean isBilled(Seat seat){return false;}
+
+}
