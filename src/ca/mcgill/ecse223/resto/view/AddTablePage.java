@@ -2,6 +2,7 @@ package ca.mcgill.ecse223.resto.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -11,6 +12,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
+import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 
 //import org.jdatepicker.impl.JDatePanelImpl;
 //import org.jdatepicker.impl.JDatePickerImpl;
@@ -18,6 +20,7 @@ import javax.swing.WindowConstants;
 
 import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
+import ca.mcgill.ecse223.resto.model.RestoApp;
 
 
 
@@ -47,6 +50,8 @@ public class AddTablePage extends JFrame {
     private JLabel numberOfSeatsLabel;
     
     private JButton addTableButton;
+    private JButton homeButton;
+
     
     private TableVisualizer tableVisualizer;
     
@@ -83,7 +88,8 @@ public class AddTablePage extends JFrame {
         numberOfSeatsTextField = new JTextField();
         numberOfSeatsLabel = new JLabel();
         addTableButton = new JButton();
-
+        homeButton = new JButton();
+        
         // global settings and listeners
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("resto Management System");
@@ -100,6 +106,13 @@ public class AddTablePage extends JFrame {
             	addTableButtonActionPerformed(evt);
             }
         });
+        
+        homeButton.setText("Home");
+        homeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	homeButtonActionPerformed(evt);
+            }
+        });
         // horizontal line elements
         JSeparator horizontalLineTop = new JSeparator();
         JSeparator horizontalLineMiddle = new JSeparator();
@@ -112,6 +125,7 @@ public class AddTablePage extends JFrame {
 		layout.setHorizontalGroup(
 				layout.createParallelGroup()
 				.addComponent(errorMessage)
+				.addComponent(homeButton)
 				.addComponent(horizontalLineTop)
 				.addComponent(horizontalLineMiddle)
 				.addComponent(horizontalLineBottom)
@@ -141,7 +155,8 @@ public class AddTablePage extends JFrame {
 		
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
-				.addComponent(errorMessage)				
+				.addComponent(errorMessage)	
+				.addComponent(homeButton)
 				.addGroup(layout.createParallelGroup()
 						.addComponent(tableNumberLabel)
 						.addComponent(tableNumberTextField)
@@ -188,7 +203,8 @@ public class AddTablePage extends JFrame {
         
         pack();
     }
-    private void refreshData() {
+
+	private void refreshData() {
                                     // error
                                     errorMessage.setText(error);
                                     if (error == null || error.length() == 0) {
@@ -200,16 +216,17 @@ public class AddTablePage extends JFrame {
                                         widthTextField.setText("");
                                         numberOfSeatsTextField.setText("");
                                     }
+                                    //tableVisualizer. set active or refresh
                                     pack();
             
     }
         private void addTableButtonActionPerformed(java.awt.event.ActionEvent evt) {
             // clear error message
             error = null;
-            
+    		RestoApp r = RestoAppApplication.getRestoApp();
+
             // call the controller
             try {
-            	
                 Controller.createTable(Integer.parseInt(tableNumberTextField.getText()), Integer.parseInt(xTextField.getText()), Integer.parseInt(yTextField.getText()), Integer.parseInt(lengthTextField.getText()), Integer.parseInt(widthTextField.getText()), Integer.parseInt(numberOfSeatsTextField.getText()));
             } catch (InvalidInputException e) {
                 error = e.getMessage();
@@ -218,4 +235,9 @@ public class AddTablePage extends JFrame {
             // update visuals
             refreshData();
         }
+        
+        protected void homeButtonActionPerformed(ActionEvent evt) {
+    		// TODO Auto-generated method stub
+        	new RestoHomePage().setVisible(true);
+    	}
 }

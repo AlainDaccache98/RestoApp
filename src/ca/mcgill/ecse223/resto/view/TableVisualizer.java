@@ -91,67 +91,67 @@ class TableVisualizer extends JPanel {
 			Tables.clear();
 			int index = 0;
 			int visibleIndex = 0;
-			for (Table Table : r.getTables()) {
+			for (Table table : r.getCurrentTables()) {
 				if (index >= firstVisibleTable) {
 					
-					int LINEX = Table.getX();
-					int RECTWIDTH = Table.getWidth();
-					int LINETOPY = Table.getY();
-					int RECTHEIGHT = Table.getLength();
-					
-					Rectangle2D rectangle = new Rectangle2D.Float(Table.getX(), Table.getY(), Table.getWidth(), Table.getLength());
+					int LINEX = table.getX();
+					int RECTWIDTH = table.getWidth();
+					int LINETOPY = table.getY();
+					int RECTHEIGHT = table.getLength();
+										
+					Rectangle2D rectangle = new Rectangle2D.Float(table.getX(), table.getY(), table.getWidth(), table.getLength());
 					rectangles.add(rectangle);
-					Tables.put(rectangle, Table);
+					Tables.put(rectangle, table);
 
 					g2d.setColor(Color.WHITE);
 					g2d.fill(rectangle);
 					g2d.setColor(Color.BLACK);
 					g2d.draw(rectangle);
-					g2d.drawString(new Integer(Table.getNumber()).toString(), (Table.getX()+(Table.getX()+Table.getWidth()))/2, (Table.getY()+(Table.getY()+Table.getLength()))/2);
+					g2d.drawString(new Integer(table.getNumber()).toString(), (table.getX()+(table.getX()+table.getWidth()))/2, (table.getY()+(table.getY()+table.getLength()))/2);
 
 					//adding seats
-					int distance = 2*(Table.getLength() + Table.getWidth())/(Table.getSeats().size());
+					int distance = 2*(table.getLength() + table.getWidth())/(table.getSeats().size());
 					
 					System.out.println("DISTANCE: " + distance);
-					int tempX = Table.getX();
-					int tempY = Table.getY();
+					int tempX = table.getX();
+					int tempY = table.getY();
 					
-					while(tempX <= Table.getX()+Table.getWidth()) {
+					while(tempX <= table.getX()+table.getWidth()) {
 						//make a seat
-						Rectangle2D seat = new Rectangle2D.Float(tempX, Table.getY()-10, 10, 10);
+						Rectangle2D seat = new Rectangle2D.Float(tempX, table.getY()-10, 10, 10);
 						seats.add(seat);
 						g2d.draw(seat);
 						tempX += distance;
 						//System.out.println("aaaaaaaaaaaaaa");
 					}
 					
-					tempX = Table.getX();
-					tempY = Table.getY();
-					while(tempY <= Table.getY()+Table.getLength()) {
+					tempX = table.getX();
+					tempY = table.getY();
+					while(tempY <= table.getY()+table.getLength()) {
 						//make a seat
-						Rectangle2D seat = new Rectangle2D.Float(Table.getX() + Table.getWidth(), tempY, 10, 10);
+						Rectangle2D seat = new Rectangle2D.Float(table.getX() + table.getWidth(), tempY, 10, 10);
 						seats.add(seat);
 						g2d.draw(seat);
 						tempY += distance;
 						//System.out.println("bbbbbbbbbbbbbbbb");
 					}
 					
-					tempX = Table.getX();
-					tempY = Table.getY();
-					while(tempX <= Table.getX()+Table.getWidth()) {
+					tempX = table.getX();
+					tempY = table.getY();
+					while(tempX <= table.getX()+table.getWidth()) {
 						//make a seat
-						Rectangle2D seat = new Rectangle2D.Float(tempX, Table.getY()+Table.getLength(), 10, 10);
+						Rectangle2D seat = new Rectangle2D.Float(tempX, table.getY()+table.getLength(), 10, 10);
 						seats.add(seat);
 						g2d.draw(seat);
 						tempX += distance;
 						//System.out.println("ccccccccccccccc");
 					}
 					
-					tempX = Table.getX();
-					tempY = Table.getY();
-					while(tempY <= Table.getY()+Table.getLength()) {
+					tempX = table.getX();
+					tempY = table.getY();
+					while(tempY <= table.getY()+table.getLength()) {
 						//make a seat
-						Rectangle2D seat = new Rectangle2D.Float(Table.getX()-10, tempY, 10, 10);
+						Rectangle2D seat = new Rectangle2D.Float(table.getX()-10, tempY, 10, 10);
 						seats.add(seat);
 						g2d.draw(seat);
 						tempY += distance;
@@ -159,8 +159,8 @@ class TableVisualizer extends JPanel {
 					}
 					
 					
-					if (selectedTable != null && selectedTable.equals(Table)) {
-						g2d.drawString(TableDetails, (Table.getX()+(Table.getX()+Table.getWidth()))/2, (Table.getY()+(Table.getY()+Table.getLength()))/2);
+					if (selectedTable != null && selectedTable.equals(table)) {
+						g2d.drawString(TableDetails, (table.getX()+(table.getX()+table.getWidth()))/2, (table.getY()+(table.getY()+table.getLength()))/2);
 					}
 
 					visibleIndex++;

@@ -17,9 +17,8 @@ public class RestoAppApplication {
 		// start UI
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-            	new AddTablePage().setVisible(true);
-            	//new RemoveTablePage().setVisible(true);
-            	//new UpdateTablePage().setVisible(true);
+            	//new ChangeTableLocationPage().setVisible(true);
+            	new RestoHomePage().setVisible(true);
             }
         });
         
@@ -40,7 +39,7 @@ public class RestoAppApplication {
 	public static RestoApp load() {
 		PersistenceObjectStream.setFilename(filename);
 		resto = (RestoApp) PersistenceObjectStream.deserialize();
-		// model cannot be loaded - create empty BTMS
+		// model cannot be loaded - create empty 
 		if (resto == null) {
 			resto = new RestoApp();
 		}

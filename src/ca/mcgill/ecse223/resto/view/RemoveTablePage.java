@@ -1,6 +1,7 @@
 package ca.mcgill.ecse223.resto.view;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -31,11 +32,14 @@ public class RemoveTablePage extends JFrame {
 	private TableVisualizer tableVisualizer;
 	
 	private JButton removeTableButton;
+    private JButton homeButton;
 
 	private String error = null;
 
 	private Integer selectedTableNumber = -1;
 	private ArrayList<Table> tables;
+	
+
 	
 	private static final int WIDTH_Table_VISUALIZATION = 200;
 	private static final int HEIGHT_Table_VISUALIZATION = 200;
@@ -83,17 +87,23 @@ public class RemoveTablePage extends JFrame {
 		tableNumberSelected.setText("Select table: ");
 		
 		removeTableButton = new JButton();
+        homeButton = new JButton();
+
 		removeTableButton.setText("Remove");
-		//updatedSeatsButton.setText("Update");
 		
 		removeTableButton.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt){
 				removeTableButtonActionPerformed(evt);
 			}
-
-			
 		});
 
+		
+        homeButton.setText("Home");
+        homeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	homeButtonActionPerformed(evt);
+            }
+        });
 		
 		JSeparator horizontalLineTop = new JSeparator();
 		JSeparator horizontalLineMiddle = new JSeparator();
@@ -111,21 +121,22 @@ public class RemoveTablePage extends JFrame {
 				
 				.addComponent(errorMessage)
 				.addComponent(horizontalLineTop)
+				.addComponent(homeButton)
 				.addComponent(horizontalLineMiddle)
 				.addComponent(horizontalLineBottom)
-				.addGroup(layout.createParallelGroup()
-						.addComponent(tableVisualizer))
 				.addGroup(layout.createSequentialGroup()
 					.addGroup(layout.createParallelGroup()
 							.addComponent(tableNumberSelected))
 					.addGroup(layout.createParallelGroup()
 							.addComponent(tableList)
-							.addComponent(removeTableButton, 70,70,140))
-				));
+							.addComponent(removeTableButton, 70,70,140)))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(tableVisualizer)));
 		
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
 					.addComponent(errorMessage)	
+					.addComponent(homeButton)
 				.addGroup(layout.createParallelGroup()
 						.addComponent(horizontalLineTop))
 				.addGroup(layout.createParallelGroup()
@@ -151,11 +162,10 @@ public class RemoveTablePage extends JFrame {
 		RestoAppApplication.load();
 		RestoApp r = RestoAppApplication.getRestoApp();
 
-//		System.out.println("Size: " + r.getCurrentTables().size());
-		for(Table table : r.getCurrentTables()){
+		System.out.println("Size: " + r.getTables().size());
+		for(Table table : r.getTables()){
 			tableList.add(("# " + table.getNumber()), tableList);
 		}
-		
 	}
 
 	//action after pressing the update table number button
@@ -205,7 +215,11 @@ public class RemoveTablePage extends JFrame {
 		pack();
 		
 	}
-
+	
+    protected void homeButtonActionPerformed(ActionEvent evt) {
+		// TODO Auto-generated method stub
+    	new RestoHomePage().setVisible(true);
+	}
 	
 
 }

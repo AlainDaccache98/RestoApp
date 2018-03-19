@@ -9,6 +9,7 @@ import ca.mcgill.ecse223.resto.model.Order;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Table;
+import ca.mcgill.ecse223.resto.model.Table.Status;
 import ca.mcgill.ecse223.resto.persistence.PersistenceObjectStream;
 
 public class Controller {
@@ -16,6 +17,8 @@ public class Controller {
   public static void createTable(int number, int x, int y, int width, int length, int numberOfSeats) throws InvalidInputException {
     RestoApp r = RestoAppApplication.getRestoApp();
 
+    System.out.println(r.getCurrentTables().size());
+    
     List<Table> currentTables = r.getCurrentTables();
 
     for( Table currentTable : currentTables){
@@ -30,12 +33,14 @@ public class Controller {
       Seat seat = table.addSeat();
       table.addCurrentSeat(seat);
     }
+    System.out.println(r.getCurrentTables().size());
 
-    //RestoAppApplication.save();
+    RestoAppApplication.save();
   }
 
   public static void removeTable(Table table) throws InvalidInputException {
 
+	RestoAppApplication.load();
     RestoApp r = RestoAppApplication.getRestoApp();
 
     if(table.getReservations() != null) {
@@ -56,7 +61,6 @@ public class Controller {
     RestoAppApplication.save();
   }
 
-
   public static void updateTable(Table table, int newNumber, int numberOfSeats ) throws InvalidInputException{
 
     //update table number
@@ -64,15 +68,14 @@ public class Controller {
       throw new InvalidInputException("Invalid arguments");
     }
 
+    RestoApp r = RestoAppApplication.getRestoApp();
+    
     boolean reserved = table.hasReservations();
 
     if(reserved==true){
       throw new InvalidInputException("Table already reserved");
     }
-
-
-    RestoApp r = RestoAppApplication.getRestoApp();
-
+    
     List<Order> currentOrders = r.getCurrentOrders();
 
     for(Order order: currentOrders){
@@ -108,7 +111,9 @@ public class Controller {
       table.removeCurrentSeat(seat);
     }			
 
+    RestoAppApplication.save();
   }		
+
   public static void moveTable (Table table, int x, int y) throws InvalidInputException{
 	try {
 	if (table == null) {
@@ -141,7 +146,41 @@ public class Controller {
 	
 }
 
-
+  public static boolean setTableAvailable(Table table ) {
+	  
+	  RestoApp r = RestoAppApplication.getRestoApp();
+	  boolean setSuccess = false;
+	  
+	  if(table.getStatus() == Status.NothingOrdered) {
+		  table.cancelOrder();
+		  setSuccess = true;
+	  }
+	  else if (table.getStatus() == Status.Ordered) {
+		  if(!table.hasOrders()) {
+			  table.cancelOrder();
+		  }
+		  
+		  setSuccess = true;
+	  }
+	  
+	  RestoAppApplication.save();
+	  return setSuccess;
+  }
+  
+  public static boolean setTableInUse(Table table) {
+	  
+	  RestoApp r = RestoAppApplication.getRestoApp();
+	  boolean setSuccess = false;
+	  
+	  if(table.getStatus() == Status.Available) {
+		  table.startOrder();
+		  setSuccess = true;
+	  }
+	  
+	  RestoAppApplication.save();
+	  return setSuccess;
+  }
+  
   public static ArrayList<MenuItem> getMenuItems(MenuItem.ItemCategory itemCategory) throws InvalidInputException {
 		if (itemCategory.equals(null)) {
 			throw new InvalidInputException("Invalid input!");
