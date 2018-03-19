@@ -3,9 +3,10 @@
 
 package ca.mcgill.ecse223.resto.model;
 import java.sql.Date;
+import java.sql.Time;
 import java.util.*;
 
-// line 14 "../../../../../RestoApp.ump"
+// line 17 "../../../../../RestoApp.ump"
 public class Reservation
 {
 
@@ -20,7 +21,8 @@ public class Reservation
   //------------------------
 
   //Reservation Attributes
-  private Date dateTime;
+  private Date date;
+  private Time time;
   private int numberInParty;
   private String contactName;
   private String contactEmailAddress;
@@ -37,9 +39,10 @@ public class Reservation
   // CONSTRUCTOR
   //------------------------
 
-  public Reservation(Date aDateTime, int aNumberInParty, String aContactName, String aContactEmailAddress, String aContactPhoneNumber, RestoApp aRestoApp, Table... allTables)
+  public Reservation(Date aDate, Time aTime, int aNumberInParty, String aContactName, String aContactEmailAddress, String aContactPhoneNumber, RestoApp aRestoApp, Table... allTables)
   {
-    dateTime = aDateTime;
+    date = aDate;
+    time = aTime;
     numberInParty = aNumberInParty;
     contactName = aContactName;
     contactEmailAddress = aContactEmailAddress;
@@ -62,10 +65,18 @@ public class Reservation
   // INTERFACE
   //------------------------
 
-  public boolean setDateTime(Date aDateTime)
+  public boolean setDate(Date aDate)
   {
     boolean wasSet = false;
-    dateTime = aDateTime;
+    date = aDate;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setTime(Time aTime)
+  {
+    boolean wasSet = false;
+    time = aTime;
     wasSet = true;
     return wasSet;
   }
@@ -102,9 +113,14 @@ public class Reservation
     return wasSet;
   }
 
-  public Date getDateTime()
+  public Date getDate()
   {
-    return dateTime;
+    return date;
+  }
+
+  public Time getTime()
+  {
+    return time;
   }
 
   public int getNumberInParty()
@@ -348,7 +364,8 @@ public class Reservation
             "contactName" + ":" + getContactName()+ "," +
             "contactEmailAddress" + ":" + getContactEmailAddress()+ "," +
             "contactPhoneNumber" + ":" + getContactPhoneNumber()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "dateTime" + "=" + (getDateTime() != null ? !getDateTime().equals(this)  ? getDateTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "time" + "=" + (getTime() != null ? !getTime().equals(this)  ? getTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
   }
 }
