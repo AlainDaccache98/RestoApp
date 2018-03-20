@@ -145,40 +145,107 @@ public class Controller {
 	}
 	
 }
-
-  public static boolean setTableAvailable(Table table ) {
+  
+  public static void startOrder(List<Table> tables) throws Exception {
+	  
+	  if(tables.equals(null)) {
+		  throw new InvalidInputException("Null table");
+	  }
 	  
 	  RestoApp r = RestoAppApplication.getRestoApp();
-	  boolean setSuccess = false;
 	  
-	  if(table.getStatus() == Status.NothingOrdered) {
-		  table.cancelOrder();
-		  setSuccess = true;
-	  }
-	  else if (table.getStatus() == Status.Ordered) {
-		  if(!table.hasOrders()) {
-			  table.cancelOrder();
+	  List<Table> currentTables = r.getCurrentTables();
+	  
+	  for(Table t : tables) {
+		  if(!currentTables.contains(t)) {
+			  throw new Exception("Table does not exist");
 		  }
-		  
-		  setSuccess = true;
 	  }
+	  
+	  boolean orderCreated = false;
+	  Order newOrder = null;
+	  
+	  for(Table t : tables) {
+		  	  if(orderCreated) {
+		  		  t.addToOrder(newOrder);
+		  	  }
+		  	  else {
+		  		  Order lastOrder = null;
+		  		  if(t.numberOfOrders()>0) {
+		  			  lastOrder = t.getOrder(t.numberOfOrders()-1);
+		  		  }
+		  		  t.startOrder();
+		  		  if(t.numberOfOrders()>0 && !t.getOrder(t.numberOfOrders()-1).equals(lastOrder)) {
+		  			  orderCreated = true;
+		  			  newOrder = t.getOrder(t.numberOfOrders()-1);
+		  		  }
+		  	  }
+	  }
+	  
+	  if(orderCreated == false) {
+		  throw new InvalidInputException("Order not created");
+	  }
+	  
+	  r.addCurrentOrder(newOrder);
 	  
 	  RestoAppApplication.save();
-	  return setSuccess;
+  }
+
+  public static void endOrder(Order order) throws InvalidInputException {
+	  	  
+	  if(order.equals(null)) {
+		  throw new InvalidInputException("Null order");
+	  }
+	  
+	  RestoApp r = RestoAppApplication.getRestoApp();
+	  
+	  List<Order> currentOrders = r.getCurrentOrders();
+	  
+	  if(!currentOrders.contains(order)) {
+		  throw new InvalidInputException("Order does not exist");
+	  }
+	  
+	  List<Table> tables = order.getTables();
+	  
+	  boolean orderCreated = false;
+	  Order newOrder = null;
+	  
+	  for(Table table : tables) {
+		  table.endOrder(order);
+	  }
+	  
+	  if(allTablesAvailableOrDifferentOrder(tables, order)) {
+		  r.removeCurrentOrder(order);
+	  }
+	  
+	  
+	  
+//	  if(table.getStatus() == Status.NothingOrdered) {
+//		  table.cancelOrder();
+//		  setSuccess = true;
+//	  }
+//	  else if (table.getStatus() == Status.Ordered) {
+//		  		  
+//		  setSuccess = true;
+//	  }
+//	  
+	  RestoAppApplication.save();
   }
   
-  public static boolean setTableInUse(Table table) {
-	  
+  public static boolean allTablesAvailableOrDifferentOrder(List<Table> tables, Order order) {
 	  RestoApp r = RestoAppApplication.getRestoApp();
-	  boolean setSuccess = false;
-	  
-	  if(table.getStatus() == Status.Available) {
-		  table.startOrder();
-		  setSuccess = true;
+	  boolean ans = true;
+	  List<Order> currentOrders = r.getCurrentOrders();
+	  for(Table t: tables) {
+		  if(t.getStatus() != Status.Available) {
+			  ans = false;
+		  }
 	  }
-	  
-	  RestoAppApplication.save();
-	  return setSuccess;
+	  if(!currentOrders.contains(order)) {
+		  ans = false;
+	  }
+	return ans;
+	
   }
   
   public static ArrayList<MenuItem> getMenuItems(MenuItem.ItemCategory itemCategory) throws InvalidInputException {
