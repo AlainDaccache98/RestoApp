@@ -10,9 +10,14 @@ class Table {
       }
       NothingOrdered {
          orderItem(int quantity, Order o, Seat s, PricedMenuItem i) [quantityNotNegative(quantity)] / {
+            new Order(quantity, i, o, s);
             // create a new order item with the provided quantity, order, seat, and priced menu item
+            
          } -> Ordered; 
          addToOrderItem(OrderItem i, Seat s) / {
+            if (i.getSeat(indexOfSeat(s)) != s) {
+            i.addSeat(s);
+            }
             // add provided seat to provided order item unless seat has already been added, in which case nothing needs to be done
          } -> Ordered;
          endOrder(Order o) / {
@@ -25,26 +30,65 @@ class Table {
       }
       Ordered {
          orderItem(int quantity, Order o, Seat s, PricedMenuItem i) [quantityNotNegative(quantity)] / {
+            new OrderItem(quantity, o, s, i);
+            new Order(quantity, i, o, s);
             // create a new order item with the provided quantity, order, seat, and priced menu item
          } -> Ordered; 
          addToOrderItem(OrderItem i, Seat s) / {
+           
+            if (i.getSeat(indexOfSeat(s)) != s) {
+            i.addSeat(s);
+            }
             // add provided seat to provided order item unless seat has already been added, in which case nothing needs to be done
          } -> Ordered;
          cancelOrderItem(OrderItem i) [iIsLastItem(i)] / {
+            i.delete();
             // delete order item
          } -> NothingOrdered;
          cancelOrderItem(OrderItem i) [!iIsLastItem(i)] / {
+            i.delete();
             // delete order item
+            
          } -> Ordered;
          cancelOrder() / {
+            for(order: this.getOrders()) {
+            	for (orderItem: order.getOrderItems()) { 
+            orderItem.delete();
+            }
+          }
             // delete all order items of the table
          } -> NothingOrdered;
-         billForSeat(Order o, Seat s) / {
+		        billForSeat(Order o, Seat s) / {
+		
+		    new Bill(order, restoApp, s);
+		    for (bill: s.getBills()) {
+		      if(bill == getBill(indexOfSeat(s))) {
+		        bill.removeIssuedForSeat(s);
+		      }
+		      if (bill.hasIssuedForSeats() == false) {
+		        bill.delete();
+		      }
+		    }
+           
+           
             // create a new bill with the provided order and seat; if the provided seat is already assigned to
             // another bill for the current order, then the seat is first removed from the other bill and if no seats
             // are left for the bill, the bill is deleted
+            
          } -> Ordered;
          addToBill(Bill b, Seat s) / {
+            if (!s.hasBills()) { //wrong
+            	s.addBill(b);
+            }
+         for (bill: this.getOrder(indexOfOrder(b.getOrder())).getBills()) {
+         	if (bill == s.getBill(indexOfBill(b))) {
+         		bill.removeIssuedForSeat(s);
+         	}
+         	if (bill.hasIssuedForSeats() == false) {
+		        bill.delete();
+		    }
+         }
+            
             // add provided seat to provided bill unless seat has already been added, in which case nothing needs
             // to be done; if the provided seat is already assigned to another bill for the current order, then the
             // seat is first removed from the other bill and if no seats are left for the bill, the bill is deleted
@@ -68,7 +112,11 @@ class Table {
 
    // check that all seats of the table have a bill that belongs to the current order of the table 
    private boolean allSeatsBilled() {
-      // TODO
+   for (Seat seat: 
+  
+      orderItems = new ArrayList<OrderItem>();
+    bills = new ArrayList<Bill>();
+      table.numberOfSeats();
       return false;
    }
 
