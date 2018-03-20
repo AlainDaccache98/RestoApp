@@ -20,8 +20,8 @@ public class PersistenceObjectStream {
 			//System.out.println(RestoAppApplication.getRestoApp().getTables());
 			
 			out.writeObject(object);
-			//System.out.println(RestoAppApplication.getRestoApp().getTables());
-			//System.out.println(RestoAppApplication.getRestoApp().getTable(0).numberOfSeats());
+			System.out.println(RestoAppApplication.getRestoApp().getTables());
+			System.out.println(RestoAppApplication.getRestoApp().getTable(0).numberOfSeats());
 			//System.out.println("object written in file");
 			out.close();
 			fileOut.close();

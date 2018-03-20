@@ -15,7 +15,12 @@ import ca.mcgill.ecse223.resto.persistence.PersistenceObjectStream;
 public class Controller {
 
   public static void createTable(int number, int x, int y, int width, int length, int numberOfSeats) throws InvalidInputException {
-    RestoApp r = RestoAppApplication.getRestoApp();
+    
+	  if(number < 0 || x < 0 || y < 0 ||width < 0 || length < 0 || numberOfSeats < 0) {
+  		throw new InvalidInputException("input cant be negative");
+	  }
+	  
+	RestoApp r = RestoAppApplication.getRestoApp();
 
     System.out.println(r.getCurrentTables().size());
     
@@ -43,6 +48,8 @@ public class Controller {
 	RestoAppApplication.load();
     RestoApp r = RestoAppApplication.getRestoApp();
 
+    System.out.println("abcd :" + r.getCurrentTables().size());
+    
     if(table.getReservations() != null) {
       throw new InvalidInputException("Table is reserved");
     }
@@ -193,7 +200,7 @@ public class Controller {
 
   public static void endOrder(Order order) throws InvalidInputException {
 	  	  
-	  if(order.equals(null)) {
+	  if(order == null) {
 		  throw new InvalidInputException("Null order");
 	  }
 	  

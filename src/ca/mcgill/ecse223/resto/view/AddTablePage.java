@@ -216,7 +216,7 @@ public class AddTablePage extends JFrame {
                                         widthTextField.setText("");
                                         numberOfSeatsTextField.setText("");
                                     }
-                                    //tableVisualizer. set active or refresh
+                                    //tableVisualizer set active or refresh
                                     pack();
             
     }

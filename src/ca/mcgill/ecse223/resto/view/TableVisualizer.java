@@ -98,7 +98,10 @@ class TableVisualizer extends JPanel {
 					int RECTWIDTH = table.getWidth();
 					int LINETOPY = table.getY();
 					int RECTHEIGHT = table.getLength();
-										
+					
+					int maxSeats = table.getSeats().size();
+					int sCount = 0;
+					
 					Rectangle2D rectangle = new Rectangle2D.Float(table.getX(), table.getY(), table.getWidth(), table.getLength());
 					rectangles.add(rectangle);
 					Tables.put(rectangle, table);
@@ -113,47 +116,53 @@ class TableVisualizer extends JPanel {
 					int distance = 2*(table.getLength() + table.getWidth())/(table.getSeats().size());
 					
 					System.out.println("DISTANCE: " + distance);
+					System.out.println("seats: " + table.getSeats().size());
+
 					int tempX = table.getX();
 					int tempY = table.getY();
 					
-					while(tempX <= table.getX()+table.getWidth()) {
+					while(tempX <= table.getX()+table.getWidth() && sCount<maxSeats) {
 						//make a seat
 						Rectangle2D seat = new Rectangle2D.Float(tempX, table.getY()-10, 10, 10);
 						seats.add(seat);
 						g2d.draw(seat);
+						sCount++;
 						tempX += distance;
 						//System.out.println("aaaaaaaaaaaaaa");
 					}
 					
 					tempX = table.getX();
 					tempY = table.getY();
-					while(tempY <= table.getY()+table.getLength()) {
+					while(tempY <= table.getY()+table.getLength() && sCount<maxSeats) {
 						//make a seat
 						Rectangle2D seat = new Rectangle2D.Float(table.getX() + table.getWidth(), tempY, 10, 10);
 						seats.add(seat);
 						g2d.draw(seat);
+						sCount++;
 						tempY += distance;
 						//System.out.println("bbbbbbbbbbbbbbbb");
 					}
 					
 					tempX = table.getX();
 					tempY = table.getY();
-					while(tempX <= table.getX()+table.getWidth()) {
+					while(tempX <= table.getX()+table.getWidth() && sCount<maxSeats) {
 						//make a seat
 						Rectangle2D seat = new Rectangle2D.Float(tempX, table.getY()+table.getLength(), 10, 10);
 						seats.add(seat);
 						g2d.draw(seat);
+						sCount++;
 						tempX += distance;
 						//System.out.println("ccccccccccccccc");
 					}
 					
 					tempX = table.getX();
 					tempY = table.getY();
-					while(tempY <= table.getY()+table.getLength()) {
+					while(tempY <= table.getY()+table.getLength() && sCount<maxSeats) {
 						//make a seat
 						Rectangle2D seat = new Rectangle2D.Float(table.getX()-10, tempY, 10, 10);
 						seats.add(seat);
 						g2d.draw(seat);
+						sCount++;
 						tempY += distance;
 						//System.out.println("dddddddddddddddd");
 					}

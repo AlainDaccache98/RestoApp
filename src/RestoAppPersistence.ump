@@ -50,3 +50,8 @@ class PricedMenuItem {
   isA Serializable;
   private static final long serialVersionUID = -4855219931984388104L;
 }
+class Seat{
+depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID= 4854719931984388104L;
+}

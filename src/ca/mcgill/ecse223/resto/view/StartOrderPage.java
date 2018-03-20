@@ -1,17 +1,25 @@
 package ca.mcgill.ecse223.resto.view;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
@@ -24,18 +32,20 @@ import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Table;
+import javafx.scene.control.CheckBox;
 
 
 
-public class ChangeTableStatusPage extends JFrame {
+public class StartOrderPage extends JFrame {
     
     private static final long serialVersionUID = -4426310869335015542L;
     
     // UI elements
     private JLabel errorMessage;
     
+    private List<JCheckBox> checkBoxList;
+            
     private JButton startOrderButton;
-    private JButton endOrderButton;
     private JButton homeButton;
     
     private TableVisualizer tableVisualizer;
@@ -43,15 +53,16 @@ public class ChangeTableStatusPage extends JFrame {
 	private static final int WIDTH_Table_VISUALIZATION = 200;
 	private static final int HEIGHT_Table_VISUALIZATION = 200;
 
-
+	
 	private String error = null;
 
-    public ChangeTableStatusPage() {
+    public StartOrderPage() {
         initComponents();
         refreshData();
     }
     
     private void initComponents() {
+    	
         // elements for error message
         errorMessage = new JLabel();
         errorMessage.setForeground(Color.RED);
@@ -61,7 +72,16 @@ public class ChangeTableStatusPage extends JFrame {
         
         homeButton = new JButton();
         startOrderButton = new JButton();
-        endOrderButton = new JButton();
+        
+        RestoApp r = RestoAppApplication.getRestoApp();
+        
+        for(Table t : r.getCurrentTables()) {
+        	JCheckBox box1 = new JCheckBox("Table #" + t.getNumber());
+        	checkBoxList.add(box1);
+        	add(box1);
+        	}
+        
+        
         
         // global settings and listeners
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -74,19 +94,13 @@ public class ChangeTableStatusPage extends JFrame {
             }
         });
         
-        endOrderButton.setText("End Order");
-        endOrderButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	endOrderButtonActionPerformed(evt);
-            }
-        });
-        
         homeButton.setText("Home");
         homeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	homeButtonActionPerformed(evt);
             }
         });
+        
         // horizontal line elements
         JSeparator horizontalLineTop = new JSeparator();
         JSeparator horizontalLineMiddle = new JSeparator();
@@ -100,11 +114,12 @@ public class ChangeTableStatusPage extends JFrame {
 				layout.createParallelGroup()
 				.addComponent(errorMessage)
 				.addComponent(homeButton)
-				.addComponent(horizontalLineTop)
+				.addComponent(horizontalLineTop)	
+//				.addGroup(layout.createSequentialGroup()
+//						.addComponent((Component) checkBoxList))
 				.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createParallelGroup()
-								.addComponent(startOrderButton, 70,70,140)
-								.addComponent(endOrderButton, 70,70,140)))
+								.addComponent(startOrderButton, 70,70,140)))
 				.addGroup(layout.createParallelGroup()
 						.addGroup(layout.createParallelGroup()
 						.addComponent(tableVisualizer))));
@@ -115,10 +130,10 @@ public class ChangeTableStatusPage extends JFrame {
 				.addComponent(homeButton)
 				.addGroup(layout.createParallelGroup()
 						.addComponent(horizontalLineTop))
+//				.addGroup(layout.createParallelGroup()
+//						.addComponent((Component) checkBoxList))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(startOrderButton))
-				.addGroup(layout.createParallelGroup()
-						.addComponent(endOrderButton))
 				.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createSequentialGroup()
 						.addComponent(tableVisualizer)))
@@ -129,24 +144,29 @@ public class ChangeTableStatusPage extends JFrame {
     
 	private void refreshData() {
 		
+		
 		errorMessage.setText(error);            
     }
+	
 	
         private void startOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {
     		// clear error message
     		error = null;
     		
-    		new StartOrderPage().setVisible(true);
+    		List<Table> tables = null;
+    		//RestoApp r = RestoAppApplication.getRestoApp();
+//    		for(JCheckBox j : checkBoxList) {
+//    			if(j.isSelected()) {
+//    				tables.add(j.get)
+//    			}
+//    		}
     		
-    		// update visuals
-    		refreshData();
-        }
-        
-        private void endOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {
-    		// clear error message
-    		error = null;
-    				
-    		new EndOrderPage().setVisible(true);
+    		try {
+				Controller.startOrder(tables);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     		
     		// update visuals
     		refreshData();
