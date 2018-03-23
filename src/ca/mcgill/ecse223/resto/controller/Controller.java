@@ -2,6 +2,16 @@ package ca.mcgill.ecse223.resto.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Calendar;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.text.DateFormat;
+import java.time.LocalTime;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.SqlDateModel;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.model.MenuItem;
@@ -164,6 +174,43 @@ public class Controller {
 	}
 	
 }
+
+public static void reserve(Date date, Time time, int numberInParty, String contactName, String contactEmailAddress, String contactPhoneNumber, List<Table> tables) {
+	Date currentDate = new Date();   // the waiter doesn`t enter the seconds, how to handle that?
+	LocalTime currentTime = LocalTime.now();
+	int dateDifference = date.compareTo(currentDate);
+	int timeDifference = time.compareTo(currentTime);
+	
+	if(((date || time || contactName || contactEmailAddress || contactPhoneNumber) = null) || (dateDifference <= 0) || (timeDifference <= 0) || (numberInparty <= 0) ||((contactName || contactEmailAddress || contactPhoneNumber)="")) {
+			throw new InvalidInputException("Please Check the entries for errors!");
+	}
+	
+	RestoApp r = RestoAppApplication.getRestoApp();
+	List<Table> currentTables = r.getCurrentTables();
+	
+	int seatCapacity = 0;
+	for(Table table : tables) {
+		  if(!currentTables.contains(table)) {
+			  throw new Exception("Table does not exist");
+		  }													// Not sure after this point
+		  seatCapacity += table.numberOfCurrentSeats();
+		  List<Reservation> reservations = table.getReservations();
+		  for(Reservation reservation : reservations) {
+			  if(reservation.doesOverlap(date, time)) {			//WRITE THE OVERLAP CODE IN RESERVATION CLASS
+				  throw new InvalidInputException("Overlap!");
+			  }
+		  }
+	  }
+	 if(seatCapacity < numberInParty) {
+		 throw new InvalidInputException("Seat capacity can`t be smaller than number in party!");
+	 }
+	 												// Not sure about converting the list into an array before the constructor part
+	 Table[] tableArray = ((reservation.getTables()).toArray());
+	 Reservation res = new Reservation(date, time, numberInParty, contactName, contactEmailAddress, contactPhoneNumber, r, tableArray);
+	 												// Didn`t sort the list
+	 RestoAppApplication.save();
+}
+	
   
   public static void startOrder(List<Table> tables) throws Exception {
 	  
