@@ -33,7 +33,9 @@ public class Controller {
     }
 
     Table table = new Table(number, x,y, width, length, r);
-    r.addCurrentTable(table);
+    boolean test = r.addCurrentTable(table);
+    System.out.println("ADD TEST: " + test);
+    
     for(int i =0; i< numberOfSeats; i++){
       Seat seat = table.addSeat();
       table.addCurrentSeat(seat);
@@ -45,16 +47,23 @@ public class Controller {
 
   public static void removeTable(Table table) throws InvalidInputException {
 
-	RestoAppApplication.load();
+	if(table == null) {
+		throw new InvalidInputException("Null table");
+	}
+	  
+    if(table.hasReservations()) {
+        throw new InvalidInputException("Table is reserved");
+      }
+    
+	//RestoAppApplication.load();
     RestoApp r = RestoAppApplication.getRestoApp();
 
-    System.out.println("abcd :" + r.getCurrentTables().size());
-    
-    if(table.getReservations() != null) {
-      throw new InvalidInputException("Table is reserved");
-    }
+    System.out.println("before remove size :" + r.getCurrentTables().size());
 
-    for(Order order : r.getCurrentOrders()) {
+    List<Order> currentOrder = r.getCurrentOrders();
+    
+    for(Order order : currentOrder) {
+    	
       List<Table> tables = order.getTables();
 
       boolean inUse = tables.contains(table);
@@ -63,9 +72,12 @@ public class Controller {
         throw new InvalidInputException("Table is in use");
       }
     }
-    r.removeCurrentTable(table);
-
+    boolean test;
+    test = r.removeCurrentTable(table);
     RestoAppApplication.save();
+    
+    System.out.println("after remove size :" + r.getCurrentTables().size() + "done? " + test);
+    System.out.println("RRRRRRRRR: " + r.getCurrentTable(0).getNumber());
   }
 
   public static void updateTable(Table table, int newNumber, int numberOfSeats ) throws InvalidInputException{
@@ -214,9 +226,6 @@ public class Controller {
 	  
 	  List<Table> tables = order.getTables();
 	  
-	  boolean orderCreated = false;
-	  Order newOrder = null;
-	  
 	  for(Table table : tables) {
 		  table.endOrder(order);
 	  }
@@ -264,7 +273,8 @@ public class Controller {
 		return null;
   }
   
-  public static List<Table> getTables() {
-		return RestoAppApplication.getRestoApp().getTables();
+  public static List<Table> getCurrentTables() {
+	  RestoAppApplication.load();
+	  return RestoAppApplication.getRestoApp().getCurrentTables();
   }	
 }

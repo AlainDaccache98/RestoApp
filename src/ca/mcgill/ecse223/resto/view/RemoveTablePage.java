@@ -1,22 +1,26 @@
 package ca.mcgill.ecse223.resto.view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
-import ca.mcgill.ecse223.resto.application.RestoAppApplication;
+import javax.swing.border.EmptyBorder;
+
 import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
-import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Table;
 
 public class RemoveTablePage extends JFrame {
@@ -26,24 +30,26 @@ public class RemoveTablePage extends JFrame {
 	
 	private JLabel errorMessage;
 
-	private JComboBox<Table> tableList;
+	private JComboBox<String> tableList;
 	private JLabel tableNumberSelected;
 	
-	private TableVisualizer tableVisualizer;
-	
 	private JButton removeTableButton;
-    private JButton homeButton;
+	private JButton homeButton;
+    
+    private TableVisualizer tableVisualizer;
+    
+	private static final int WIDTH_Table_VISUALIZATION = 200;
+	private static final int HEIGHT_Table_VISUALIZATION = 200;
+	
+	//temp elements
+	//private JLabel hint1;
+	//private JLabel hint2;
 
 	private String error = null;
 
 	private Integer selectedTableNumber = -1;
-	private ArrayList<Table> tables;
-	
+	private HashMap<Integer, Table> tables;
 
-	
-	private static final int WIDTH_Table_VISUALIZATION = 200;
-	private static final int HEIGHT_Table_VISUALIZATION = 200;
-	
 
 	/**
 	 * Create the frame.
@@ -60,50 +66,44 @@ public class RemoveTablePage extends JFrame {
 		//label for selecting table whose features are to be updated
 		tableNumberSelected = new JLabel();
 		
-		//tableVisualizer.setMinimumSize(new Dimension(WIDTH_Table_VISUALIZATION, HEIGHT_Table_VISUALIZATION));
-		
+		homeButton = new JButton();
 		tableVisualizer = new TableVisualizer();
-				
-		//comboBox for selecting from the existing tables 
-		tableList = new JComboBox<Table>();
-//		System.out.println(tableList.getItemCount());
-		completeTableList(tableList);
-//		System.out.println(tableList.getItemCount());
+		tableVisualizer.setMinimumSize(new Dimension(WIDTH_Table_VISUALIZATION, HEIGHT_Table_VISUALIZATION));
 		
-        // global settings and listeners
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle("resto Management System");
-
+		//comboBox for selecting from the existing tables 
+		tableList = new JComboBox<String>(new String[0]);
 		tableList.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt){ 
-				JComboBox<Table> cb   = (JComboBox<Table>) evt.getSource();
+				JComboBox<String> cb   = (JComboBox<String>) evt.getSource();
 				selectedTableNumber = cb.getSelectedIndex();
 			}
 		});
+		
+		//UI elements for updating table number
+		removeTableButton = new JButton();
+
 		
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("RestoApp");
 		
 		tableNumberSelected.setText("Select table: ");
 		
-		removeTableButton = new JButton();
-        homeButton = new JButton();
-
 		removeTableButton.setText("Remove");
+		homeButton.setText("Home");
 		
 		removeTableButton.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt){
 				removeTableButtonActionPerformed(evt);
 			}
 		});
-
 		
-        homeButton.setText("Home");
-        homeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	homeButtonActionPerformed(evt);
-            }
-        });
+		
+		homeButton.addActionListener(new java.awt.event.ActionListener(){
+			public void actionPerformed(java.awt.event.ActionEvent evt){
+				homeButtonActionPerformed(evt);
+			}
+
+		});
 		
 		JSeparator horizontalLineTop = new JSeparator();
 		JSeparator horizontalLineMiddle = new JSeparator();
@@ -116,58 +116,52 @@ public class RemoveTablePage extends JFrame {
 		
 		layout.setHorizontalGroup(
 				layout.createParallelGroup()
-				.addGroup(layout.createParallelGroup()
-						)
-				
 				.addComponent(errorMessage)
-				.addComponent(horizontalLineTop)
 				.addComponent(homeButton)
+				.addComponent(horizontalLineTop)
 				.addComponent(horizontalLineMiddle)
 				.addComponent(horizontalLineBottom)
 				.addGroup(layout.createSequentialGroup()
-					.addGroup(layout.createParallelGroup()
-							.addComponent(tableNumberSelected))
-					.addGroup(layout.createParallelGroup()
-							.addComponent(tableList)
-							.addComponent(removeTableButton, 70,70,140)))
-				.addGroup(layout.createParallelGroup()
-						.addComponent(tableVisualizer)));
+						.addGroup(layout.createParallelGroup()
+								.addComponent(tableNumberSelected))
+						.addGroup(layout.createParallelGroup()
+								.addComponent(tableList)
+								.addComponent(removeTableButton, 70,70,140))
+						.addGroup(layout.createParallelGroup()
+								.addGroup(layout.createParallelGroup()
+								.addComponent(tableVisualizer)))
+				
+				));
+		
+		/*layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {newTableNumberTextField, newTableNumberButton});
+
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {updatedSeatsTextField, updatedSeatsButton});*/
+
 		
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
-					.addComponent(errorMessage)	
-					.addComponent(homeButton)
-				.addGroup(layout.createParallelGroup()
-						.addComponent(horizontalLineTop))
-				.addGroup(layout.createParallelGroup()
-						.addComponent(horizontalLineMiddle))
+				.addComponent(errorMessage)	
+				.addComponent(homeButton)
 				.addGroup(layout.createParallelGroup()
 						.addComponent(tableNumberSelected)
 						.addComponent(tableList))
 				.addGroup(layout.createParallelGroup()
-						.addComponent(horizontalLineMiddle))
+						.addComponent(horizontalLineTop))				
 				.addGroup(layout.createParallelGroup()
-						.addComponent(removeTableButton))		
+						.addComponent(horizontalLineMiddle))		
+				.addGroup(layout.createParallelGroup()
+						.addComponent(removeTableButton))
+				.addGroup(layout.createParallelGroup()
+						/*.addComponent(updatedSeatsButton))*/
 				.addGroup(layout.createParallelGroup()
 						.addComponent(horizontalLineBottom))
-				.addGroup(layout.createParallelGroup()
+				.addGroup(layout.createSequentialGroup()
 						.addComponent(tableVisualizer))
-						);
+						));
 		pack();
 
 	}
 	
-	private void completeTableList(JComboBox<Table> tableList2) {
-		// TODO Auto-generated method stub
-		RestoAppApplication.load();
-		RestoApp r = RestoAppApplication.getRestoApp();
-
-		System.out.println("Size: " + r.getTables().size());
-		for(Table table : r.getTables()){
-			tableList.add(("# " + table.getNumber()), tableList);
-		}
-	}
-
 	//action after pressing the update table number button
 	private void removeTableButtonActionPerformed(ActionEvent evt) {
 		
@@ -176,11 +170,31 @@ public class RemoveTablePage extends JFrame {
 				
 		// call the controller
 		try {
-			Table table = tables.get(selectedTableNumber);
+			String object = (String)tableList.getSelectedItem();
+			System.out.println("OBJ: " + object);
+			//String number = object.substring(1,3);
+			//System.out.println(number);
+			int originalTableNumber = Integer.parseInt(object);
+			//System.out.println(originalTableNumber);
+			Table table = Table.getWithNumber(originalTableNumber);
+			System.out.println("tableNumber: " + table.getNumber());
+			System.out.println(table);
 			Controller.removeTable(table);
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
+				
+		// update visuals
+		refreshData();
+			
+	}
+	
+	private void homeButtonActionPerformed(ActionEvent evt) {
+		
+		// clear error message
+		error = null;
+		
+		new RestoHomePage().setVisible(true);
 				
 		// update visuals
 		refreshData();
@@ -194,18 +208,15 @@ public class RemoveTablePage extends JFrame {
 		if (error == null || error.length() == 0) {
 			
 			//update the combo box
-			tables = new ArrayList<Table>();
+			tables = new HashMap<Integer, Table>();
 			tableList.removeAllItems();
 			Integer index = 0;
 			
-			RestoApp r = RestoAppApplication.getRestoApp();
-			
-			for(Table table : r.getTables()){
-				tables.add(table);
+			for(Table table : Controller.getCurrentTables()){
+				tables.put(index, table);
+				tableList.addItem("" + table.getNumber());
 				index++;
 			}
-			
-			completeTableList(tableList);
 			
 			selectedTableNumber = -1;
 			tableList.setSelectedIndex(selectedTableNumber);
@@ -215,11 +226,7 @@ public class RemoveTablePage extends JFrame {
 		pack();
 		
 	}
-	
-    protected void homeButtonActionPerformed(ActionEvent evt) {
-		// TODO Auto-generated method stub
-    	new RestoHomePage().setVisible(true);
-	}
+
 	
 
 }

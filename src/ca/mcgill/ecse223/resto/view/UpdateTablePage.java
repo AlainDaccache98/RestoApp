@@ -206,7 +206,7 @@ public class UpdateTablePage extends JFrame {
 			tableList.removeAllItems();
 			Integer index = 0;
 			
-			for(Table table : Controller.getTables()){
+			for(Table table : Controller.getCurrentTables()){
 				tables.put(index, table);
 				tableList.addItem("# " + table.getNumber());
 				index++;
