@@ -32,7 +32,7 @@ class Table {
       Ordered {
          orderItem(int quantity, Order o, Seat s, PricedMenuItem i) [quantityIsPositive(quantity)] / {
             // create a new order item with the provided quantity, order, seat, and priced menu item
-           new OrderItem(quantity, o, s, i);
+           new OrderItem(quantity, i, o, s);
            
          } -> Ordered; 
          addToOrderItem(OrderItem i, Seat s) / {
