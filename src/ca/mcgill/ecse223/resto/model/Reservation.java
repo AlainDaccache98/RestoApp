@@ -5,6 +5,10 @@ package ca.mcgill.ecse223.resto.model;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.*;
+import java.time.LocalDate;
+import java.text.DateFormat;
+import java.time.LocalTime;
+import java.util.Calendar;
 
 // line 17 "../../../../../RestoApp.ump"
 public class Reservation
@@ -368,4 +372,10 @@ public class Reservation
             "  " + "time" + "=" + (getTime() != null ? !getTime().equals(this)  ? getTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
   }
+  public boolean doesOverlap(Date date, Time time) {
+	RestoApp r = RestoAppApplication.getRestoApp();
+	
+	
+  }
+
 }
