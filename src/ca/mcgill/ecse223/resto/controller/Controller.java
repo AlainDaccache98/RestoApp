@@ -169,8 +169,13 @@ public class Controller {
 
 
 
-  //public static void reserve(Date date, Time time, int numberInParty, String contactName, String contactEmailAddress, String contactPhoneNumber, List<Table> tables) {
-  //	Date currentDate = new Date();   // the waiter doesn`t enter the seconds, how to handle that?
+  public static void reserve(Date date, Time time, int numberInParty, String contactName, String contactEmailAddress, String contactPhoneNumber, List<Table> tables) {
+	  
+	  System.out.println("-*******************-");
+	  System.out.println("Date: " + date);
+	  System.out.println("Time: " + time);
+	  
+	  //	Date currentDate = new Date();   // the waiter doesn`t enter the seconds, how to handle that?
   //	LocalTime currentTime = LocalTime.now();
   //	int dateDifference = date.compareTo(currentDate);
   //	int timeDifference = time.compareTo(currentTime);
@@ -203,7 +208,7 @@ public class Controller {
   //	 Reservation res = new Reservation(date, time, numberInParty, contactName, contactEmailAddress, contactPhoneNumber, r, tableArray);
   //	 												// Didn`t sort the list
   //	 RestoAppApplication.save();
-  //}
+  }
 	
 
   public static void startOrder(List<Table> tables) throws Exception {
@@ -226,33 +231,33 @@ public class Controller {
 	  Order newOrder = null;
 	  	  
 	  for(Table t : tables) {
-		  System.out.println("lalallaalal middle0: " + t.numberOfOrders());
+		  //System.out.println("lalallaalal middle0: " + t.numberOfOrders());
 
 		  	  if(orderCreated) {
 		  		  t.addToOrder(newOrder);
 		  		  orderCreated = true;
-		  		  System.out.println("XXXXXXXXXXXX");
+		  		 // System.out.println("XXXXXXXXXXXX");
 		  	  }
 		  	  else {
 		  		  
-		  		  System.out.println("lalallaalal middle0: " + t.numberOfOrders());
+		  		  //System.out.println("lalallaalal middle0: " + t.numberOfOrders());
 
 		  		  Order lastOrder = null;
 		  		  if(t.numberOfOrders()>0) {
 		  			  lastOrder = t.getOrder(t.numberOfOrders()-1);
-		  			  System.out.println("aaaaaaaaaaaaaaaaa");
+		  			  //System.out.println("aaaaaaaaaaaaaaaaa");
 		  		  }
 		  		  
-		  		  System.out.println("lalallaalal middle1: " + t.numberOfOrders());
+		  		  //System.out.println("lalallaalal middle1: " + t.numberOfOrders());
 		  		  t.startOrder();
-		  		  System.out.println("lalallaalal middle2: " + t.numberOfOrders());
+		  		  //System.out.println("lalallaalal middle2: " + t.numberOfOrders());
 
 		  		  if(t.numberOfOrders()>0 && !t.getOrder(t.numberOfOrders()-1).equals(lastOrder)) {
 		  			  orderCreated = true;
 		  			  newOrder = t.getOrder(t.numberOfOrders()-1);
-		  			  System.out.println("bbbbbbbbbbbbbbbb");
+		  			  //System.out.println("bbbbbbbbbbbbbbbb");
 		  		  }
-		  		  System.out.println("lalallaalal middle3: " + t.numberOfOrders());
+		  		  //System.out.println("lalallaalal middle3: " + t.numberOfOrders());
 
 		  	  }
 	  }
@@ -295,9 +300,7 @@ public class Controller {
 	  
 	  if(allTablesAvailableOrDifferentOrder(tables, order)) {
 		  r.removeCurrentOrder(order);
-	  }
-	  
-	  
+	  }  
 	  
 //	  if(table.getStatus() == Status.NothingOrdered) {
 //		  table.cancelOrder();
