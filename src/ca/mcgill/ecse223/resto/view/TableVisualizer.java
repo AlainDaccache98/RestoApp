@@ -14,8 +14,6 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import com.sun.javafx.geom.Ellipse2D;
-
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;

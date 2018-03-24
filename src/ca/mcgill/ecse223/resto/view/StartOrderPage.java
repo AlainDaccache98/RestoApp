@@ -19,8 +19,11 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 
@@ -32,9 +35,6 @@ import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Table;
-import javafx.scene.control.CheckBox;
-
-
 
 public class StartOrderPage extends JFrame {
     
@@ -43,8 +43,10 @@ public class StartOrderPage extends JFrame {
     // UI elements
     private JLabel errorMessage;
     
-    private List<JCheckBox> checkBoxList;
-            
+    //private List<JCheckBox> checkBoxList;
+    private JList displayList;
+    private Object selectedTables[];   
+    
     private JButton startOrderButton;
     private JButton homeButton;
     
@@ -74,13 +76,48 @@ public class StartOrderPage extends JFrame {
         startOrderButton = new JButton();
         
         RestoApp r = RestoAppApplication.getRestoApp();
-        
+        ArrayList myList = new ArrayList();
         for(Table t : r.getCurrentTables()) {
-        	JCheckBox box1 = new JCheckBox("Table #" + t.getNumber());
-        	checkBoxList.add(box1);
-        	add(box1);
-        	}
+        	myList.add(String.valueOf(t.getNumber()));
+        }
+        displayList = new JList(myList.toArray());
         
+        displayList.setVisibleRowCount(5);
+        displayList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        
+        selectedTables = null;
+                
+//        for(Table t : r.getCurrentTables()) {
+//        	JCheckBox box1 = new JCheckBox("Table #" + t.getNumber());
+//        	checkBoxList.add(box1);
+//        	add(box1);
+//        	}
+        
+        ListSelectionListener abcd = new ListSelectionListener() {
+        	
+        	public void valueChanged(ListSelectionEvent listSelectionEvent) {
+        		
+                System.out.println("First index: " + listSelectionEvent.getFirstIndex());
+                System.out.println("Last index: " + listSelectionEvent.getLastIndex());
+                boolean adjust = listSelectionEvent.getValueIsAdjusting();
+                //System.out.println(", Adjusting? " + adjust);
+                
+                if (!adjust) {
+                	JList list = (JList) listSelectionEvent.getSource();
+                	int selections[] = list.getSelectedIndices();
+                	Object selectionValues[] = list.getSelectedValues();
+                	selectedTables = list.getSelectedValues();
+                	for (int i = 0, n = selections.length; i < n; i++) {
+                		if (i == 0) {
+                			System.out.println(" Selections: ");
+                		}
+                		System.out.println(selections[i] + "/" + selectionValues[i] + " ");
+                	}
+                }
+              }
+        };
+        
+        displayList.addListSelectionListener(abcd);
         
         
         // global settings and listeners
@@ -118,11 +155,13 @@ public class StartOrderPage extends JFrame {
 //				.addGroup(layout.createSequentialGroup()
 //						.addComponent((Component) checkBoxList))
 				.addGroup(layout.createSequentialGroup()
+				.addComponent(displayList))
+				.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createParallelGroup()
 								.addComponent(startOrderButton, 70,70,140)))
 				.addGroup(layout.createParallelGroup()
 						.addGroup(layout.createParallelGroup()
-						.addComponent(tableVisualizer))));
+								.addComponent(tableVisualizer))));
 		
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
@@ -132,6 +171,8 @@ public class StartOrderPage extends JFrame {
 						.addComponent(horizontalLineTop))
 //				.addGroup(layout.createParallelGroup()
 //						.addComponent((Component) checkBoxList))
+				.addGroup(layout.createParallelGroup()
+				.addComponent(displayList))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(startOrderButton))
 				.addGroup(layout.createSequentialGroup()
@@ -153,13 +194,21 @@ public class StartOrderPage extends JFrame {
     		// clear error message
     		error = null;
     		
-    		List<Table> tables = null;
+    		List<Table> tables = new ArrayList<Table>();
     		//RestoApp r = RestoAppApplication.getRestoApp();
 //    		for(JCheckBox j : checkBoxList) {
 //    			if(j.isSelected()) {
 //    				tables.add(j.get)
 //    			}
 //    		}
+
+    		for(int i = 0; i< selectedTables.length; i++) {
+    			tables.add(Table.getWithNumber(Integer.parseInt(selectedTables[i].toString())));
+    			//System.out.println(selectedTables[i].toString() + "VRFEDFERFEDFRECFTREDFREDFREDFRE");
+    			//System.out.println(tables.add(Table.getWithNumber(123)));
+    		}
+    		
+    		System.out.println("SIZE: " + tables.size());
     		
     		try {
 				Controller.startOrder(tables);

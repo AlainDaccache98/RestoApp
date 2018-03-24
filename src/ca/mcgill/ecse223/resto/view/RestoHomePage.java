@@ -82,14 +82,14 @@ public class RestoHomePage extends JFrame {
         });
         
         changeTableLocationButton.setText("Move Table");
-        addTableButton.addActionListener(new java.awt.event.ActionListener() {
+        changeTableLocationButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	changeTableLocationButtonActionPerformed(evt);
             }
         });
         
         updateTableButton.setText("Update Table");
-        addTableButton.addActionListener(new java.awt.event.ActionListener() {
+        updateTableButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	updateTableButtonActionPerformed(evt);
             }

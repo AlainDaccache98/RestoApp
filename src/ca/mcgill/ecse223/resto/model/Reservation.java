@@ -372,10 +372,9 @@ public class Reservation
             "  " + "time" + "=" + (getTime() != null ? !getTime().equals(this)  ? getTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
   }
-  public boolean doesOverlap(Date date, Time time) {
-	RestoApp r = RestoAppApplication.getRestoApp();
-	
-	
-  }
+  
+  //public boolean doesOverlap(Date date, Time time) {
+	//RestoApp r = RestoAppApplication.getRestoApp();
+  //}
 
 }
