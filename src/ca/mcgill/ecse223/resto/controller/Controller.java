@@ -165,52 +165,10 @@ public class Controller {
       throw new InvalidInputException(e.getMessage());
     }
 
-  }
-
-
-
-  public static void reserve(Date date, Time time, int numberInParty, String contactName, String contactEmailAddress, String contactPhoneNumber, List<Table> tables) {
-	  
-	  System.out.println("-*******************-");
-	  System.out.println("Date: " + date);
-	  System.out.println("Time: " + time);
-	  
-	  //	Date currentDate = new Date();   // the waiter doesn`t enter the seconds, how to handle that?
-  //	LocalTime currentTime = LocalTime.now();
-  //	int dateDifference = date.compareTo(currentDate);
-  //	int timeDifference = time.compareTo(currentTime);
-  //	
-  //	if(((date || time || contactName || contactEmailAddress || contactPhoneNumber) = null) || (dateDifference <= 0) || (timeDifference <= 0) || (numberInparty <= 0) ||((contactName || contactEmailAddress || contactPhoneNumber)="")) {
-  //			throw new InvalidInputException("Please Check the entries for errors!");
-  //	}
-  //	
-  //	RestoApp r = RestoAppApplication.getRestoApp();
-  //	List<Table> currentTables = r.getCurrentTables();
-  //	
-  //	int seatCapacity = 0;
-  //	for(Table table : tables) {
-  //		  if(!currentTables.contains(table)) {
-  //			  throw new Exception("Table does not exist");
-  //		  }													// Not sure after this point
-  //		  seatCapacity += table.numberOfCurrentSeats();
-  //		  List<Reservation> reservations = table.getReservations();
-  //		  for(Reservation reservation : reservations) {
-  //			  if(reservation.doesOverlap(date, time)) {			//WRITE THE OVERLAP CODE IN RESERVATION CLASS
-  //				  throw new InvalidInputException("Overlap!");
-  //			  }
-  //		  }
-  //	  }
-  //	 if(seatCapacity < numberInParty) {
-  //		 throw new InvalidInputException("Seat capacity can`t be smaller than number in party!");
-  //	 }
-  //	 												// Not sure about converting the list into an array before the constructor part
-  //	 Table[] tableArray = ((reservation.getTables()).toArray());
-  //	 Reservation res = new Reservation(date, time, numberInParty, contactName, contactEmailAddress, contactPhoneNumber, r, tableArray);
-  //	 												// Didn`t sort the list
-  //	 RestoAppApplication.save();
-  }
+  }  
+  
     public static void reserve(Date date, Time time, int numberInParty, String contactName, String contactEmailAddress, String contactPhoneNumber, List<Table> tables) throws Exception {
-        if(date == null || time == null || contactName == null || contactEmailAddress == null || contactPhoneNumber == null || numberInParty<0 || contactName == "" || contactEmailAddress == "" || contactPhoneNumber == "" || new java.sql.Date(System.currentTimeMillis()).after(date) ||  new java.sql.Time(System.currentTimeMillis()).after(time)) {
+        if(date == null || time == null || contactName == null || contactEmailAddress == null || contactPhoneNumber == null || numberInParty<0 || contactName == "" || contactEmailAddress == "" || contactPhoneNumber == "") { //|| new java.sql.Date(System.currentTimeMillis()).after(date) ||  new java.sql.Time(System.currentTimeMillis()).after(time)) {
             throw new InvalidInputException("input not valid");
         }
         RestoApp r = RestoAppApplication.getRestoApp();
@@ -233,9 +191,18 @@ public class Controller {
             throw new Exception("Seat capacity is less than number of people");
         }
         Table[] tableArray = new Table[tables.size()];
-        tableArray = (Table[]) tables.toArray();
+        //tableArray = (Table[]) tables.toArray();
+        
+        int i=0;
+        for(Table t : tables) {
+        	tableArray[i] = t;
+        	i++;
+        }
         Reservation res = new Reservation(date, time, numberInParty, contactName, contactEmailAddress, contactPhoneNumber, r, tableArray);
-        Arrays.sort(tableArray);
+        r.addReservation(res);
+        //Array.sort(tableArray);
+        
+        System.out.println(r.getReservations().size() + "..................");
         RestoAppApplication.save();
     }
 
