@@ -341,8 +341,10 @@ public class Controller {
     if (itemCategory.equals(null)) {
       throw new InvalidInputException("Invalid input");
     }
+    
     RestoApp r = RestoAppApplication.getRestoApp();
     ArrayList<MenuItem> storingArray = new ArrayList<MenuItem>();
+    
     List<MenuItem> menuItems = r.getMenu().getMenuItems();
     for (MenuItem menuItem : menuItems) {
       MenuItem.ItemCategory category = menuItem.getItemCategory();

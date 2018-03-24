@@ -2,16 +2,14 @@
 /*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 package ca.mcgill.ecse223.resto.model;
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.*;
-import java.time.LocalDate;
-import java.text.DateFormat;
-import java.time.LocalTime;
-import java.util.Calendar;
 
+// line 18 "../../../../../RestoAppPersistence.ump"
 // line 17 "../../../../../RestoApp.ump"
-public class Reservation
+public class Reservation implements Serializable
 {
 
   //------------------------
@@ -359,6 +357,17 @@ public class Reservation
     }
   }
 
+  // line 24 "../../../../../RestoAppPersistence.ump"
+   public static  void reinitializeAutouniqueReservationNumber(List<Reservation> reservations){
+    nextReservationNumber = 0; 
+    for (Reservation reservation : reservations) {
+      if (reservation.getReservationNumber() > nextReservationNumber) {
+        nextReservationNumber = reservation.getReservationNumber();
+      }
+    }
+    nextReservationNumber++;
+  }
+
 
   public String toString()
   {
@@ -371,10 +380,13 @@ public class Reservation
             "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "time" + "=" + (getTime() != null ? !getTime().equals(this)  ? getTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
-  }
+  }  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
   
-  //public boolean doesOverlap(Date date, Time time) {
-	//RestoApp r = RestoAppApplication.getRestoApp();
-  //}
+  // line 21 "../../../../../RestoAppPersistence.ump"
+  private static final long serialVersionUID = 2315072607928790501L ;
 
+  
 }

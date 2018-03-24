@@ -7,10 +7,7 @@ import java.util.*;
 import java.sql.Date;
 import java.sql.Time;
 
-/**
- * classes to be added for reinitialize (menuitem, order,reservation)
- */
-// line 4 "../../../../../RestoAppPersistence.ump"
+// line 3 "../../../../../RestoAppPersistence.ump"
 // line 6 "../../../../../RestoApp.ump"
 public class RestoApp implements Serializable
 {
@@ -812,6 +809,8 @@ public class RestoApp implements Serializable
 
   // line 10 "../../../../../RestoAppPersistence.ump"
    public void reinitialize(){
+    Order.reinitializeAutouniqueNumber(this.getOrders());
+    Reservation.reinitializeAutouniqueReservationNumber(this.getReservations());
     Table.reinitializeUniqueNumber(this.getTables());
   }
   

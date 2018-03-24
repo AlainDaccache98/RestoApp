@@ -199,7 +199,7 @@ System.out.println("added");
 	
     protected void menuButtonActionPerformed(ActionEvent evt) {
 		// TODO Auto-generated method stub
-		//new GetMenuItemsPage().setVisible(true);
+		new MenuPage().setVisible(true);
     	refreshData();
 	}
 
