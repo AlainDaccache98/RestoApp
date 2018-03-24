@@ -209,7 +209,35 @@ public class Controller {
   //	 												// Didn`t sort the list
   //	 RestoAppApplication.save();
   }
-	
+    public static void reserve(Date date, Time time, int numberInParty, String contactName, String contactEmailAddress, String contactPhoneNumber, List<Table> tables) throws Exception {
+        if(date == null || time == null || contactName == null || contactEmailAddress == null || contactPhoneNumber == null || numberInParty<0 || contactName == "" || contactEmailAddress == "" || contactPhoneNumber == "" || new java.sql.Date(System.currentTimeMillis()).after(date) ||  new java.sql.Time(System.currentTimeMillis()).after(time)) {
+            throw new InvalidInputException("input not valid");
+        }
+        RestoApp r = RestoAppApplication.getRestoApp();
+        List<Table> currentTables = r.getCurrentTables();
+        int seatCapacity = 0;
+        for(Table t : tables) {
+            if(!currentTables.contains(t)) {
+                throw new Exception("Table does not exist");
+            }
+            seatCapacity += t.numberOfCurrentSeats();
+            List<Reservation> reservations = t.getReservations();
+            for(Reservation reservation : reservations) {
+                if(reservation.doesOverlap(date, time)) {
+                    throw new Exception("reservation has to be 2 hours before or after any other reservation");
+                    
+                }
+            }
+        }
+        if(seatCapacity < numberInParty) {
+            throw new Exception("Seat capacity is less than number of people");
+        }
+        Table[] tableArray = new Table[tables.size()];
+        tableArray = (Table[]) tables.toArray();
+        Reservation res = new Reservation(date, time, numberInParty, contactName, contactEmailAddress, contactPhoneNumber, r, tableArray);
+        Arrays.sort(tableArray);
+        RestoAppApplication.save();
+    }
 
   public static void startOrder(List<Table> tables) throws Exception {
 	  
