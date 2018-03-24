@@ -180,12 +180,12 @@ public class Controller {
             }
             seatCapacity += t.numberOfCurrentSeats();
             List<Reservation> reservations = t.getReservations();
-            for(Reservation reservation : reservations) {
-                if(reservation.doesOverlap(date, time)) {
-                    throw new Exception("reservation has to be 2 hours before or after any other reservation");
-                    
-                }
-            }
+//            for(Reservation reservation : reservations) {
+//                if(reservation.doesOverlap(date, time)) {
+//                    throw new Exception("reservation has to be 2 hours before or after any other reservation");
+//                    
+//                }
+//            }
         }
         if(seatCapacity < numberInParty) {
             throw new Exception("Seat capacity is less than number of people");

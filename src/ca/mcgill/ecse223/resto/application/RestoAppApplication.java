@@ -18,8 +18,8 @@ public class RestoAppApplication {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
             	//new ChangeTableLocationPage().setVisible(true);
-            	//new RestoHomePage().setVisible(true);
-            	new MenuPage().setVisible(true);
+            	new RestoHomePage().setVisible(true);
+            	//new MenuPage().setVisible(true);
             }
         });
         
