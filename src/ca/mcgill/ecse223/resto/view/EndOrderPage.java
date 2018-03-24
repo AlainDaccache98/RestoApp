@@ -90,7 +90,7 @@ public class EndOrderPage extends JFrame {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("RestoApp");
 		
-		orderNumberSelected.setText("Select order: ");
+		orderNumberSelected.setText("Select order number: ");
 		
 		endOrderButton.setText("End Order");
 		homeButton.setText("Home");
@@ -121,41 +121,38 @@ public class EndOrderPage extends JFrame {
 		layout.setHorizontalGroup(
 				layout.createParallelGroup()
 				.addComponent(errorMessage)
+				.addComponent(horizontalLineTop)
 				.addComponent(homeButton)
-				.addComponent(horizontalLineBottom)
+				.addComponent(horizontalLineMiddle)
 				.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createParallelGroup()
 								.addComponent(orderNumberSelected))
 						.addGroup(layout.createParallelGroup()
 								.addComponent(orderList, 70, 140, 140)
-								.addComponent(endOrderButton, 70,70,140))
+								.addComponent(endOrderButton, 70,70,140)))
+				.addComponent(horizontalLineBottom)
+				.addGroup(layout.createParallelGroup()
 						.addGroup(layout.createParallelGroup()
-								.addGroup(layout.createParallelGroup()
-								.addComponent(tableVisualizer)))
+						.addComponent(tableVisualizer))
 				
 				));
 		
-		/*layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {newTableNumberTextField, newTableNumberButton});
-
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {updatedSeatsTextField, updatedSeatsButton});*/
-
-		
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
-				.addComponent(errorMessage)	
+				.addComponent(errorMessage)
+				.addComponent(horizontalLineTop)
 				.addComponent(homeButton)
+				.addComponent(horizontalLineMiddle)
 				.addGroup(layout.createParallelGroup()
 						.addComponent(orderNumberSelected)
 						.addComponent(orderList, 20, 30, 30))		
 				.addGroup(layout.createParallelGroup()
 						.addComponent(endOrderButton))
 				.addGroup(layout.createParallelGroup()
-						/*.addComponent(updatedSeatsButton))*/
-				.addGroup(layout.createParallelGroup()
 						.addComponent(horizontalLineBottom))
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(tableVisualizer))
-						));
+						);
 		pack();
 
 	}

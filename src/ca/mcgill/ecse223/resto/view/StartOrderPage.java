@@ -152,15 +152,15 @@ public class StartOrderPage extends JFrame {
 		layout.setHorizontalGroup(
 				layout.createParallelGroup()
 				.addComponent(errorMessage)
+				.addComponent(horizontalLineTop)
 				.addComponent(homeButton)
-				.addComponent(horizontalLineTop)	
-//				.addGroup(layout.createSequentialGroup()
-//						.addComponent((Component) checkBoxList))
+				.addComponent(horizontalLineMiddle)
 				.addGroup(layout.createSequentialGroup()
 				.addComponent(displayList))
 				.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createParallelGroup()
 								.addComponent(startOrderButton, 70,70,140)))
+				.addComponent(horizontalLineBottom)
 				.addGroup(layout.createParallelGroup()
 						.addGroup(layout.createParallelGroup()
 								.addComponent(tableVisualizer))));
@@ -168,15 +168,15 @@ public class StartOrderPage extends JFrame {
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
 				.addComponent(errorMessage)	
+				.addComponent(horizontalLineTop)
 				.addComponent(homeButton)
 				.addGroup(layout.createParallelGroup()
-						.addComponent(horizontalLineTop))
-//				.addGroup(layout.createParallelGroup()
-//						.addComponent((Component) checkBoxList))
+						.addComponent(horizontalLineMiddle))
 				.addGroup(layout.createParallelGroup()
 				.addComponent(displayList))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(startOrderButton))
+				.addComponent(horizontalLineBottom)
 				.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createSequentialGroup()
 						.addComponent(tableVisualizer)))
@@ -197,20 +197,10 @@ public class StartOrderPage extends JFrame {
     		error = null;
     		
     		List<Table> tables = new ArrayList<Table>();
-    		//RestoApp r = RestoAppApplication.getRestoApp();
-//    		for(JCheckBox j : checkBoxList) {
-//    			if(j.isSelected()) {
-//    				tables.add(j.get)
-//    			}
-//    		}
 
     		for(int i = 0; i< selectedTables.length; i++) {
     			tables.add(Table.getWithNumber(Integer.parseInt(selectedTables[i].toString())));
-    			//System.out.println(selectedTables[i].toString() + "VRFEDFERFEDFRECFTREDFREDFREDFRE");
-    			//System.out.println(tables.add(Table.getWithNumber(123)));
     		}
-    		
-    		//System.out.println("SIZE: " + tables.size());
     		
     		try {
 				Controller.startOrder(tables);

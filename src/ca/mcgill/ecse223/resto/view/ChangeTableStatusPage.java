@@ -105,6 +105,7 @@ public class ChangeTableStatusPage extends JFrame {
 						.addGroup(layout.createParallelGroup()
 								.addComponent(startOrderButton, 70,70,140)
 								.addComponent(endOrderButton, 70,70,140)))
+				.addComponent(horizontalLineBottom)
 				.addGroup(layout.createParallelGroup()
 						.addGroup(layout.createParallelGroup()
 						.addComponent(tableVisualizer))));
@@ -119,6 +120,7 @@ public class ChangeTableStatusPage extends JFrame {
 						.addComponent(startOrderButton))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(endOrderButton))
+				.addComponent(horizontalLineBottom)
 				.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createSequentialGroup()
 						.addComponent(tableVisualizer)))
