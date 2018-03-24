@@ -8,7 +8,7 @@ import ca.mcgill.ecse223.resto.view.*;
 public class RestoAppApplication {
 
 	private static RestoApp resto;
-	private static String filename = "data.txt";
+	private static String filename = "menu.resto";
 	
 	/**
 	 * @param args
