@@ -356,7 +356,6 @@ public class Reservation implements Serializable
       placeholderRestoApp.removeReservation(this);
     }
   }
-<<<<<<< HEAD
 
   // line 24 "../../../../../RestoAppPersistence.ump"
    public static  void reinitializeAutouniqueReservationNumber(List<Reservation> reservations){
@@ -369,7 +368,6 @@ public class Reservation implements Serializable
     nextReservationNumber++;
   }
 
-=======
     public boolean doesOverlap(Date date, Time time) {
         boolean ans=false;
         int month = date.getMonth();
@@ -392,7 +390,6 @@ public class Reservation implements Serializable
         }
         return ans;
     }
->>>>>>> 4f7e96974d559c6f9e2e442186b62f6cc420a95d
 
   public String toString()
   {
