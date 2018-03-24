@@ -208,7 +208,73 @@ public class Controller {
 //	 RestoAppApplication.save();
 //}
 	
+//  public static void startOrder(List<Table> tableNums) throws InvalidInputException{
+//		RestoApp r = RestoAppApplication.getRestoApp();
+//			
+//		System.out.println("WWWWWWWWWWWWWWWWWW" + r.getCurrentOrders().size());
+//
+//		
+//		if (tableNums.size() == 0) {
+//			throw new InvalidInputException("tables is null");
+//		}
+//		
+//		List<Table> currentTables = r.getCurrentTables();
+//		for (Table b : tableNums) {
+//			if(!currentTables.contains(b)) {
+//				throw new InvalidInputException("table not in currentTables");
+//			}
+//		}
+//		boolean orderCreated = false;
+//		Order lastOrder = null;
+//		Order newOrder = null;
+//		for (Table c : tableNums) {
+//			System.out.println("lalallaalal before: " + c.numberOfOrders());
+//			if (orderCreated) {
+//				List<Order> cOrders = c.getOrders();
+//				for (Order o : cOrders) {
+//					System.out.println("aaaaaaaaaaaa");
+//
+//					c.addToOrder(newOrder);
+//					orderCreated = true;
+//					newOrder = o;
+//				}	
+//			}else {
+//				System.out.println("lalallaalal middle0: " + c.numberOfOrders());
+//
+//				c.startOrder();
+//				System.out.println("XXXXXXXXXXXXXXXXXXXX");
+//				System.out.println("lalallaalal middle1: " + c.numberOfOrders());
+//
+//			}
+//			if(c.numberOfOrders() > 0) {
+//				System.out.println("bbbbbbbbbbb");
+//				System.out.println("lalallaalal middle2: " + c.numberOfOrders());
+//
+//				lastOrder = c.getOrder(c.numberOfOrders() -1);
+//			}
+//			if(c.numberOfOrders() > 0 && !c.getOrder(c.numberOfOrders() - 1).equals(lastOrder)) {
+//				orderCreated = true;
+//				System.out.println("ccccccccccccccc");
+//
+//				newOrder = c.getOrder(c.numberOfOrders() -1);
+//			}
+//			System.out.println("lalallaalal after : " + c.numberOfOrders());
+//
+//					
+//		}
+//		
+//		  if(orderCreated == false) {
+//		  throw new InvalidInputException("Order not created");
+//	  }
+//		
+//		System.out.println("QQQQQQQQQQQQQ" + r.getCurrentOrders().size());
+//		
+//		r.addCurrentOrder(newOrder);
+//		RestoAppApplication.save();
+//		
+//	}
   
+  //ours
   public static void startOrder(List<Table> tables) throws Exception {
 	  
 	  if(tables.equals(null)) {
@@ -227,21 +293,36 @@ public class Controller {
 	  
 	  boolean orderCreated = false;
 	  Order newOrder = null;
-	  
+	  	  
 	  for(Table t : tables) {
+		  System.out.println("lalallaalal middle0: " + t.numberOfOrders());
+
 		  	  if(orderCreated) {
 		  		  t.addToOrder(newOrder);
+		  		  orderCreated = true;
+		  		  System.out.println("XXXXXXXXXXXX");
 		  	  }
 		  	  else {
+		  		  
+		  		  System.out.println("lalallaalal middle0: " + t.numberOfOrders());
+
 		  		  Order lastOrder = null;
 		  		  if(t.numberOfOrders()>0) {
 		  			  lastOrder = t.getOrder(t.numberOfOrders()-1);
+		  			  System.out.println("aaaaaaaaaaaaaaaaa");
 		  		  }
+		  		  
+		  		  System.out.println("lalallaalal middle1: " + t.numberOfOrders());
 		  		  t.startOrder();
+		  		  System.out.println("lalallaalal middle2: " + t.numberOfOrders());
+
 		  		  if(t.numberOfOrders()>0 && !t.getOrder(t.numberOfOrders()-1).equals(lastOrder)) {
 		  			  orderCreated = true;
 		  			  newOrder = t.getOrder(t.numberOfOrders()-1);
+		  			  System.out.println("bbbbbbbbbbbbbbbb");
 		  		  }
+		  		  System.out.println("lalallaalal middle3: " + t.numberOfOrders());
+
 		  	  }
 	  }
 	  
@@ -269,10 +350,17 @@ public class Controller {
 	  }
 	  
 	  List<Table> tables = order.getTables();
-	  
-	  for(Table table : tables) {
-		  table.endOrder(order);
+//	  Table table1 = tables.get(0);
+//	  table1.endOrder(order);
+	  for(int i =0; i < tables.size(); i++) {
+		  tables.get(i).endOrder(order);
 	  }
+	  
+//	  for(Table table : tables) {
+//		  System.out.println(tables.size() + "SSSSSIIIIIIZZZZEEEE");
+//		  table.endOrder(order);
+//		  
+//	  }
 	  
 	  if(allTablesAvailableOrDifferentOrder(tables, order)) {
 		  r.removeCurrentOrder(order);

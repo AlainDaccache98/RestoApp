@@ -78,7 +78,9 @@ public class StartOrderPage extends JFrame {
         RestoApp r = RestoAppApplication.getRestoApp();
         ArrayList myList = new ArrayList();
         for(Table t : r.getCurrentTables()) {
-        	myList.add(String.valueOf(t.getNumber()));
+        	if(!t.hasOrders()) {
+        		myList.add(String.valueOf(t.getNumber()));
+        	}
         }
         displayList = new JList(myList.toArray());
         
@@ -208,7 +210,7 @@ public class StartOrderPage extends JFrame {
     			//System.out.println(tables.add(Table.getWithNumber(123)));
     		}
     		
-    		System.out.println("SIZE: " + tables.size());
+    		//System.out.println("SIZE: " + tables.size());
     		
     		try {
 				Controller.startOrder(tables);

@@ -1,18 +1,25 @@
 package ca.mcgill.ecse223.resto.view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
+import javax.swing.border.EmptyBorder;
+
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
@@ -27,24 +34,26 @@ public class EndOrderPage extends JFrame {
 	
 	private JLabel errorMessage;
 
-	private JComboBox<Order> orderList;
+	private JComboBox<String> orderList;
 	private JLabel orderNumberSelected;
 	
-	private TableVisualizer tableVisualizer;
-	
 	private JButton endOrderButton;
-    private JButton homeButton;
+	private JButton homeButton;
+    
+    private TableVisualizer tableVisualizer;
+    
+	private static final int WIDTH_Table_VISUALIZATION = 200;
+	private static final int HEIGHT_Table_VISUALIZATION = 200;
+	
+	//temp elements
+	//private JLabel hint1;
+	//private JLabel hint2;
 
 	private String error = null;
 
 	private Integer selectedOrderNumber = -1;
-	private ArrayList<Order> orders;
-	
+	private HashMap<Integer, Order> orders;
 
-	
-	private static final int WIDTH_Table_VISUALIZATION = 200;
-	private static final int HEIGHT_Table_VISUALIZATION = 200;
-	
 
 	/**
 	 * Create the frame.
@@ -61,50 +70,44 @@ public class EndOrderPage extends JFrame {
 		//label for selecting table whose features are to be updated
 		orderNumberSelected = new JLabel();
 		
-		//tableVisualizer.setMinimumSize(new Dimension(WIDTH_Table_VISUALIZATION, HEIGHT_Table_VISUALIZATION));
-		
+		homeButton = new JButton();
 		tableVisualizer = new TableVisualizer();
-				
-		//comboBox for selecting from the existing tables 
-		orderList = new JComboBox<Order>();
-//		System.out.println(tableList.getItemCount());
-		completeOrderList(orderList);
-//		System.out.println(tableList.getItemCount());
+		tableVisualizer.setMinimumSize(new Dimension(WIDTH_Table_VISUALIZATION, HEIGHT_Table_VISUALIZATION));
 		
-        // global settings and listeners
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle("resto Management System");
-
+		//comboBox for selecting from the existing tables 
+		orderList = new JComboBox<String>(new String[0]);
 		orderList.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt){ 
-				JComboBox<Order> cb   = (JComboBox<Order>) evt.getSource();
+				JComboBox<String> cb   = (JComboBox<String>) evt.getSource();
 				selectedOrderNumber = cb.getSelectedIndex();
 			}
 		});
+		
+		//UI elements for updating table number
+		endOrderButton = new JButton();
+
 		
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("RestoApp");
 		
 		orderNumberSelected.setText("Select order: ");
 		
-		endOrderButton = new JButton();
-        homeButton = new JButton();
-
 		endOrderButton.setText("End Order");
+		homeButton.setText("Home");
 		
 		endOrderButton.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt){
 				endOrderButtonActionPerformed(evt);
 			}
 		});
-
 		
-        homeButton.setText("Home");
-        homeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	homeButtonActionPerformed(evt);
-            }
-        });
+		
+		homeButton.addActionListener(new java.awt.event.ActionListener(){
+			public void actionPerformed(java.awt.event.ActionEvent evt){
+				homeButtonActionPerformed(evt);
+			}
+
+		});
 		
 		JSeparator horizontalLineTop = new JSeparator();
 		JSeparator horizontalLineMiddle = new JSeparator();
@@ -117,70 +120,90 @@ public class EndOrderPage extends JFrame {
 		
 		layout.setHorizontalGroup(
 				layout.createParallelGroup()
-				.addGroup(layout.createParallelGroup()
-						)
-				
 				.addComponent(errorMessage)
-				.addComponent(horizontalLineTop)
 				.addComponent(homeButton)
-				.addComponent(horizontalLineMiddle)
 				.addComponent(horizontalLineBottom)
 				.addGroup(layout.createSequentialGroup()
-					.addGroup(layout.createParallelGroup()
-							.addComponent(orderNumberSelected))
-					.addGroup(layout.createParallelGroup()
-							.addComponent(orderList, 70,70,140)
-							.addComponent(endOrderButton, 70,70,140)))
-				.addGroup(layout.createParallelGroup()
-						.addComponent(tableVisualizer)));
+						.addGroup(layout.createParallelGroup()
+								.addComponent(orderNumberSelected))
+						.addGroup(layout.createParallelGroup()
+								.addComponent(orderList, 70, 140, 140)
+								.addComponent(endOrderButton, 70,70,140))
+						.addGroup(layout.createParallelGroup()
+								.addGroup(layout.createParallelGroup()
+								.addComponent(tableVisualizer)))
+				
+				));
+		
+		/*layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {newTableNumberTextField, newTableNumberButton});
+
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {updatedSeatsTextField, updatedSeatsButton});*/
+
 		
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
-					.addComponent(errorMessage)	
-					.addComponent(homeButton)
-				.addGroup(layout.createParallelGroup()
-						.addComponent(horizontalLineTop))
-				.addGroup(layout.createParallelGroup()
-						.addComponent(horizontalLineMiddle))
+				.addComponent(errorMessage)	
+				.addComponent(homeButton)
 				.addGroup(layout.createParallelGroup()
 						.addComponent(orderNumberSelected)
-						.addComponent(orderList))
+						.addComponent(orderList, 20, 30, 30))		
 				.addGroup(layout.createParallelGroup()
-						.addComponent(horizontalLineMiddle))
+						.addComponent(endOrderButton))
 				.addGroup(layout.createParallelGroup()
-						.addComponent(endOrderButton))		
+						/*.addComponent(updatedSeatsButton))*/
 				.addGroup(layout.createParallelGroup()
 						.addComponent(horizontalLineBottom))
-				.addGroup(layout.createParallelGroup()
+				.addGroup(layout.createSequentialGroup()
 						.addComponent(tableVisualizer))
-						);
+						));
 		pack();
 
 	}
 	
-	private void completeOrderList(JComboBox<Order> orders) {
-		// TODO Auto-generated method stub
-		RestoAppApplication.load();
-		RestoApp r = RestoAppApplication.getRestoApp();
-
-		for(Order order : r.getOrders()){
-			orderList.add(("# " + order.getNumber()), orderList);
-		}
-	}
-
 	//action after pressing the update table number button
 	private void endOrderButtonActionPerformed(ActionEvent evt) {
 		
 		// clear error message
 		error = null;
 				
-		// call the controller
+//		// call the controller
 		try {
+			String object = (String)orderList.getSelectedItem();
+			System.out.println("OBJ: " + object);
+			//String number = object.substring(1,3);
+			//System.out.println(number);
+			int orderNum = Integer.parseInt(object);
+			//System.out.println(originalTableNumber);
+			
+			RestoApp r = RestoAppApplication.getRestoApp();
+
 			Order order = null;
+			
+			for(Order o : r.getCurrentOrders()) {
+				if(o.getNumber() == orderNum) {
+					order = o;
+				}
+			}
+			
+			System.out.println("OrderNumber: " + order.getNumber());
+			System.out.println(order);
+			
 			Controller.endOrder(order);;
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
+				
+		// update visuals
+		refreshData();
+			
+	}
+	
+	private void homeButtonActionPerformed(ActionEvent evt) {
+		
+		// clear error message
+		error = null;
+		
+		new RestoHomePage().setVisible(true);
 				
 		// update visuals
 		refreshData();
@@ -194,18 +217,18 @@ public class EndOrderPage extends JFrame {
 		if (error == null || error.length() == 0) {
 			
 			//update the combo box
-			orders = new ArrayList<Order>();
+			orders = new HashMap<Integer, Order>();
 			orderList.removeAllItems();
 			Integer index = 0;
 			
 			RestoApp r = RestoAppApplication.getRestoApp();
 			
-			for(Order order : r.getOrders()){
-				orders.add(order);
+			System.out.println(r.getCurrentOrders().size() + "ewhheudehkddhkwa");
+			for(Order order : r.getCurrentOrders()){
+				orders.put(index, order);
+				orderList.addItem("" + order.getNumber());
 				index++;
 			}
-			
-			completeOrderList(orderList);
 			
 			selectedOrderNumber = -1;
 			orderList.setSelectedIndex(selectedOrderNumber);
@@ -215,11 +238,7 @@ public class EndOrderPage extends JFrame {
 		pack();
 		
 	}
-	
-    protected void homeButtonActionPerformed(ActionEvent evt) {
-		// TODO Auto-generated method stub
-    	new RestoHomePage().setVisible(true);
-	}
+
 	
 
 }
