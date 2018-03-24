@@ -108,6 +108,11 @@ class TableVisualizer extends JPanel {
 					g2d.fill(rectangle);
 					g2d.setColor(Color.BLACK);
 					g2d.draw(rectangle);
+					g2d.setColor(Color.DARK_GRAY);
+					if(table.hasOrders()) {
+						g2d.fill(rectangle);
+					}
+					g2d.setColor(Color.BLACK);
 					g2d.drawString(new Integer(table.getNumber()).toString(), (table.getX()+(table.getX()+table.getWidth()))/2, (table.getY()+(table.getY()+table.getLength()))/2);
 
 					//adding seats

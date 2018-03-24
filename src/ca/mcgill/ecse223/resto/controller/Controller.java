@@ -165,46 +165,46 @@ public class Controller {
       throw new InvalidInputException(e.getMessage());
     }
 
-  }
-
-
-
-  //public static void reserve(Date date, Time time, int numberInParty, String contactName, String contactEmailAddress, String contactPhoneNumber, List<Table> tables) {
-  //	Date currentDate = new Date();   // the waiter doesn`t enter the seconds, how to handle that?
-  //	LocalTime currentTime = LocalTime.now();
-  //	int dateDifference = date.compareTo(currentDate);
-  //	int timeDifference = time.compareTo(currentTime);
-  //	
-  //	if(((date || time || contactName || contactEmailAddress || contactPhoneNumber) = null) || (dateDifference <= 0) || (timeDifference <= 0) || (numberInparty <= 0) ||((contactName || contactEmailAddress || contactPhoneNumber)="")) {
-  //			throw new InvalidInputException("Please Check the entries for errors!");
-  //	}
-  //	
-  //	RestoApp r = RestoAppApplication.getRestoApp();
-  //	List<Table> currentTables = r.getCurrentTables();
-  //	
-  //	int seatCapacity = 0;
-  //	for(Table table : tables) {
-  //		  if(!currentTables.contains(table)) {
-  //			  throw new Exception("Table does not exist");
-  //		  }													// Not sure after this point
-  //		  seatCapacity += table.numberOfCurrentSeats();
-  //		  List<Reservation> reservations = table.getReservations();
-  //		  for(Reservation reservation : reservations) {
-  //			  if(reservation.doesOverlap(date, time)) {			//WRITE THE OVERLAP CODE IN RESERVATION CLASS
-  //				  throw new InvalidInputException("Overlap!");
-  //			  }
-  //		  }
-  //	  }
-  //	 if(seatCapacity < numberInParty) {
-  //		 throw new InvalidInputException("Seat capacity can`t be smaller than number in party!");
-  //	 }
-  //	 												// Not sure about converting the list into an array before the constructor part
-  //	 Table[] tableArray = ((reservation.getTables()).toArray());
-  //	 Reservation res = new Reservation(date, time, numberInParty, contactName, contactEmailAddress, contactPhoneNumber, r, tableArray);
-  //	 												// Didn`t sort the list
-  //	 RestoAppApplication.save();
-  //}
-	
+  }  
+  
+    public static void reserve(Date date, Time time, int numberInParty, String contactName, String contactEmailAddress, String contactPhoneNumber, List<Table> tables) throws Exception {
+        if(date == null || time == null || contactName == null || contactEmailAddress == null || contactPhoneNumber == null || numberInParty<0 || contactName == "" || contactEmailAddress == "" || contactPhoneNumber == "") { //|| new java.sql.Date(System.currentTimeMillis()).after(date) ||  new java.sql.Time(System.currentTimeMillis()).after(time)) {
+            throw new InvalidInputException("input not valid");
+        }
+        RestoApp r = RestoAppApplication.getRestoApp();
+        List<Table> currentTables = r.getCurrentTables();
+        int seatCapacity = 0;
+        for(Table t : tables) {
+            if(!currentTables.contains(t)) {
+                throw new Exception("Table does not exist");
+            }
+            seatCapacity += t.numberOfCurrentSeats();
+            List<Reservation> reservations = t.getReservations();
+            for(Reservation reservation : reservations) {
+                if(reservation.doesOverlap(date, time)) {
+                    throw new Exception("reservation has to be 2 hours before or after any other reservation");
+                    
+                }
+            }
+        }
+        if(seatCapacity < numberInParty) {
+            throw new Exception("Seat capacity is less than number of people");
+        }
+        Table[] tableArray = new Table[tables.size()];
+        //tableArray = (Table[]) tables.toArray();
+        
+        int i=0;
+        for(Table t : tables) {
+        	tableArray[i] = t;
+        	i++;
+        }
+        Reservation res = new Reservation(date, time, numberInParty, contactName, contactEmailAddress, contactPhoneNumber, r, tableArray);
+        r.addReservation(res);
+        //Array.sort(tableArray);
+        
+        System.out.println(r.getReservations().size() + "..................");
+        RestoAppApplication.save();
+    }
 
   public static void startOrder(List<Table> tables) throws Exception {
 	  
@@ -226,33 +226,33 @@ public class Controller {
 	  Order newOrder = null;
 	  	  
 	  for(Table t : tables) {
-		  System.out.println("lalallaalal middle0: " + t.numberOfOrders());
+		  //System.out.println("lalallaalal middle0: " + t.numberOfOrders());
 
 		  	  if(orderCreated) {
 		  		  t.addToOrder(newOrder);
 		  		  orderCreated = true;
-		  		  System.out.println("XXXXXXXXXXXX");
+		  		 // System.out.println("XXXXXXXXXXXX");
 		  	  }
 		  	  else {
 		  		  
-		  		  System.out.println("lalallaalal middle0: " + t.numberOfOrders());
+		  		  //System.out.println("lalallaalal middle0: " + t.numberOfOrders());
 
 		  		  Order lastOrder = null;
 		  		  if(t.numberOfOrders()>0) {
 		  			  lastOrder = t.getOrder(t.numberOfOrders()-1);
-		  			  System.out.println("aaaaaaaaaaaaaaaaa");
+		  			  //System.out.println("aaaaaaaaaaaaaaaaa");
 		  		  }
 		  		  
-		  		  System.out.println("lalallaalal middle1: " + t.numberOfOrders());
+		  		  //System.out.println("lalallaalal middle1: " + t.numberOfOrders());
 		  		  t.startOrder();
-		  		  System.out.println("lalallaalal middle2: " + t.numberOfOrders());
+		  		  //System.out.println("lalallaalal middle2: " + t.numberOfOrders());
 
 		  		  if(t.numberOfOrders()>0 && !t.getOrder(t.numberOfOrders()-1).equals(lastOrder)) {
 		  			  orderCreated = true;
 		  			  newOrder = t.getOrder(t.numberOfOrders()-1);
-		  			  System.out.println("bbbbbbbbbbbbbbbb");
+		  			  //System.out.println("bbbbbbbbbbbbbbbb");
 		  		  }
-		  		  System.out.println("lalallaalal middle3: " + t.numberOfOrders());
+		  		  //System.out.println("lalallaalal middle3: " + t.numberOfOrders());
 
 		  	  }
 	  }
@@ -295,9 +295,7 @@ public class Controller {
 	  
 	  if(allTablesAvailableOrDifferentOrder(tables, order)) {
 		  r.removeCurrentOrder(order);
-	  }
-	  
-	  
+	  }  
 	  
 //	  if(table.getStatus() == Status.NothingOrdered) {
 //		  table.cancelOrder();

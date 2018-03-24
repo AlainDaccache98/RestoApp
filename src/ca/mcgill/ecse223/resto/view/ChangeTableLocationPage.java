@@ -1,6 +1,7 @@
 package ca.mcgill.ecse223.resto.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.HashMap;
 
 import javax.swing.GroupLayout;
@@ -36,6 +37,13 @@ public class ChangeTableLocationPage extends JFrame {
   private JTextField newYTextField;
 
   private JButton updateTableLocationButton;
+  private JButton homeButton;
+  
+  private TableVisualizer tableVisualizer;
+  
+	private static final int WIDTH_Table_VISUALIZATION = 200;
+	private static final int HEIGHT_Table_VISUALIZATION = 200;
+
 
   // data elements
   private String error = null;
@@ -53,6 +61,9 @@ public class ChangeTableLocationPage extends JFrame {
     // elements for error message
     errorMessage = new JLabel();
     errorMessage.setForeground(Color.RED);
+    
+	tableVisualizer = new TableVisualizer();
+	tableVisualizer.setMinimumSize(new Dimension(WIDTH_Table_VISUALIZATION, HEIGHT_Table_VISUALIZATION));
 
     // elements for table
     tableNumberLabel = new JLabel();
@@ -61,6 +72,8 @@ public class ChangeTableLocationPage extends JFrame {
     newYTextField = new JTextField();
     newYLabel = new JLabel();
     updateTableLocationButton = new JButton();
+    homeButton = new JButton();
+    
     tableNumberList = new JComboBox<String>(new String[0]);
     tableNumberList.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -79,6 +92,13 @@ public class ChangeTableLocationPage extends JFrame {
         updatetableLocationButtonActionPerformed(evt);
       }
     });
+    
+    homeButton.setText("Home");
+    homeButton.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        homeButtonActionPerformed(evt);
+      }
+    });
 
     // horizontal line elements
     JSeparator horizontalLineTop = new JSeparator();
@@ -95,22 +115,23 @@ public class ChangeTableLocationPage extends JFrame {
         layout.createParallelGroup()
         .addComponent(errorMessage)
         .addComponent(horizontalLineTop)
+        .addComponent(homeButton)
         .addComponent(horizontalLineMiddle1)
-        .addComponent(horizontalLineMiddle2)
-        .addComponent(horizontalLineBottom)
-
         .addGroup(layout.createSequentialGroup()
             .addGroup(layout.createParallelGroup()
                 .addComponent(tableNumberLabel)
                 .addComponent(newXLabel)
                 .addComponent(newYLabel))
-
             .addGroup(layout.createParallelGroup()
                 .addComponent(tableNumberList)
-                .addComponent(newXTextField, 200, 200, 400)
-                .addComponent(newYTextField, 200, 200, 400)
-                .addComponent(updateTableLocationButton, 70, 70, 140))
+                .addComponent(newXTextField, 70, 70, 140)
+                .addComponent(newYTextField, 70, 70, 140))
+            .addComponent(updateTableLocationButton, 70, 70, 140)
             )
+        .addComponent(horizontalLineBottom)
+		.addGroup(layout.createParallelGroup()
+				.addGroup(layout.createParallelGroup()
+				.addComponent(tableVisualizer)))
         );
 
     //layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {driverNameTextField, addDriverButton});
@@ -119,30 +140,29 @@ public class ChangeTableLocationPage extends JFrame {
         layout.createParallelGroup()
         .addGroup(layout.createSequentialGroup()
             .addComponent(errorMessage)
+            .addComponent(horizontalLineTop)
+            .addComponent(homeButton)
+            .addComponent(horizontalLineMiddle1)
             .addGroup(layout.createParallelGroup()
                 .addComponent(tableNumberLabel)
                 .addComponent(tableNumberList)
                 )
             .addGroup(layout.createParallelGroup()
-                .addComponent(horizontalLineTop))
-            .addGroup(layout.createParallelGroup()
                 .addComponent(newXLabel)
-                .addComponent(newXTextField, 200, 200, 400)
+                .addComponent(newXTextField)
                 )
-            .addGroup(layout.createParallelGroup()
-                .addComponent(horizontalLineMiddle1))
             .addGroup(layout.createParallelGroup()
                 .addComponent(newYLabel)
-                .addComponent(newYTextField, 200, 200, 400)
+                .addComponent(newYTextField)
                 )
-            .addGroup(layout.createParallelGroup()
-                .addComponent(horizontalLineMiddle2))
             .addGroup(layout.createParallelGroup()
                 .addComponent(updateTableLocationButton, 70, 70, 140)
                 )
             .addGroup(layout.createParallelGroup()
                 .addComponent(horizontalLineBottom))
-            )
+            .addGroup(layout.createParallelGroup()
+				.addGroup(layout.createParallelGroup()
+				.addComponent(tableVisualizer))))
         );
     pack();
   }
@@ -169,6 +189,15 @@ public class ChangeTableLocationPage extends JFrame {
     // update visuals
     refreshData();
   }
+  
+  private void homeButtonActionPerformed(java.awt.event.ActionEvent evt) {
+	    // clear error message
+
+	  new RestoHomePage().setVisible(true);
+	  
+	    // update visuals
+	    refreshData();
+	  }
 
   private void refreshData() {
     // error

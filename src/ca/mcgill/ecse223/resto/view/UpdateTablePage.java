@@ -2,6 +2,7 @@ package ca.mcgill.ecse223.resto.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
@@ -39,6 +40,13 @@ public class UpdateTablePage extends JFrame {
 	private JTextField updatedSeatsTextField;
 	
 	private JButton updateTableFeaturesButton;
+	private JButton homeButton;
+
+	
+    private TableVisualizer tableVisualizer;
+    
+	private static final int WIDTH_Table_VISUALIZATION = 200;
+	private static final int HEIGHT_Table_VISUALIZATION = 200;
 
 	//temp elements
 	//private JLabel hint1;
@@ -65,6 +73,9 @@ public class UpdateTablePage extends JFrame {
 		//label for selecting table whose features are to be updated
 		tableNumberSelected = new JLabel();
 		
+		tableVisualizer = new TableVisualizer();
+		tableVisualizer.setMinimumSize(new Dimension(WIDTH_Table_VISUALIZATION, HEIGHT_Table_VISUALIZATION));
+		
 		//comboBox for selecting from the existing tables 
 		tableList = new JComboBox<String>(new String[0]);
 		tableList.addActionListener(new java.awt.event.ActionListener() {
@@ -78,6 +89,7 @@ public class UpdateTablePage extends JFrame {
 		newTableNumberLabel = new JLabel();
 		newTableNumberTextField = new JTextField();
 		updateTableFeaturesButton = new JButton();
+		homeButton = new JButton();
 		
 		//UI elements for updating seats
 		updatedSeatsLabel = new JLabel();
@@ -91,14 +103,17 @@ public class UpdateTablePage extends JFrame {
 		updatedSeatsLabel.setText("New number of seats: ");
 		
 		updateTableFeaturesButton.setText("Update");
-		//updatedSeatsButton.setText("Update");
-		
 		updateTableFeaturesButton.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt){
 				newTableNumberButtonActionPerformed(evt);
 			}
-
-			
+		});
+		
+		homeButton.setText("Home");
+		homeButton.addActionListener(new java.awt.event.ActionListener(){
+			public void actionPerformed(java.awt.event.ActionEvent evt){
+				homeButtonActionPerformed(evt);
+			}
 		});
 		
 		
@@ -122,8 +137,8 @@ public class UpdateTablePage extends JFrame {
 				layout.createParallelGroup()
 				.addComponent(errorMessage)
 				.addComponent(horizontalLineTop)
+				.addComponent(homeButton)
 				.addComponent(horizontalLineMiddle)
-				.addComponent(horizontalLineBottom)
 				.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createParallelGroup()
 								.addComponent(tableNumberSelected)
@@ -133,9 +148,12 @@ public class UpdateTablePage extends JFrame {
 								.addComponent(tableList)
 								.addComponent(newTableNumberTextField,200,200,400)
 								.addComponent(updatedSeatsTextField,200,200,400)
-								.addComponent(updateTableFeaturesButton, 70,70,140))
-				
-				));
+								.addComponent(updateTableFeaturesButton, 70,70,140)))
+				.addComponent(horizontalLineBottom)
+				.addGroup(layout.createParallelGroup()
+						.addGroup(layout.createParallelGroup()
+						.addComponent(tableVisualizer)))
+				);
 		
 		/*layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {newTableNumberTextField, newTableNumberButton});
 
@@ -144,7 +162,10 @@ public class UpdateTablePage extends JFrame {
 		
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
-				.addComponent(errorMessage)				
+				.addComponent(errorMessage)	
+				.addComponent(horizontalLineTop)
+				.addComponent(homeButton)
+				.addComponent(horizontalLineMiddle)
 				.addGroup(layout.createParallelGroup()
 						.addComponent(tableNumberSelected)
 						.addComponent(tableList))
@@ -152,20 +173,18 @@ public class UpdateTablePage extends JFrame {
 						.addComponent(horizontalLineTop))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(newTableNumberLabel)
-						.addComponent(newTableNumberTextField))
-				
-				.addGroup(layout.createParallelGroup()
-						.addComponent(horizontalLineMiddle))		
+						.addComponent(newTableNumberTextField))		
 				.addGroup(layout.createParallelGroup()
 						.addComponent(updatedSeatsLabel)
 						.addComponent(updatedSeatsTextField))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(updateTableFeaturesButton))
 				.addGroup(layout.createParallelGroup()
-						/*.addComponent(updatedSeatsButton))*/
-				.addGroup(layout.createParallelGroup()
 						.addComponent(horizontalLineBottom))
-						));
+				.addGroup(layout.createParallelGroup()
+						.addGroup(layout.createParallelGroup()
+						.addComponent(tableVisualizer)))
+				);
 		pack();
 
 	}
@@ -190,7 +209,19 @@ public class UpdateTablePage extends JFrame {
 		refreshData();
 			
 	}
-
+	
+	private void homeButtonActionPerformed(ActionEvent evt) {
+		
+		// clear error message
+		error = null;
+				
+		new RestoHomePage().setVisible(true);
+		
+		// update visuals
+		refreshData();
+			
+	}	
+	
 	//refreshing the data after a new entry
 	private void refreshData() {
 		

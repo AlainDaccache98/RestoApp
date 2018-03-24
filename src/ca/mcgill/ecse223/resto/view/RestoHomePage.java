@@ -34,8 +34,9 @@ public class RestoHomePage extends JFrame {
     private JButton updateTableButton;
     private JButton changeTableStatusButton;
     private JButton menuButton;
+    private JButton reserveButton;
 
-    
+
     private TableVisualizer tableVisualizer;
     
 	private static final int WIDTH_Table_VISUALIZATION = 200;
@@ -61,6 +62,7 @@ public class RestoHomePage extends JFrame {
         updateTableButton = new JButton();
         changeTableStatusButton = new JButton();
         menuButton = new JButton();
+        reserveButton = new JButton();
 
         // global settings and listeners
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -109,6 +111,13 @@ public class RestoHomePage extends JFrame {
             }
         });
         
+        reserveButton.setText("Reserve");
+        reserveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	reserveButtonActionPerformed(evt);
+            }
+        });
+        
         // horizontal line elements
         JSeparator horizontalLineTop = new JSeparator();
         JSeparator horizontalLineMiddle = new JSeparator();
@@ -127,7 +136,8 @@ public class RestoHomePage extends JFrame {
 								.addComponent(changeTableLocationButton)
 								.addComponent(updateTableButton, 70,70,140)
 								.addComponent(changeTableStatusButton)
-								.addComponent(menuButton, 70,70,140))
+								.addComponent(menuButton, 70,70,140)
+								.addComponent(reserveButton, 70,70,140))
 				)
 				.addComponent(horizontalLineBottom)
 				.addGroup(layout.createParallelGroup()
@@ -149,6 +159,8 @@ public class RestoHomePage extends JFrame {
 				.addGroup(layout.createParallelGroup()
 						.addComponent(menuButton))
 				.addGroup(layout.createParallelGroup()
+						.addComponent(reserveButton))
+				.addGroup(layout.createParallelGroup()
 						.addComponent(horizontalLineBottom))
 				.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createSequentialGroup()
@@ -167,14 +179,14 @@ public class RestoHomePage extends JFrame {
        
 	private void addTableButtonActionPerformed(java.awt.event.ActionEvent evt) {
     	new AddTablePage().setVisible(true);
-System.out.println("added");
+//    	System.out.println("added");
 		refreshData();
     }
 	
 	protected void removeTableButtonActionPerformed(ActionEvent evt) {
 		// TODO Auto-generated method stub
     	new RemoveTablePage().setVisible(true);
-    	System.out.println("removed");
+//    	System.out.println("removed");
 
         refreshData();
 	}
@@ -187,7 +199,7 @@ System.out.println("added");
 	protected void updateTableButtonActionPerformed(ActionEvent evt) {
 		// TODO Auto-generated method stub
     	new UpdateTablePage().setVisible(true);
-    	System.out.println("hi");
+//    	System.out.println("hi");
 		refreshData();
 	}
 	
@@ -200,6 +212,12 @@ System.out.println("added");
     protected void menuButtonActionPerformed(ActionEvent evt) {
 		// TODO Auto-generated method stub
 		new MenuPage().setVisible(true);
+    	refreshData();
+	}
+    
+    protected void reserveButtonActionPerformed(ActionEvent evt) {
+		// TODO Auto-generated method stub
+		new ReservationPage().setVisible(true);
     	refreshData();
 	}
 
