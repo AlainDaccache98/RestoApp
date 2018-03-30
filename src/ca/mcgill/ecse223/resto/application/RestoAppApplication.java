@@ -8,7 +8,7 @@ import ca.mcgill.ecse223.resto.view.*;
 public class RestoAppApplication {
 
 	private static RestoApp resto;
-	private static String filename = "menu.resto";
+	private static String filename = "menu v2.resto";
 	
 	/**
 	 * @param args
@@ -19,6 +19,7 @@ public class RestoAppApplication {
             public void run() {
             	//new ChangeTableLocationPage().setVisible(true);
             	new RestoHomePage().setVisible(true);
+            	//new MenuPage().setVisible(true);
             }
         });
         

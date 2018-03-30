@@ -117,17 +117,20 @@ public class RemoveTablePage extends JFrame {
 		layout.setHorizontalGroup(
 				layout.createParallelGroup()
 				.addComponent(errorMessage)
+				.addComponent(horizontalLineTop)
 				.addComponent(homeButton)
-				.addComponent(horizontalLineBottom)
+				.addComponent(horizontalLineMiddle)
 				.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createParallelGroup()
 								.addComponent(tableNumberSelected))
 						.addGroup(layout.createParallelGroup()
 								.addComponent(tableList, 70, 140, 140)
-								.addComponent(removeTableButton, 70,70,140))
-						.addGroup(layout.createParallelGroup()
-								.addGroup(layout.createParallelGroup()
-								.addComponent(tableVisualizer)))
+								.addComponent(horizontalLineMiddle)
+								.addComponent(removeTableButton, 70,70,140)))
+				.addComponent(horizontalLineBottom)
+				.addGroup(layout.createParallelGroup()
+							.addGroup(layout.createParallelGroup()
+							.addComponent(tableVisualizer))
 				
 				));
 		
@@ -139,19 +142,20 @@ public class RemoveTablePage extends JFrame {
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
 				.addComponent(errorMessage)	
+				.addComponent(horizontalLineTop)
 				.addComponent(homeButton)
+				.addComponent(horizontalLineMiddle)
 				.addGroup(layout.createParallelGroup()
 						.addComponent(tableNumberSelected)
-						.addComponent(tableList, 20, 30, 30))		
+						.addComponent(tableList, 20, 30, 30))	
+				.addComponent(horizontalLineMiddle)
 				.addGroup(layout.createParallelGroup()
 						.addComponent(removeTableButton))
-				.addGroup(layout.createParallelGroup()
-						/*.addComponent(updatedSeatsButton))*/
 				.addGroup(layout.createParallelGroup()
 						.addComponent(horizontalLineBottom))
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(tableVisualizer))
-						));
+						);
 		pack();
 
 	}
