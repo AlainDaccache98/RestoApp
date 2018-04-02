@@ -170,6 +170,7 @@ public class CancelOrderPage extends JFrame {
 				
 		// call the controller
 		try {
+			
 			String object = (String)tableList.getSelectedItem();
 			//System.out.println(object);
 			String number = object.substring(2,3);

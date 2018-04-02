@@ -196,6 +196,7 @@ public class UpdateTablePage extends JFrame {
 		error = null;
 				
 		try {
+			int newTableNumber = Integer.parseInt(newTableNumberTextField.getText());
 			String object = (String)tableList.getSelectedItem();
 			//System.out.println(object);
 			String number = object.substring(2,3);
@@ -203,7 +204,8 @@ public class UpdateTablePage extends JFrame {
 			int originalTableNumber = Integer.parseInt(number);
 			//System.out.println(originalTableNumber);
 			Table table = Table.getWithNumber(originalTableNumber);
-			Controller.cancelOrder(table);
+			int newSeatCount = Integer.parseInt(updatedSeatsTextField.getText());
+			Controller.updateTable(table,newTableNumber, newSeatCount);
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
