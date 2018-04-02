@@ -23,7 +23,7 @@ import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.Table;
 
-public class UpdateTablePage extends JFrame {
+public class CancelOrderPage extends JFrame {
 
 	//private JPanel contentPane;
 	private static final long serialVersionUID = -4426310869335015542L;
@@ -33,13 +33,7 @@ public class UpdateTablePage extends JFrame {
 	private JComboBox<String> tableList;
 	private JLabel tableNumberSelected;
 	
-	private JLabel newTableNumberLabel;
-	private JTextField newTableNumberTextField;
-
-	private JLabel updatedSeatsLabel;
-	private JTextField updatedSeatsTextField;
-	
-	private JButton updateTableFeaturesButton;
+	private JButton cancelOrderButton;
 	private JButton homeButton;
 
 	
@@ -47,10 +41,6 @@ public class UpdateTablePage extends JFrame {
     
 	private static final int WIDTH_Table_VISUALIZATION = 200;
 	private static final int HEIGHT_Table_VISUALIZATION = 200;
-
-	//temp elements
-	//private JLabel hint1;
-	//private JLabel hint2;
 
 	private String error = null;
 
@@ -61,7 +51,7 @@ public class UpdateTablePage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public UpdateTablePage() {
+	public CancelOrderPage() {
 		initComponents();
 		refreshData();
 	}
@@ -86,26 +76,19 @@ public class UpdateTablePage extends JFrame {
 		});
 		
 		//UI elements for updating table number
-		newTableNumberLabel = new JLabel();
-		newTableNumberTextField = new JTextField();
-		updateTableFeaturesButton = new JButton();
+		cancelOrderButton = new JButton();
 		homeButton = new JButton();
 		
-		//UI elements for updating seats
-		updatedSeatsLabel = new JLabel();
-		updatedSeatsTextField = new JTextField();
 		
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setTitle("RestoApp");
+		setTitle("Cancel Order");
 		
 		tableNumberSelected.setText("Select table: ");
-		newTableNumberLabel.setText("New table number: ");
-		updatedSeatsLabel.setText("New number of seats: ");
 		
-		updateTableFeaturesButton.setText("Update");
-		updateTableFeaturesButton.addActionListener(new java.awt.event.ActionListener(){
+		cancelOrderButton.setText("Cancel Order");
+		cancelOrderButton.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt){
-				newTableNumberButtonActionPerformed(evt);
+				cancelOrderButtonActionPerformed(evt);
 			}
 		});
 		
@@ -141,14 +124,10 @@ public class UpdateTablePage extends JFrame {
 				.addComponent(horizontalLineMiddle)
 				.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createParallelGroup()
-								.addComponent(tableNumberSelected)
-								.addComponent(newTableNumberLabel)
-								.addComponent(updatedSeatsLabel))
+								.addComponent(tableNumberSelected))
 						.addGroup(layout.createParallelGroup()
 								.addComponent(tableList)
-								.addComponent(newTableNumberTextField,200,200,400)
-								.addComponent(updatedSeatsTextField,200,200,400)
-								.addComponent(updateTableFeaturesButton, 70,70,140)))
+								.addComponent(cancelOrderButton, 70,70,140)))
 				.addComponent(horizontalLineBottom)
 				.addGroup(layout.createParallelGroup()
 						.addGroup(layout.createParallelGroup()
@@ -172,13 +151,7 @@ public class UpdateTablePage extends JFrame {
 				.addGroup(layout.createParallelGroup()
 						.addComponent(horizontalLineTop))
 				.addGroup(layout.createParallelGroup()
-						.addComponent(newTableNumberLabel)
-						.addComponent(newTableNumberTextField))		
-				.addGroup(layout.createParallelGroup()
-						.addComponent(updatedSeatsLabel)
-						.addComponent(updatedSeatsTextField))
-				.addGroup(layout.createParallelGroup()
-						.addComponent(updateTableFeaturesButton))
+						.addComponent(cancelOrderButton))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(horizontalLineBottom))
 				.addGroup(layout.createParallelGroup()
@@ -190,11 +163,12 @@ public class UpdateTablePage extends JFrame {
 	}
 	
 	//action after pressing the update table number button
-	private void newTableNumberButtonActionPerformed(ActionEvent evt) {
+	private void cancelOrderButtonActionPerformed(ActionEvent evt) {
 		
 		// clear error message
 		error = null;
 				
+		// call the controller
 		try {
 			String object = (String)tableList.getSelectedItem();
 			//System.out.println(object);
@@ -210,6 +184,7 @@ public class UpdateTablePage extends JFrame {
 				
 		// update visuals
 		refreshData();
+
 			
 	}
 	
@@ -231,9 +206,6 @@ public class UpdateTablePage extends JFrame {
 		errorMessage.setText(error);
 		if (error == null || error.length() == 0) {
 
-			//update 2 text fields
-			newTableNumberTextField.setText("");
-			updatedSeatsTextField.setText("");
 			
 			//update the combo box
 			tables = new HashMap<Integer, Table>();

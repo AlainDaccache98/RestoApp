@@ -9,9 +9,11 @@ import java.time.LocalDate;
 import java.text.DateFormat;
 import java.time.LocalTime;
 import java.text.SimpleDateFormat;
+
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.Order;
+import ca.mcgill.ecse223.resto.model.OrderItem;
 import ca.mcgill.ecse223.resto.model.Reservation;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
@@ -356,5 +358,57 @@ public class Controller {
   public static List<Table> getCurrentTables() {
     RestoAppApplication.load();
     return RestoAppApplication.getRestoApp().getCurrentTables();
-  }	
+  }
+  
+  
+  public static void cancelOrderedItem(OrderItem oi) throws InvalidInputException{
+	  RestoApp r = RestoAppApplication.getRestoApp();
+	  
+	  if(oi.equals(null)){
+		  throw new InvalidInputException("Invalid input");
+	  }
+	  
+	  List<Seat> seats = oi.getSeats();
+	  
+	  Order order = oi.getOrder(); 	 
+	  
+	  ArrayList<Table> tables = new ArrayList<Table>();
+	  for(Seat seat: seats){
+		  Table table = seat.getTable();
+		  Order lastOrder = table.getOrder(table.numberOfOrders()-1);
+		  if(lastOrder.equals(order) && !tables.contains(table)){
+			  tables.add(table);
+		  }
+	  }
+	  
+	  for(Table table: tables){
+		  table.cancelOrderItem(oi);
+	  }
+	  
+	  RestoAppApplication.save();
+
+  }
+  
+  public static void cancelOrder(Table table) throws InvalidInputException{
+	  
+	  RestoApp r = RestoAppApplication.getRestoApp();
+	  
+	  if(table.equals(null)){
+		  throw new InvalidInputException("Null table");
+	  }
+	  
+	  List<Table> currentTables = r.getCurrentTables();
+	  	  
+	  if(!currentTables.contains(table)){  
+		  throw new InvalidInputException("Table does not exist");
+	  }
+	  
+	  table.cancelOrder();
+	  
+	  RestoAppApplication.save();
+	 
+  }
+   	
+
+  
 }
