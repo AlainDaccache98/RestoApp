@@ -11,9 +11,12 @@ import java.time.LocalTime;
 import java.text.SimpleDateFormat;
 
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
+import ca.mcgill.ecse223.resto.model.Menu;
 import ca.mcgill.ecse223.resto.model.MenuItem;
+import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
 import ca.mcgill.ecse223.resto.model.Order;
 import ca.mcgill.ecse223.resto.model.OrderItem;
+import ca.mcgill.ecse223.resto.model.PricedMenuItem;
 import ca.mcgill.ecse223.resto.model.Reservation;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
@@ -28,14 +31,15 @@ public class Controller {
 		    }
 		 RestoApp r = RestoAppApplication.getRestoApp();	
 		 Menu menu = r.getMenu();
+		 MenuItem menuItem = new MenuItem(name, menu);
 		  try{
 		      menu.addMenuItem(menuItem);
 		    }
 		    catch(RuntimeException e){
 		      throw new InvalidInputException("Name is duplicate");
 		 		 }
-	             menuItem.setCategory(category);
-	             MenuItem pmi = menuItem.addPricedMenuItem(price, r);
+	             menuItem.setItemCategory(category);
+	             PricedMenuItem pmi = menuItem.addPricedMenuItem(price, r);
 	             menuItem.setCurrentPricedMenuItem(pmi);
 	             RestoAppApplication.save();
 	}
@@ -46,16 +50,19 @@ public class Controller {
 	 if(menuItem.equals(null)){
 	      throw new InvalidInputException("Invalid arguments");
 	    }
-	 MenuItem currentPricedMenuItem = menuItem.hasCurrentPricedMenuItem();
+	 boolean current = menuItem.hasCurrentPricedMenuItem();
+	 if(current == false) {
+	      throw new InvalidInputException("error");
+	 }
 	 menuItem.setCurrentPricedMenuItem(null);
      RestoAppApplication.save();	 
    }
 
      public static void updateMenuItem(MenuItem menuItem, String name, ItemCategory category, double price) throws InvalidInputException{
-	 if(name == null || name.isEmpty() || category.equals(null) || price < 0){
+	 if(name == null || menuItem == null || name.isEmpty() || category.equals(null) || price < 0){
 	      throw new InvalidInputException("Invalid arguments");
 	    }
-	 boolean current = menuItem.hasCurrentPriceMenuItem();
+	 boolean current = menuItem.hasCurrentPricedMenuItem();
 
 	    if(current==false){
 	      throw new InvalidInputException("Invalid Input");
@@ -65,10 +72,11 @@ public class Controller {
      if(duplicate == false) {
     	 throw new InvalidInputException("Invalid Input");
      }
-     menuItem.setCategory(category);
-     if (price != getCurrentPricedMenuItem.getPrice()) {
+     menuItem.setItemCategory(category);
+     
+     if (price != menuItem.getCurrentPricedMenuItem().getPrice()) {
     	 RestoApp r = RestoAppApplication.getRestoApp();	
-    	 MenuItem pmi = menuItem.addPricedMenuItem(price, r);
+    	 PricedMenuItem pmi = menuItem.addPricedMenuItem(price, r);
          menuItem.setCurrentPricedMenuItem(pmi);
      }
      RestoAppApplication.save();
