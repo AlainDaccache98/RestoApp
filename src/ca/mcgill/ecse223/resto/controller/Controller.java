@@ -22,6 +22,60 @@ import ca.mcgill.ecse223.resto.model.Table.Status;
 import ca.mcgill.ecse223.resto.persistence.PersistenceObjectStream;
 
 public class Controller {
+	public static void addMenuItem(String name, ItemCategory category, double price) throws InvalidInputException{
+		 if(name == null || name.isEmpty() || category.equals(null) || price < 0){
+		      throw new InvalidInputException("Invalid arguments");
+		    }
+		 RestoApp r = RestoAppApplication.getRestoApp();	
+		 Menu menu = r.getMenu();
+		  try{
+		      menu.addMenuItem(menuItem);
+		    }
+		    catch(RuntimeException e){
+		      throw new InvalidInputException("Name is duplicate");
+		 		 }
+	             menuItem.setCategory(category);
+	             MenuItem pmi = menuItem.addPricedMenuItem(price, r);
+	             menuItem.setCurrentPricedMenuItem(pmi);
+	             RestoAppApplication.save();
+	}
+
+
+
+     public static void removeMenuItem(MenuItem menuItem) throws InvalidInputException{
+	 if(menuItem.equals(null)){
+	      throw new InvalidInputException("Invalid arguments");
+	    }
+	 MenuItem currentPricedMenuItem = menuItem.hasCurrentPricedMenuItem();
+	 menuItem.setCurrentPricedMenuItem(null);
+     RestoAppApplication.save();	 
+   }
+
+     public static void updateMenuItem(MenuItem menuItem, String name, ItemCategory category, double price) throws InvalidInputException{
+	 if(name == null || name.isEmpty() || category.equals(null) || price < 0){
+	      throw new InvalidInputException("Invalid arguments");
+	    }
+	 boolean current = menuItem.hasCurrentPriceMenuItem();
+
+	    if(current==false){
+	      throw new InvalidInputException("Invalid Input");
+	    }
+     boolean duplicate = menuItem.setName(name);
+     
+     if(duplicate == false) {
+    	 throw new InvalidInputException("Invalid Input");
+     }
+     menuItem.setCategory(category);
+     if (price != getCurrentPricedMenuItem.getPrice()) {
+    	 RestoApp r = RestoAppApplication.getRestoApp();	
+    	 MenuItem pmi = menuItem.addPricedMenuItem(price, r);
+         menuItem.setCurrentPricedMenuItem(pmi);
+     }
+     RestoAppApplication.save();
+  }
+     
+
+
 
   public static void createTable(int number, int x, int y, int width, int length, int numberOfSeats) throws InvalidInputException {
 
