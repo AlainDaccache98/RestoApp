@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.model.Bill;
+import ca.mcgill.ecse223.resto.model.Card;
 import ca.mcgill.ecse223.resto.model.Menu;
 import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
@@ -83,6 +84,32 @@ public class Controller {
      RestoAppApplication.save();
   }
      
+     public static void createCard(int number) throws Exception {
+ 	 	if(number < 0 || number == 0) {
+ 	 		throw new Exception("number cant be 0 or negative"); 
+ 	 	}
+ 	    RestoApp r = RestoAppApplication.getRestoApp();
+ 	    List<Card> currentCards =  r.getCards();
+ 	 	for (Card card : currentCards) {
+ 	 		if(card.getNumber() == number) {
+ 	 			throw new Exception("card is already registered");
+ 	 		}
+ 	 	}
+ 	 	Card card = new Card(number, r);
+ 	 	r.addCard(card);
+ 	    RestoAppApplication.save();	
+  }
+
+     public static void addOrderToCard(Card card, Order order) throws Exception {
+    	 		if(card.equals(null)){
+    	 			throw new Exception("card is null");
+    	 		}
+    	 		if(order.equals(null)) {
+    	 			throw new Exception("order is null");
+    	 		}
+    	 		card.addOrder(order);
+     }
+
 
 
 
@@ -582,6 +609,7 @@ public class Controller {
   		  }
   		  else {
   			  OrderItem lastItem = null;
+  			  
   			  if(lastOrder.numberOfOrderItems() > 0) {
   				  lastItem = lastOrder.getOrderItem(lastOrder.numberOfOrderItems()-1);
   			  }
