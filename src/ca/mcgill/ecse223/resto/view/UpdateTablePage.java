@@ -63,6 +63,8 @@ public class UpdateTablePage extends JFrame {
 	 */
 	public UpdateTablePage() {
 		initComponents();
+	    this.setSize(1400, 500);
+
 		refreshData();
 	}
 	
@@ -221,7 +223,7 @@ public class UpdateTablePage extends JFrame {
 		error = null;
 				
 		new RestoHomePage().setVisible(true);
-		
+		this.setVisible(false);
 		// update visuals
 		refreshData();
 			

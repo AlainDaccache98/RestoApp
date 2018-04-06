@@ -46,6 +46,7 @@ public class ReservationPage extends JFrame {
     private JLabel errorMessage;
     
     //private List<JCheckBox> checkBoxList;
+    private JLabel selectTableLabel;
     private JList displayList;
     private Object selectedTables[];   
     
@@ -80,6 +81,8 @@ public class ReservationPage extends JFrame {
 
     public ReservationPage() {
         initComponents();
+        this.setSize(1400, 500);
+
         refreshData();
     }
     
@@ -88,6 +91,8 @@ public class ReservationPage extends JFrame {
         // elements for error message
         errorMessage = new JLabel();
         errorMessage.setForeground(Color.RED);
+        
+        selectTableLabel = new JLabel();
         
         numberInPartyTextField = new JTextField();
         numberInPartyLabel = new JLabel();
@@ -158,6 +163,7 @@ public class ReservationPage extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("resto Management System");
         
+        selectTableLabel.setText("Select Tables:");;
         numberInPartyLabel.setText("Number In Party: ");
         contactNameLabel.setText("Contact Name: ");
         contactEmailLabel.setText("Contact Email Address: ");
@@ -192,13 +198,12 @@ public class ReservationPage extends JFrame {
 				layout.createParallelGroup()
 				.addComponent(errorMessage)
 				.addComponent(homeButton)
-				.addComponent(horizontalLineTop)	
-//				.addGroup(layout.createSequentialGroup()
-//						.addComponent((Component) checkBoxList))
+				.addComponent(horizontalLineTop)
 				.addGroup(layout.createSequentialGroup()
-				.addComponent(displayList))
+//				.addComponent(displayList))
 				.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createParallelGroup()
+								.addComponent(selectTableLabel)
 								.addComponent(dateLabel)
 								.addComponent(timeLabel)
 								.addComponent(numberInPartyLabel)
@@ -206,6 +211,7 @@ public class ReservationPage extends JFrame {
 								.addComponent(contactPhoneLabel)
 								.addComponent(contactEmailLabel))
 						.addGroup(layout.createParallelGroup()
+								.addComponent(displayList)
 								.addComponent(dateTextField, 200, 200, 400)
 								.addComponent(timeTextField, 200, 200, 400)
 								.addComponent(numberInPartyTextField,200,200,400)
@@ -218,7 +224,7 @@ public class ReservationPage extends JFrame {
 				.addComponent(horizontalLineBottom)
 				.addGroup(layout.createParallelGroup()
 						.addGroup(layout.createParallelGroup()
-								.addComponent(tableVisualizer))));
+								.addComponent(tableVisualizer)))));
 		
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
@@ -228,8 +234,11 @@ public class ReservationPage extends JFrame {
 						.addComponent(horizontalLineTop))
 //				.addGroup(layout.createParallelGroup()
 //						.addComponent((Component) checkBoxList))
+				.addGroup(layout.createParallelGroup())
+//				.addComponent(displayList))
 				.addGroup(layout.createParallelGroup()
-				.addComponent(displayList))
+						.addComponent(selectTableLabel)
+						.addComponent(displayList))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(dateLabel)
 						.addComponent(dateTextField))
@@ -309,5 +318,7 @@ public class ReservationPage extends JFrame {
         protected void homeButtonActionPerformed(ActionEvent evt) {
     		// TODO Auto-generated method stub
         	new RestoHomePage().setVisible(true);
+        	refreshData();
+        	this.setVisible(false);
     	}
 }

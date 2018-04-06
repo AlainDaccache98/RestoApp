@@ -9,7 +9,7 @@ import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 
 // line 35 "../../../../../RestoAppPersistence.ump"
 // line 1 "../../../../../RestoAppTableStateMachine.ump"
-// line 28 "../../../../../RestoApp.ump"
+// line 29 "../../../../../RestoApp.ump"
 public class Table implements Serializable
 {
 
@@ -1022,7 +1022,7 @@ public class Table implements Serializable
             "width" + ":" + getWidth()+ "," +
             "length" + ":" + getLength()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
-  } 
+  }  
   
   public boolean doesOverlap(int x1, int y1, int width, int length){
 
@@ -1049,6 +1049,7 @@ public class Table implements Serializable
 		return true;
 
 	}
+  
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------

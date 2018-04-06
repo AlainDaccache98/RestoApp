@@ -28,13 +28,17 @@ public class RestoHomePage extends JFrame {
     
     // UI elements
     
+    private JLabel header;
+    
     private JButton addTableButton;
     private JButton removeTableButton;
     private JButton changeTableLocationButton;
     private JButton updateTableButton;
-    private JButton changeTableStatusButton;
+    private JButton orderButton;
     private JButton menuButton;
     private JButton reserveButton;
+    private JButton loyaltyCardButton;
+    private JButton issueBillButton;
 
 
     private TableVisualizer tableVisualizer;
@@ -47,6 +51,7 @@ public class RestoHomePage extends JFrame {
 
     public RestoHomePage() {
         initComponents();
+        this.setSize(1400, 500);
         refreshData();
     }
     
@@ -56,19 +61,25 @@ public class RestoHomePage extends JFrame {
 		tableVisualizer.setMinimumSize(new Dimension(WIDTH_Table_VISUALIZATION, HEIGHT_Table_VISUALIZATION));
         
         // elements for driver
+		header = new JLabel();
+		
         addTableButton = new JButton();
         removeTableButton = new JButton();
         changeTableLocationButton = new JButton();
         updateTableButton = new JButton();
-        changeTableStatusButton = new JButton();
+        orderButton = new JButton();
         menuButton = new JButton();
         reserveButton = new JButton();
+        loyaltyCardButton = new JButton();
+        issueBillButton = new JButton();
+
 
         // global settings and listeners
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("resto Management System");
         
-
+        header.setText("RestoApp");
+        
         addTableButton.setText("Add Table");
         addTableButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -97,10 +108,10 @@ public class RestoHomePage extends JFrame {
             }
         });
         
-        changeTableStatusButton.setText("Change Table Status");
-        changeTableStatusButton.addActionListener(new java.awt.event.ActionListener() {
+        orderButton.setText("Orders");
+        orderButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	changeTableStatusButtonActionPerformed(evt);
+            	orderButtonActionPerformed(evt);
             }
         });
         
@@ -118,6 +129,20 @@ public class RestoHomePage extends JFrame {
             }
         });
         
+        loyaltyCardButton.setText("Add Loyalty Card");
+        loyaltyCardButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	loyaltyCardButtonActionPerformed(evt);
+            }
+        });
+        
+        issueBillButton.setText("Issue Bill");
+        issueBillButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	issueBillButtonActionPerformed(evt);
+            }
+        });
+        
         // horizontal line elements
         JSeparator horizontalLineTop = new JSeparator();
         JSeparator horizontalLineMiddle = new JSeparator();
@@ -129,15 +154,19 @@ public class RestoHomePage extends JFrame {
         layout.setAutoCreateContainerGaps(true);
 		layout.setHorizontalGroup(
 				layout.createParallelGroup()
+				.addComponent(horizontalLineTop)
 				.addGroup(layout.createSequentialGroup()								
 						.addGroup(layout.createParallelGroup()
 								.addComponent(addTableButton, 70,70,140)
 								.addComponent(removeTableButton, 70,70,140)
 								.addComponent(changeTableLocationButton)
 								.addComponent(updateTableButton, 70,70,140)
-								.addComponent(changeTableStatusButton)
+								.addComponent(orderButton)
 								.addComponent(menuButton, 70,70,140)
-								.addComponent(reserveButton, 70,70,140))
+								.addComponent(reserveButton, 70,70,140)
+								.addComponent(loyaltyCardButton, 70,70,140)
+								.addComponent(issueBillButton, 70,70,140)
+								)
 				)
 				.addComponent(horizontalLineBottom)
 				.addGroup(layout.createParallelGroup()
@@ -146,6 +175,7 @@ public class RestoHomePage extends JFrame {
 		
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
+				.addComponent(horizontalLineTop)
 				.addGroup(layout.createParallelGroup()
 						.addComponent(addTableButton))
 				.addGroup(layout.createParallelGroup()
@@ -155,11 +185,15 @@ public class RestoHomePage extends JFrame {
 				.addGroup(layout.createParallelGroup()
 						.addComponent(updateTableButton))
 				.addGroup(layout.createParallelGroup()
-						.addComponent(changeTableStatusButton))
+						.addComponent(orderButton))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(menuButton))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(reserveButton))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(loyaltyCardButton))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(issueBillButton))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(horizontalLineBottom))
 				.addGroup(layout.createSequentialGroup()
@@ -167,7 +201,6 @@ public class RestoHomePage extends JFrame {
 						.addComponent(tableVisualizer)))
 				);
 
-        
         pack();
     }
 
@@ -181,19 +214,21 @@ public class RestoHomePage extends JFrame {
     	new AddTablePage().setVisible(true);
 //    	System.out.println("added");
 		refreshData();
+		this.setVisible(false);
     }
 	
 	protected void removeTableButtonActionPerformed(ActionEvent evt) {
 		// TODO Auto-generated method stub
     	new RemoveTablePage().setVisible(true);
 //    	System.out.println("removed");
-
         refreshData();
+		this.setVisible(false);
 	}
 	protected void changeTableLocationButtonActionPerformed(ActionEvent evt) {
 		// TODO Auto-generated method stub
     	new ChangeTableLocationPage().setVisible(true);
 		refreshData();
+		this.setVisible(false);
 	}
 	
 	protected void updateTableButtonActionPerformed(ActionEvent evt) {
@@ -201,24 +236,37 @@ public class RestoHomePage extends JFrame {
     	new UpdateTablePage().setVisible(true);
 //    	System.out.println("hi");
 		refreshData();
+		this.setVisible(false);
 	}
 	
-	protected void changeTableStatusButtonActionPerformed(ActionEvent evt) {
-		// TODO Auto-generated method stub
-    	new ChangeTableStatusPage().setVisible(true);
+	protected void orderButtonActionPerformed(ActionEvent evt) {
+    	new OrderHomePage().setVisible(true);
 		refreshData();
+		this.setVisible(false);
 	}
 	
     protected void menuButtonActionPerformed(ActionEvent evt) {
-		// TODO Auto-generated method stub
 		new MenuPage().setVisible(true);
     	refreshData();
+		this.setVisible(false);
 	}
     
     protected void reserveButtonActionPerformed(ActionEvent evt) {
-		// TODO Auto-generated method stub
 		new ReservationPage().setVisible(true);
     	refreshData();
+		this.setVisible(false);
 	}
 
+    protected void loyaltyCardButtonActionPerformed(ActionEvent evt) {
+		new AddLoyaltyCardPage().setVisible(true);
+    	refreshData();
+		this.setVisible(false);
+	}
+    
+    protected void issueBillButtonActionPerformed(ActionEvent evt) {
+		new IssueBillPage().setVisible(true);
+    	refreshData();
+		this.setVisible(false);
+	}
+    
 }

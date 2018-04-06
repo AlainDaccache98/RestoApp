@@ -60,6 +60,8 @@ public class EndOrderPage extends JFrame {
 	 */
 	public EndOrderPage() {
 		initComponents();
+	    this.setSize(1400, 500);
+
 		refreshData();
 	}
 	
@@ -201,7 +203,7 @@ public class EndOrderPage extends JFrame {
 		error = null;
 		
 		new RestoHomePage().setVisible(true);
-				
+		this.setVisible(false);
 		// update visuals
 		refreshData();
 			

@@ -54,6 +54,8 @@ public class ChangeTableLocationPage extends JFrame {
 
   public ChangeTableLocationPage() {
     initComponents();
+    this.setSize(1400, 500);
+
     refreshData();
   }
   private void initComponents() {
@@ -194,7 +196,7 @@ public class ChangeTableLocationPage extends JFrame {
 	    // clear error message
 
 	  new RestoHomePage().setVisible(true);
-	  
+	  this.setVisible(false);
 	    // update visuals
 	    refreshData();
 	  }

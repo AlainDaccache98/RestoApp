@@ -33,6 +33,8 @@ import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 
 import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
+import ca.mcgill.ecse223.resto.model.Card;
+import ca.mcgill.ecse223.resto.model.Order;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Table;
 
@@ -47,6 +49,10 @@ public class StartOrderPage extends JFrame {
     private JList displayList;
     private Object selectedTables[];   
     
+    private JLabel selectSeatLabel;
+    private JLabel loyaltyCardLabel;
+    private JTextField loyaltyCardTextField;
+    
     private JButton startOrderButton;
     private JButton homeButton;
     
@@ -60,6 +66,8 @@ public class StartOrderPage extends JFrame {
 
     public StartOrderPage() {
         initComponents();
+        this.setSize(1400, 500);
+
         refreshData();
     }
     
@@ -74,6 +82,9 @@ public class StartOrderPage extends JFrame {
         
         homeButton = new JButton();
         startOrderButton = new JButton();
+        selectSeatLabel = new JLabel();
+        loyaltyCardLabel = new JLabel();
+        loyaltyCardTextField = new JTextField();
         
         RestoApp r = RestoAppApplication.getRestoApp();
         ArrayList myList = new ArrayList();
@@ -122,6 +133,9 @@ public class StartOrderPage extends JFrame {
         displayList.addListSelectionListener(abcd);
         
         
+        selectSeatLabel.setText("Select Seats: ");
+        loyaltyCardLabel.setText("Loyalty Card Number (optional): "); 
+        
         // global settings and listeners
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("resto Management System");
@@ -156,10 +170,12 @@ public class StartOrderPage extends JFrame {
 				.addComponent(homeButton)
 				.addComponent(horizontalLineMiddle)
 				.addGroup(layout.createSequentialGroup()
-				.addComponent(displayList))
+						.addComponent(selectSeatLabel)
+						.addComponent(loyaltyCardLabel)
 				.addGroup(layout.createSequentialGroup()
-						.addGroup(layout.createParallelGroup()
-								.addComponent(startOrderButton, 70,70,140)))
+						.addComponent(displayList)
+						.addComponent(loyaltyCardTextField)
+						.addComponent(startOrderButton, 70,70,140)))
 				.addComponent(horizontalLineBottom)
 				.addGroup(layout.createParallelGroup()
 						.addGroup(layout.createParallelGroup()
@@ -173,7 +189,11 @@ public class StartOrderPage extends JFrame {
 				.addGroup(layout.createParallelGroup()
 						.addComponent(horizontalLineMiddle))
 				.addGroup(layout.createParallelGroup()
-				.addComponent(displayList))
+						.addComponent(selectSeatLabel)
+						.addComponent(displayList))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(loyaltyCardLabel)
+						.addComponent(loyaltyCardTextField))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(startOrderButton))
 				.addComponent(horizontalLineBottom)
@@ -202,12 +222,19 @@ public class StartOrderPage extends JFrame {
     			tables.add(Table.getWithNumber(Integer.parseInt(selectedTables[i].toString())));
     		}
     		
+    		Order order = null;
+    		
     		try {
-				Controller.startOrder(tables);
+				order = Controller.startOrder(tables);
+	    		if(loyaltyCardTextField.getText() != null) {
+	    			int cardNumber = Integer.parseInt(loyaltyCardTextField.getText());
+	    			//Card card = Card;
+	    			//Controller.addOrderToCard(card, order);
+	    		}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}    	
     		
     		// update visuals
     		refreshData();
@@ -216,5 +243,6 @@ public class StartOrderPage extends JFrame {
         protected void homeButtonActionPerformed(ActionEvent evt) {
     		// TODO Auto-generated method stub
         	new RestoHomePage().setVisible(true);
+        	this.setVisible(false);
     	}
 }

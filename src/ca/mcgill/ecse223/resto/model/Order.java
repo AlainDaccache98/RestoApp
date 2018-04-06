@@ -8,7 +8,7 @@ import java.sql.Time;
 import java.util.*;
 
 // line 55 "../../../../../RestoAppPersistence.ump"
-// line 41 "../../../../../RestoApp.ump"
+// line 42 "../../../../../RestoApp.ump"
 public class Order implements Serializable
 {
 
@@ -31,6 +31,7 @@ public class Order implements Serializable
 
   //Order Associations
   private List<Table> tables;
+  private Card cards;
   private List<OrderItem> orderItems;
   private RestoApp restoApp;
   private List<Bill> bills;
@@ -125,6 +126,17 @@ public class Order implements Serializable
   {
     int index = tables.indexOf(aTable);
     return index;
+  }
+
+  public Card getCards()
+  {
+    return cards;
+  }
+
+  public boolean hasCards()
+  {
+    boolean has = cards != null;
+    return has;
   }
 
   public OrderItem getOrderItem(int index)
@@ -326,6 +338,23 @@ public class Order implements Serializable
     return wasAdded;
   }
 
+  public boolean setCards(Card aCards)
+  {
+    boolean wasSet = false;
+    Card existingCards = cards;
+    cards = aCards;
+    if (existingCards != null && !existingCards.equals(aCards))
+    {
+      existingCards.removeOrder(this);
+    }
+    if (aCards != null)
+    {
+      aCards.addOrder(this);
+    }
+    wasSet = true;
+    return wasSet;
+  }
+
   public static int minimumNumberOfOrderItems()
   {
     return 0;
@@ -497,6 +526,12 @@ public class Order implements Serializable
     {
       aTable.removeOrder(this);
     }
+    if (cards != null)
+    {
+      Card placeholderCards = cards;
+      this.cards = null;
+      placeholderCards.removeOrder(this);
+    }
     while (orderItems.size() > 0)
     {
       OrderItem aOrderItem = orderItems.get(orderItems.size() - 1);
@@ -535,6 +570,7 @@ public class Order implements Serializable
             "number" + ":" + getNumber()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "time" + "=" + (getTime() != null ? !getTime().equals(this)  ? getTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "cards = "+(getCards()!=null?Integer.toHexString(System.identityHashCode(getCards())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
   }  
   //------------------------
