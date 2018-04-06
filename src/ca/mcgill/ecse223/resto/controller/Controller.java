@@ -11,6 +11,7 @@ import java.time.LocalTime;
 import java.text.SimpleDateFormat;
 
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
+import ca.mcgill.ecse223.resto.model.Bill;
 import ca.mcgill.ecse223.resto.model.Menu;
 import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
@@ -472,20 +473,30 @@ public class Controller {
   }
    
     public static List<OrderItem>getOrderItems(Table table) throws InvalidInputException {
+    	if(table == null) {
+    		throw new Exception ("Null table"); 
+    	}
 	    RestoApp r = RestoAppApplication.getRestoApp();
 	    List<Table> currentTables = r.getCurrentTables();
-	    if(!currentTable.contains(table)) {
+	    if(!currentTables.contains(table)) {
 	    	throw new InvalidInputException("Table should be valid"); 
 	    }
-	    Status status = table.getStatus();
-	    (if status = Status.Available) {
+	    if (table.getStatus() == Status.Available) {
 	    	throw new InvalidInputException("Table is available");
 	    }
+	    Order lastOrder = null;
+	    if(table.numberOfOrders()>0) {
+	    	lastOrder = table.getOrder(table.numberOfOrders()-1);
+	    }
+	    else {
+	    	throw new InvalidInputException("Table has no orders");
+	    }
+	    
 	    List<Seat> currentSeats = table.getCurrentSeats();
 	    ArrayList<OrderItem> result = new ArrayList<OrderItem>(); 
 	    for (Seat seat : currentSeats) {
 	    	List<OrderItem> orderItems = seat.getOrderItems();
-	    	for (List<OrderItem> orderItem : orderItems) {
+	    	for (OrderItem orderItem : orderItems) {
 	    		Order order = orderItem.getOrder();
 	    		if(lastOrder.equals(order)&& !result.contains(orderItem)) {
 	    			result.add(orderItem);
