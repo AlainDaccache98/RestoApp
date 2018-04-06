@@ -472,7 +472,7 @@ public class Controller {
 	 
   }
    
-    public static List<OrderItem>getOrderItems(Table table) throws InvalidInputException {
+    public static List<OrderItem>getOrderItems(Table table) throws Exception {
     	if(table == null) {
     		throw new Exception ("Null table"); 
     	}
