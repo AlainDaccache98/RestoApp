@@ -8,7 +8,7 @@ import java.sql.Time;
 import java.util.*;
 
 // line 18 "../../../../../RestoAppPersistence.ump"
-// line 17 "../../../../../RestoApp.ump"
+// line 18 "../../../../../RestoApp.ump"
 public class Reservation implements Serializable
 {
 
@@ -368,28 +368,6 @@ public class Reservation implements Serializable
     nextReservationNumber++;
   }
 
-    public boolean doesOverlap(Date date, Time time) {
-        boolean ans=false;
-        int month = date.getMonth();
-        int year = date.getYear();
-        int hour = time.getHours();
-        int day = date.getDay();
-        int minutes = time.getMinutes();
-        int month1 = this.getDate().getMonth();
-        int year1 = this.getDate().getYear();
-        int hour1 = this.getDate().getHours();
-        int day1 = this.getDate().getDay();
-        int minutes1 = this.getDate().getMinutes();
-        double hoursToMinutes = hour*60;
-        double hoursToMinutes1 = hour1*60;
-        
-        if(day == day1 && year1 == year && month == month1) {
-            if((Math.abs((hoursToMinutes+minutes)-(hoursToMinutes1 + minutes1))) < 120  ) {
-                ans=true;
-            }
-        }
-        return ans;
-    }
 
   public String toString()
   {

@@ -25,6 +25,7 @@ public class RestoApp implements Serializable
   private Menu menu;
   private List<PricedMenuItem> pricedMenuItems;
   private List<Bill> bills;
+  private List<Card> cards;
 
   //------------------------
   // CONSTRUCTOR
@@ -44,6 +45,7 @@ public class RestoApp implements Serializable
     menu = aMenu;
     pricedMenuItems = new ArrayList<PricedMenuItem>();
     bills = new ArrayList<Bill>();
+    cards = new ArrayList<Card>();
   }
 
   public RestoApp()
@@ -56,6 +58,7 @@ public class RestoApp implements Serializable
     menu = new Menu(this);
     pricedMenuItems = new ArrayList<PricedMenuItem>();
     bills = new ArrayList<Bill>();
+    cards = new ArrayList<Card>();
   }
 
   //------------------------
@@ -283,6 +286,36 @@ public class RestoApp implements Serializable
   public int indexOfBill(Bill aBill)
   {
     int index = bills.indexOf(aBill);
+    return index;
+  }
+
+  public Card getCard(int index)
+  {
+    Card aCard = cards.get(index);
+    return aCard;
+  }
+
+  public List<Card> getCards()
+  {
+    List<Card> newCards = Collections.unmodifiableList(cards);
+    return newCards;
+  }
+
+  public int numberOfCards()
+  {
+    int number = cards.size();
+    return number;
+  }
+
+  public boolean hasCards()
+  {
+    boolean has = cards.size() > 0;
+    return has;
+  }
+
+  public int indexOfCard(Card aCard)
+  {
+    int index = cards.indexOf(aCard);
     return index;
   }
 
@@ -760,6 +793,78 @@ public class RestoApp implements Serializable
     return wasAdded;
   }
 
+  public static int minimumNumberOfCards()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public Card addCard()
+  {
+    return new Card(this);
+  }
+
+  public boolean addCard(Card aCard)
+  {
+    boolean wasAdded = false;
+    if (cards.contains(aCard)) { return false; }
+    RestoApp existingRestoApp = aCard.getRestoApp();
+    boolean isNewRestoApp = existingRestoApp != null && !this.equals(existingRestoApp);
+    if (isNewRestoApp)
+    {
+      aCard.setRestoApp(this);
+    }
+    else
+    {
+      cards.add(aCard);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeCard(Card aCard)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aCard, as it must always have a restoApp
+    if (!this.equals(aCard.getRestoApp()))
+    {
+      cards.remove(aCard);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+
+  public boolean addCardAt(Card aCard, int index)
+  {  
+    boolean wasAdded = false;
+    if(addCard(aCard))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfCards()) { index = numberOfCards() - 1; }
+      cards.remove(aCard);
+      cards.add(index, aCard);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveCardAt(Card aCard, int index)
+  {
+    boolean wasAdded = false;
+    if(cards.contains(aCard))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfCards()) { index = numberOfCards() - 1; }
+      cards.remove(aCard);
+      cards.add(index, aCard);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addCardAt(aCard, index);
+    }
+    return wasAdded;
+  }
+
   public void delete()
   {
     while (reservations.size() > 0)
@@ -803,6 +908,13 @@ public class RestoApp implements Serializable
       Bill aBill = bills.get(bills.size() - 1);
       aBill.delete();
       bills.remove(aBill);
+    }
+    
+    while (cards.size() > 0)
+    {
+      Card aCard = cards.get(cards.size() - 1);
+      aCard.delete();
+      cards.remove(aCard);
     }
     
   }

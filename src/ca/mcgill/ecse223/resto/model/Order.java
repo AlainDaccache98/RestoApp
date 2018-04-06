@@ -8,7 +8,7 @@ import java.sql.Time;
 import java.util.*;
 
 // line 55 "../../../../../RestoAppPersistence.ump"
-// line 41 "../../../../../RestoApp.ump"
+// line 42 "../../../../../RestoApp.ump"
 public class Order implements Serializable
 {
 
@@ -34,6 +34,7 @@ public class Order implements Serializable
   private List<OrderItem> orderItems;
   private RestoApp restoApp;
   private List<Bill> bills;
+  private Card cards;
 
   //------------------------
   // CONSTRUCTOR
@@ -190,6 +191,17 @@ public class Order implements Serializable
   {
     int index = bills.indexOf(aBill);
     return index;
+  }
+
+  public Card getCards()
+  {
+    return cards;
+  }
+
+  public boolean hasCards()
+  {
+    boolean has = cards != null;
+    return has;
   }
 
   public boolean isNumberOfTablesValid()
@@ -489,6 +501,23 @@ public class Order implements Serializable
     return wasAdded;
   }
 
+  public boolean setCards(Card aCards)
+  {
+    boolean wasSet = false;
+    Card existingCards = cards;
+    cards = aCards;
+    if (existingCards != null && !existingCards.equals(aCards))
+    {
+      existingCards.removeOrder(this);
+    }
+    if (aCards != null)
+    {
+      aCards.addOrder(this);
+    }
+    wasSet = true;
+    return wasSet;
+  }
+
   public void delete()
   {
     ArrayList<Table> copyOfTables = new ArrayList<Table>(tables);
@@ -515,6 +544,12 @@ public class Order implements Serializable
       Bill aBill = bills.get(i - 1);
       aBill.delete();
     }
+    if (cards != null)
+    {
+      Card placeholderCards = cards;
+      this.cards = null;
+      placeholderCards.removeOrder(this);
+    }
   }
 
   // line 61 "../../../../../RestoAppPersistence.ump"
@@ -535,7 +570,8 @@ public class Order implements Serializable
             "number" + ":" + getNumber()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "time" + "=" + (getTime() != null ? !getTime().equals(this)  ? getTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
+            "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "cards = "+(getCards()!=null?Integer.toHexString(System.identityHashCode(getCards())):"null");
   }  
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
