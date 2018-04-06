@@ -61,6 +61,8 @@ public class IssueBillPage extends JFrame {
 
   public IssueBillPage() {
     initComponents();
+    this.setSize(1400, 500);
+
     refreshData();
   }
 
@@ -211,5 +213,6 @@ public class IssueBillPage extends JFrame {
   protected void homeButtonActionPerformed(ActionEvent evt) {
     // TODO Auto-generated method stub
     new RestoHomePage().setVisible(true);
+    this.setVisible(false);
   }
 }

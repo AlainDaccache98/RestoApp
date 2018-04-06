@@ -3,11 +3,9 @@ package ca.mcgill.ecse223.resto.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
@@ -23,31 +21,33 @@ import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.RestoApp;
-import ca.mcgill.ecse223.resto.model.Table;
 
 
 
-public class ChangeTableStatusPage extends JFrame {
+public class AddLoyaltyCardPage extends JFrame {
     
     private static final long serialVersionUID = -4426310869335015542L;
     
     // UI elements
     private JLabel errorMessage;
+    // driver
+    private JTextField tableNumberTextField;
+    private JLabel tableNumberLabel;
     
-    private JButton startOrderButton;
-    private JButton endOrderButton;
+
+    
+    private JButton addTableButton;
     private JButton homeButton;
     
-    private TableVisualizer tableVisualizer;
-    
-	private static final int WIDTH_Table_VISUALIZATION = 200;
-	private static final int HEIGHT_Table_VISUALIZATION = 200;
+
 
 
 	private String error = null;
 
-    public ChangeTableStatusPage() {
+    public AddLoyaltyCardPage() {
         initComponents();
+        this.setSize(1400, 500);
+
         refreshData();
     }
     
@@ -56,28 +56,28 @@ public class ChangeTableStatusPage extends JFrame {
         errorMessage = new JLabel();
         errorMessage.setForeground(Color.RED);
         
-		tableVisualizer = new TableVisualizer();
-		tableVisualizer.setMinimumSize(new Dimension(WIDTH_Table_VISUALIZATION, HEIGHT_Table_VISUALIZATION));
         
+        // elements for driver
+        tableNumberTextField = new JTextField();
+        tableNumberLabel = new JLabel();
+        addTableButton = new JButton();
         homeButton = new JButton();
-        startOrderButton = new JButton();
-        endOrderButton = new JButton();
         
         // global settings and listeners
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("resto Management System");
         
-        startOrderButton.setText("Start Order");
-        startOrderButton.addActionListener(new java.awt.event.ActionListener() {
+        tableNumberLabel.setText("Loyalty card Number:");
+       
+        addTableButton.setText("Add Card");
+        addTableButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	startOrderButtonActionPerformed(evt);
-            }
-        });
-        
-        endOrderButton.setText("End Order");
-        endOrderButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	endOrderButtonActionPerformed(evt);
+            	try {
+					addTableButtonActionPerformed(evt);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         
@@ -99,63 +99,81 @@ public class ChangeTableStatusPage extends JFrame {
 		layout.setHorizontalGroup(
 				layout.createParallelGroup()
 				.addComponent(errorMessage)
-				.addComponent(homeButton)
 				.addComponent(horizontalLineTop)
+				.addComponent(homeButton)
+				.addComponent(horizontalLineMiddle)
 				.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createParallelGroup()
-								.addComponent(startOrderButton, 70,70,140)
-								.addComponent(endOrderButton, 70,70,140)))
+								.addComponent(tableNumberLabel)
+
+								)
+						.addGroup(layout.createParallelGroup()
+								.addComponent(tableNumberTextField,200,200,400)
+
+								)
+						.addComponent(addTableButton, 70,70,140))
 				.addComponent(horizontalLineBottom)
+
 				.addGroup(layout.createParallelGroup()
 						.addGroup(layout.createParallelGroup()
-						.addComponent(tableVisualizer))));
+						)));
 		
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
 				.addComponent(errorMessage)	
+				.addComponent(horizontalLineTop)
 				.addComponent(homeButton)
+				.addComponent(horizontalLineMiddle)
 				.addGroup(layout.createParallelGroup()
-						.addComponent(horizontalLineTop))
+						.addComponent(tableNumberLabel)
+						.addComponent(tableNumberTextField)
+						)
+
 				.addGroup(layout.createParallelGroup()
-						.addComponent(startOrderButton))
+						.addComponent(addTableButton))
 				.addGroup(layout.createParallelGroup()
-						.addComponent(endOrderButton))
-				.addComponent(horizontalLineBottom)
+						.addComponent(horizontalLineBottom))
 				.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createSequentialGroup()
-						.addComponent(tableVisualizer)))
+						))
 				);
 
+        
         pack();
     }
-    
+
 	private void refreshData() {
-		
-		errorMessage.setText(error);            
+                                    // error
+                                    errorMessage.setText(error);
+                                    if (error == null || error.length() == 0) {
+                                        // populate page with data
+                                        tableNumberTextField.setText("");
+                                        
+                                    }
+                                    //tableVisualizer set active or refresh
+                                    pack();
+            
     }
-	
-        private void startOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {
-    		// clear error message
-    		error = null;
-    		
-    		new StartOrderPage().setVisible(true);
-    		
-    		// update visuals
-    		refreshData();
-        }
-        
-        private void endOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {
-    		// clear error message
-    		error = null;
-    				
-    		new EndOrderPage().setVisible(true);
-    		
-    		// update visuals
-    		refreshData();
+        private void addTableButtonActionPerformed(java.awt.event.ActionEvent evt) throws NumberFormatException, Exception {
+            // clear error message
+            error = null;
+    		RestoApp r = RestoAppApplication.getRestoApp();
+
+            // call the controller
+            try {
+            
+                Controller.createCard(Integer.parseInt(tableNumberTextField.getText()));
+            } catch (InvalidInputException e) {
+                error = e.getMessage();
+            }
+            
+            // update visuals
+            refreshData();
         }
         
         protected void homeButtonActionPerformed(ActionEvent evt) {
     		// TODO Auto-generated method stub
         	new RestoHomePage().setVisible(true);
+        	this.setVisible(false);
     	}
 }

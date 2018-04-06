@@ -29,9 +29,7 @@ public class MenuPage extends JFrame {
 
   //private RestoApp resto;
 
-  private JLabel menuLabel, appzsLabel, mainsLabel, dessertsLabel, alcBevLabel, nonAlcBevLabel;
-  private JButton appetizer, dessert, main, alcoholicBev, nonAlcoholicBev, homeButton;
-  private ArrayList<String> menuValues;
+  private JButton viewMenu, updateMenuItem, addItem, removeItem, home;
   
   public MenuPage() {
     //this.resto = r;
@@ -42,72 +40,50 @@ public class MenuPage extends JFrame {
 
   private void initComponents() {
     // elements
-    menuLabel = new JLabel();
-    appzsLabel = new JLabel();
-    mainsLabel = new JLabel();
-    dessertsLabel = new JLabel();
-    alcBevLabel = new JLabel();
-    nonAlcBevLabel = new JLabel();
-    appetizer = new JButton();
-    dessert = new JButton();
-    main = new JButton();
-    alcoholicBev = new JButton();
-    nonAlcoholicBev = new JButton();
-    homeButton = new JButton();
-    menuValues = new ArrayList<String>();
+
+    viewMenu = new JButton();
+    updateMenuItem = new JButton();
+    addItem = new JButton();
+    removeItem = new JButton();
+    home = new JButton();
 
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     setTitle("Menu Page");
 
-    
-    for (MenuItem.ItemCategory itemCat : Controller.getItemCategories()) {
-      try {
-    	  //System.out.println(menuItemsToString(Controller.getMenuItems(itemCat)));
-    	  menuValues.add(menuItemsToString(Controller.getMenuItems(itemCat)));
-      } catch (InvalidInputException e) {
-        e.printStackTrace();
-      }
-    }
-
     // Set text
-    menuLabel.setText("MENU");
-    //System.out.println(menuValues.get(0));
-    appetizer.setText("Appetizers");
-    main.setText("Mains");
-    dessert.setText("Desserts");
-    alcoholicBev.setText("Alcoholic beverages");
-    nonAlcoholicBev.setText("Non-Alcoholic Beverages");
+    viewMenu.setText("View Menu");
+    addItem.setText("Add Menu Item");
+    updateMenuItem.setText("Update Menu Item");
+    removeItem.setText("Remove Menu Item");
+    home.setText("Home");	
     
-    System.out.println(menuValues.get(1));
-	homeButton.setText("Home");
-	
-	appetizer.addActionListener(new java.awt.event.ActionListener(){
+	viewMenu.addActionListener(new java.awt.event.ActionListener(){
 		public void actionPerformed(java.awt.event.ActionEvent evt){
-			new AppzPage().setVisible(true);
+			new ViewMenuPage().setVisible(true);
 		}
 	});
 
-	dessert.addActionListener(new java.awt.event.ActionListener(){
+	updateMenuItem.addActionListener(new java.awt.event.ActionListener(){
 		public void actionPerformed(java.awt.event.ActionEvent evt){
-			new DessertPage().setVisible(true);
+			//new UpdateMenuPage().setVisible(true);
 		}
 	});
 	
-	main.addActionListener(new java.awt.event.ActionListener(){
+	addItem.addActionListener(new java.awt.event.ActionListener(){
 		public void actionPerformed(java.awt.event.ActionEvent evt){
-			new MainsPage().setVisible(true);
+			//new AddItemPage().setVisible(true);
 		}
 	});
 	
-	alcoholicBev.addActionListener(new java.awt.event.ActionListener(){
+	removeItem.addActionListener(new java.awt.event.ActionListener(){
 		public void actionPerformed(java.awt.event.ActionEvent evt){
-			new AlcBevPage().setVisible(true);
+			//new RemoveItemPage().setVisible(true);
 		}
 	});
 	
-	nonAlcoholicBev.addActionListener(new java.awt.event.ActionListener(){
+	home.addActionListener(new java.awt.event.ActionListener(){
 		public void actionPerformed(java.awt.event.ActionEvent evt){
-			new NonAlcBevPage().setVisible(true);
+			new RestoHomePage().setVisible(true);
 		}
 	});
 
@@ -118,60 +94,33 @@ public class MenuPage extends JFrame {
     layout.setAutoCreateContainerGaps(true);
 
     layout.setHorizontalGroup(layout.createSequentialGroup()
-        .addGroup(layout.createParallelGroup().addGap(5).addComponent(menuLabel).addGap(5).addComponent(appetizer).addComponent(main).addGap(5).addComponent(dessert).addComponent(alcoholicBev)
-            .addComponent(nonAlcoholicBev))
+        .addGroup(
+        		layout.createParallelGroup()
+                .addComponent(home)
+        		.addComponent(viewMenu)
+        		.addComponent(addItem)
+        		.addComponent(updateMenuItem)
+        		.addComponent(removeItem))
 
         );      
 
     layout.setVerticalGroup(layout.createSequentialGroup()
-        .addGroup(layout.createParallelGroup().addComponent(menuLabel).addGap(5))
-        .addGroup(layout.createParallelGroup().addComponent(appetizer).addGap(5))
-        .addGroup(layout.createParallelGroup().addComponent(dessert))
-        .addGroup(layout.createParallelGroup().addComponent(main).addGap(5))
-        .addGroup(layout.createParallelGroup().addComponent(alcoholicBev))
-        .addGroup(layout.createParallelGroup().addGap(5).addComponent(nonAlcoholicBev)));
+         .addGroup(layout.createParallelGroup()
+            	.addComponent(home))	
+        .addGroup(layout.createParallelGroup()
+        		.addComponent(viewMenu))
+        .addGroup(layout.createParallelGroup()
+        		.addComponent(updateMenuItem))
+        .addGroup(layout.createParallelGroup()
+        		.addComponent(addItem))
+        .addGroup(layout.createParallelGroup()
+        		.addComponent(removeItem)));
     pack();
   }
-
-  private void displayNonAlcoholicBevActionPerformed(ActionEvent evt) {
-	// TODO Auto-generated method stub
-	
-}
-
-private void displayAlcoholicBevActionPerformed(ActionEvent evt) {
-	// TODO Auto-generated method stub
-	
-}
-
-private void displayMainActionPerformed(ActionEvent evt) {
-	// TODO Auto-generated method stub
-	
-}
-
-private void displayDessertActionPerformed(ActionEvent evt) {
-	// TODO Auto-generated method stub
-	
-}
-
-private void displayAppetizerActionPerformed(ActionEvent evt) {
-	// TODO Auto-generated method stub
-	System.out.println(menuValues.get(0));
-}
 
 private void refreshData() {
     pack();
-  }
-
-  private String menuItemsToString(ArrayList<MenuItem> menuItems) {
-    String returned = "";
-    for (MenuItem mI : menuItems) {
-      returned += (mI.getName() + " : " + mI.getCurrentPricedMenuItem().getPrice() + " \n");
-    }
-    
-    //System.out.println(returned);
-    return returned;
-  }
-  
+  }  
   
   
 }

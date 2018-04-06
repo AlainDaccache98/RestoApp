@@ -85,10 +85,12 @@ public class Controller {
   }
      
      public static void createCard(int number) throws Exception {
- 	 	if(number < 0 || number == 0) {
+ 	 	if(number <= 0) {
  	 		throw new Exception("number cant be 0 or negative"); 
  	 	}
+ 	 	
  	    RestoApp r = RestoAppApplication.getRestoApp();
+
  	    List<Card> currentCards =  r.getCards();
  	 	for (Card card : currentCards) {
  	 		if(card.getNumber() == number) {
@@ -101,14 +103,23 @@ public class Controller {
   }
 
      public static void addOrderToCard(Card card, Order order) throws Exception {
-    	 		if(card.equals(null)){
-    	 			throw new Exception("card is null");
-    	 		}
-    	 		if(order.equals(null)) {
-    	 			throw new Exception("order is null");
-    	 		}
-    	 		card.addOrder(order);
-     }
+	 		RestoApp r = RestoAppApplication.getRestoApp();
+	 		List<Card> currentCards =  r.getCards();
+	 		if(card.equals(null)){
+	 			throw new Exception("card is null");
+	 		}
+	 		if(order.equals(null)) {
+	 			throw new Exception("order is null");
+	 		}
+	 		for(Card c : currentCards) {
+	 		if(card.getNumber() == c.getNumber()) {
+	 			card.addOrder(order);
+	 		}
+	 		else {
+	 			throw new Exception("card is not register please register your card firsr");
+	 		}
+	 		}
+}
 
 
 
@@ -298,7 +309,7 @@ public class Controller {
         RestoAppApplication.save();
     }
 
-  public static void startOrder(List<Table> tables) throws Exception {
+  public static Order startOrder(List<Table> tables) throws Exception {
 	  
 	  if(tables.equals(null)) {
 		  throw new InvalidInputException("Null table");
@@ -356,6 +367,8 @@ public class Controller {
 	  r.addCurrentOrder(newOrder);
 	  
 	  RestoAppApplication.save();
+	  
+	return newOrder;
   }
 
   public static void endOrder(Order order) throws InvalidInputException {

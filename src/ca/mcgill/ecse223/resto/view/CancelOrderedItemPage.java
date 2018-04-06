@@ -49,6 +49,8 @@ public class CancelOrderedItemPage extends JFrame {
 	 */
 	public CancelOrderedItemPage() {
 		initComponents();
+	    this.setSize(1400, 500);
+
 		refreshData();
 	}
 	
@@ -172,6 +174,7 @@ public class CancelOrderedItemPage extends JFrame {
 		
 		// update visuals
 		refreshData();
+		this.setVisible(false);
 			
 	}	
 	

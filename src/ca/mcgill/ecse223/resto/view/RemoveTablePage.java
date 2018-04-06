@@ -56,6 +56,8 @@ public class RemoveTablePage extends JFrame {
 	 */
 	public RemoveTablePage() {
 		initComponents();
+	    this.setSize(1400, 500);
+
 		refreshData();
 	}
 	
@@ -193,7 +195,7 @@ public class RemoveTablePage extends JFrame {
 		error = null;
 		
 		new RestoHomePage().setVisible(true);
-				
+		this.setVisible(false);
 		// update visuals
 		refreshData();
 			

@@ -53,6 +53,8 @@ public class CancelOrderPage extends JFrame {
 	 */
 	public CancelOrderPage() {
 		initComponents();
+	    this.setSize(1400, 500);
+
 		refreshData();
 	}
 	
@@ -195,7 +197,7 @@ public class CancelOrderPage extends JFrame {
 		error = null;
 				
 		new RestoHomePage().setVisible(true);
-		
+		this.setVisible(false);
 		// update visuals
 		refreshData();
 			

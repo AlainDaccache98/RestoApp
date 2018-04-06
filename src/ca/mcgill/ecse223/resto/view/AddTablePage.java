@@ -61,7 +61,10 @@ public class AddTablePage extends JFrame {
 	private String error = null;
 
     public AddTablePage() {
+    	this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         initComponents();
+        this.setSize(1400, 500);
+
         refreshData();
     }
     
@@ -228,5 +231,7 @@ public class AddTablePage extends JFrame {
         protected void homeButtonActionPerformed(ActionEvent evt) {
     		// TODO Auto-generated method stub
         	new RestoHomePage().setVisible(true);
+            refreshData();
+            this.setVisible(false);
     	}
 }

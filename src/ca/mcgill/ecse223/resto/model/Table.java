@@ -1024,7 +1024,6 @@ public class Table implements Serializable
             "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
   }  
   
-  
   public boolean doesOverlap(int x1, int y1, int width, int length){
 
 	  	RestoApp r = RestoAppApplication.getRestoApp();
