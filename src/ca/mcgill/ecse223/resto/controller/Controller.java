@@ -495,6 +495,76 @@ public class Controller {
 	    
 	    return result;
   }
+	
+	public static void issueBill(List<Seat> seats) throws InvalidInputException {
+    if (seats.equals(null)) {
+      throw new InvalidInputException("Seats is null");
+    }
+    if (seats.size() == 0) {
+      throw new InvalidInputException("Seats list is empty");
+    }
+    RestoApp r = RestoAppApplication.getRestoApp();
+    List<Table> currentTables = r.getCurrentTables();
+    Order lastOrder = null;
+    for(Seat seat: seats) {
+      Table table = seat.getTable();
+      Boolean current = currentTables.contains(table);
+      if (current == false) {
+        throw new InvalidInputException("At least a table is not in use"); 
+      }
+      List<Seat> currentSeats = table.getCurrentSeats();
+      Boolean current2 = currentSeats.contains(seat);
+      if (current2 == false) {
+        throw new InvalidInputException("At least a seat is not in use"); 
+      }
+      if(lastOrder == null) {
+        if(table.numberOfOrders() > 0) {
+          lastOrder = table.getOrder(table.numberOfOrders()-1);
+        }
+        else { 
+          throw new InvalidInputException("Table has no associated order");
+        }
+      }
+      else {
+        Order comparedOrder = null;
+        if (table.numberOfOrders() > 0) {
+          comparedOrder = table.getOrder(table.numberOfOrders()-1);
+        }
+        else { 
+          throw new InvalidInputException("Table has no associated order");
+        }
+        if (!comparedOrder.equals(lastOrder)) {
+          throw new InvalidInputException("Cannot issue bill for two different orders");
+        }
+      }
+    }
+    if (lastOrder == null) {
+      throw new InvalidInputException("Last order is null");
+    }
+    Boolean billCreated = false;
+    Bill newBill = null;
+    for (Seat seat: seats) {
+      Table table = seat.getTable();
+      if (billCreated) {
+        table.addToBill(newBill, seat);
+      }
+      else {
+        Bill lastBill = null;
+        if(lastOrder.numberOfBills() > 0) { 
+          lastBill = lastOrder.getBill(lastOrder.numberOfBills()-1);
+        }
+        table.billForSeat(lastOrder, seat);
+        if (lastOrder.numberOfBills() > 0 && !lastOrder.getBill(lastOrder.numberOfBills()-1).equals(lastBill)) {
+          billCreated = true;
+          newBill = lastOrder.getBill(lastOrder.numberOfBills()-1);
+        }
+      }
+    }
+    if (billCreated == false) {
+      throw new InvalidInputException("Bill has not been created");
+    }
+    RestoAppApplication.save();
+  }
 
   
 }
