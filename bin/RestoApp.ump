@@ -44,6 +44,7 @@ class Order {
    Time time;
    autounique number;
    * orders -- 1..* Table tables; // only from currentTables for currentOrders
+   * orders -- 0..1 Card cards;
    1 <@>- * OrderItem orderItems;
 }
 
@@ -76,6 +77,6 @@ class Bill {
 
 class Card
 {
-     unique Integer number;
-  0..1 cards -- * Order order;
+     unique Integer number;  
+     // 0..1 cards -- * Order order;
   }

@@ -31,10 +31,10 @@ public class Order implements Serializable
 
   //Order Associations
   private List<Table> tables;
+  private Card cards;
   private List<OrderItem> orderItems;
   private RestoApp restoApp;
   private List<Bill> bills;
-  private Card cards;
 
   //------------------------
   // CONSTRUCTOR
@@ -128,6 +128,17 @@ public class Order implements Serializable
     return index;
   }
 
+  public Card getCards()
+  {
+    return cards;
+  }
+
+  public boolean hasCards()
+  {
+    boolean has = cards != null;
+    return has;
+  }
+
   public OrderItem getOrderItem(int index)
   {
     OrderItem aOrderItem = orderItems.get(index);
@@ -191,17 +202,6 @@ public class Order implements Serializable
   {
     int index = bills.indexOf(aBill);
     return index;
-  }
-
-  public Card getCards()
-  {
-    return cards;
-  }
-
-  public boolean hasCards()
-  {
-    boolean has = cards != null;
-    return has;
   }
 
   public boolean isNumberOfTablesValid()
@@ -336,6 +336,23 @@ public class Order implements Serializable
       wasAdded = addTableAt(aTable, index);
     }
     return wasAdded;
+  }
+
+  public boolean setCards(Card aCards)
+  {
+    boolean wasSet = false;
+    Card existingCards = cards;
+    cards = aCards;
+    if (existingCards != null && !existingCards.equals(aCards))
+    {
+      existingCards.removeOrder(this);
+    }
+    if (aCards != null)
+    {
+      aCards.addOrder(this);
+    }
+    wasSet = true;
+    return wasSet;
   }
 
   public static int minimumNumberOfOrderItems()
@@ -501,23 +518,6 @@ public class Order implements Serializable
     return wasAdded;
   }
 
-  public boolean setCards(Card aCards)
-  {
-    boolean wasSet = false;
-    Card existingCards = cards;
-    cards = aCards;
-    if (existingCards != null && !existingCards.equals(aCards))
-    {
-      existingCards.removeOrder(this);
-    }
-    if (aCards != null)
-    {
-      aCards.addOrder(this);
-    }
-    wasSet = true;
-    return wasSet;
-  }
-
   public void delete()
   {
     ArrayList<Table> copyOfTables = new ArrayList<Table>(tables);
@@ -525,6 +525,12 @@ public class Order implements Serializable
     for(Table aTable : copyOfTables)
     {
       aTable.removeOrder(this);
+    }
+    if (cards != null)
+    {
+      Card placeholderCards = cards;
+      this.cards = null;
+      placeholderCards.removeOrder(this);
     }
     while (orderItems.size() > 0)
     {
@@ -543,12 +549,6 @@ public class Order implements Serializable
     {
       Bill aBill = bills.get(i - 1);
       aBill.delete();
-    }
-    if (cards != null)
-    {
-      Card placeholderCards = cards;
-      this.cards = null;
-      placeholderCards.removeOrder(this);
     }
   }
 
@@ -570,8 +570,8 @@ public class Order implements Serializable
             "number" + ":" + getNumber()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "time" + "=" + (getTime() != null ? !getTime().equals(this)  ? getTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "cards = "+(getCards()!=null?Integer.toHexString(System.identityHashCode(getCards())):"null");
+            "  " + "cards = "+(getCards()!=null?Integer.toHexString(System.identityHashCode(getCards())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
   }  
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS

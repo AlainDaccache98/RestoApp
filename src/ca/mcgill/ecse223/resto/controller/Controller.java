@@ -551,14 +551,26 @@ public class Controller {
   			  }
   		  }
   		  else {
-  			  OrderItem lastItem = null;
-  			  if(lastOrder.numberOfOrderItems() > 0) {
-  				  lastItem = lastOrder.getOrderItem(lastOrder.numberOfOrderItems()-1);
+  			  Order comparedOrder = null;
+  			  if(table.numberOfOrders() > 0) {
+  				  comparedOrder = table.getOrder(table.numberOfOrders()-1);
+  			  }
+  			  else {
+  				  throw new InvalidInputException("Order for table does not exist");
+  			  }
+  			  
+  			  if(!comparedOrder.equals(lastOrder)) {
+  				  throw new InvalidInputException("Order not updated");
   			  }
   		  }
   		  
   	  }
   	  
+  	  if(lastOrder == null) {
+  		  throw new InvalidInputException("Last order is null");
+  	  }
+  	  
+  	  ////////////
   	  
   	  //check if seats exist
   	  //but we don't need to check this condition since we have a dropdown selection list only
