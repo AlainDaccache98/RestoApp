@@ -1049,7 +1049,6 @@ public class Table implements Serializable
 		return true;
 
 	}
-
   
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS

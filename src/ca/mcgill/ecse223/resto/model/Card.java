@@ -9,8 +9,17 @@ public class Card
 {
 
   //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static Map<Integer, Card> cardsByNumber = new HashMap<Integer, Card>();
+
+  //------------------------
   // MEMBER VARIABLES
   //------------------------
+
+  //Card Attributes
+  private int number;
 
   //Card Associations
   private List<Order> order;
@@ -20,8 +29,12 @@ public class Card
   // CONSTRUCTOR
   //------------------------
 
-  public Card(RestoApp aRestoApp)
+  public Card(int aNumber, RestoApp aRestoApp)
   {
+    if (!setNumber(aNumber))
+    {
+      throw new RuntimeException("Cannot create due to duplicate number");
+    }
     order = new ArrayList<Order>();
     boolean didAddRestoApp = setRestoApp(aRestoApp);
     if (!didAddRestoApp)
@@ -33,6 +46,37 @@ public class Card
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setNumber(int aNumber)
+  {
+    boolean wasSet = false;
+    Integer anOldNumber = getNumber();
+    if (hasWithNumber(aNumber)) {
+      return wasSet;
+    }
+    number = aNumber;
+    wasSet = true;
+    if (anOldNumber != null) {
+      cardsByNumber.remove(anOldNumber);
+    }
+    cardsByNumber.put(aNumber, this);
+    return wasSet;
+  }
+
+  public int getNumber()
+  {
+    return number;
+  }
+
+  public static Card getWithNumber(int aNumber)
+  {
+    return cardsByNumber.get(aNumber);
+  }
+
+  public static boolean hasWithNumber(int aNumber)
+  {
+    return getWithNumber(aNumber) != null;
+  }
 
   public Order getOrder(int index)
   {
@@ -161,6 +205,7 @@ public class Card
 
   public void delete()
   {
+    cardsByNumber.remove(getNumber());
     while( !order.isEmpty() )
     {
       order.get(0).setCards(null);
@@ -173,4 +218,11 @@ public class Card
     }
   }
 
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "number" + ":" + getNumber()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
+  }
 }

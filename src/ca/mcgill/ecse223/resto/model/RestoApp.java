@@ -798,9 +798,9 @@ public class RestoApp implements Serializable
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Card addCard()
+  public Card addCard(int aNumber)
   {
-    return new Card(this);
+    return new Card(aNumber, this);
   }
 
   public boolean addCard(Card aCard)

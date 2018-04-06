@@ -506,6 +506,81 @@ public class Controller {
 	    
 	    return result;
   }
+    
+    public static void orderItem(MenuItem item, int quantity, List<Seat> seatsList) throws Exception {
+  	  
+  	  //throw exception if seatsList or item is null/empty
+  	  if(item == null) {
+  		  throw new InvalidInputException("Null item");
+  	  }
+  	  if(seatsList == null) {
+  		throw new InvalidInputException("Null seats list");
+  	  }
+  	  if(seatsList.size() == 0) {
+  		throw new InvalidInputException("No seats selected!");
+  	  }
+  	  if(quantity <= 0) {
+  		throw new InvalidInputException("Invalid quantity (quantity should be a positive value)");
+  	  }
+  	  
+  	  RestoApp r = RestoAppApplication.getRestoApp();
+  	  
+  	  if(!item.hasCurrentPricedMenuItem()) {
+    		throw new InvalidInputException("Selected item is not available");
+  	  }
+  	  
+  	  Order lastOrder = null;
+  	  
+  	  for (Seat seat : seatsList) {
+  		  Table table = seat.getTable();
+  		  
+  		  if(!r.getCurrentTables().contains(table)) {
+  			  throw new InvalidInputException("Table is not a currentTable");
+  		  }
+  		  
+  		  if(!table.getCurrentSeats().contains(seat)) {
+  			  throw new InvalidInputException("Seat does not belong to the current table");
+  		  }
+  		  
+  		  if(lastOrder == null) {
+  			  if(table.numberOfOrders() > 0) {
+  				  lastOrder = table.getOrder(table.numberOfOrders()-1);
+  			  }
+  			  else {
+  				  throw new InvalidInputException("Order for the table has not started");
+  			  }
+  		  }
+  		  else {
+  			  OrderItem lastItem = null;
+  			  if(lastOrder.numberOfOrderItems() > 0) {
+  				  lastItem = lastOrder.getOrderItem(lastOrder.numberOfOrderItems()-1);
+  			  }
+  		  }
+  		  
+  	  }
+  	  
+  	  
+  	  //check if seats exist
+  	  //but we don't need to check this condition since we have a dropdown selection list only
+  	  for(Order o : r.getCurrentOrders()) {
+  		  for(Table t : o.getTables()) {
+  			  if(!t.getCurrentSeats().containsAll(seatsList)) {
+  				  throw new Exception("Seat does not exist");  
+  			  }  
+  		  }  
+  	  }
+  	  
+  	  
+  	  //check if menuItem exists
+  	  //but we don't need to check this condition since we have a dropdown selection list only
+  	  if(r.getMenu().getMenuItems().contains(item)) {
+  		  throw new Exception("Item does not exist");
+  	  }
+  	  
+  	  OrderItem newOrder = new OrderItem(quantity, item.getCurrentPricedMenuItem(), null /*seat.getTable().getOrder(-1)*/, (Seat[]) seatsList.toArray());
+  	  
+  	  RestoAppApplication.save();
+    }
 	
 	public static void issueBill(List<Seat> seats) throws InvalidInputException {
     if (seats.equals(null)) {

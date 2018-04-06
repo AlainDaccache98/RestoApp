@@ -76,5 +76,6 @@ class Bill {
 
 class Card
 {
+     unique Integer number;
   0..1 cards -- * Order order;
   }
