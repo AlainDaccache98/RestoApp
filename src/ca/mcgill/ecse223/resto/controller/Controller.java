@@ -570,26 +570,33 @@ public class Controller {
   		  throw new InvalidInputException("Last order is null");
   	  }
   	  
-  	  ////////////
+  	  PricedMenuItem pmi = item.getCurrentPricedMenuItem();
+  	  boolean itemCreated = false;
+  	  OrderItem newItem = null;
   	  
-  	  //check if seats exist
-  	  //but we don't need to check this condition since we have a dropdown selection list only
-  	  for(Order o : r.getCurrentOrders()) {
-  		  for(Table t : o.getTables()) {
-  			  if(!t.getCurrentSeats().containsAll(seatsList)) {
-  				  throw new Exception("Seat does not exist");  
-  			  }  
-  		  }  
+  	  for(Seat seat : seatsList) {
+  		  Table table = seat.getTable();
+  		  
+  		  if(itemCreated) {
+  			  table.addToOrderItem(newItem, seat);
+  		  }
+  		  else {
+  			  OrderItem lastItem = null;
+  			  if(lastOrder.numberOfOrderItems() > 0) {
+  				  lastItem = lastOrder.getOrderItem(lastOrder.numberOfOrderItems()-1);
+  			  }
+  			  table.orderItem(quantity, lastOrder, seat, pmi);
+  			  
+  			  if(lastOrder.numberOfOrderItems() > 0 && !lastOrder.getOrderItem(lastOrder.numberOfOrderItems()-1).equals(lastItem)) {
+  				  itemCreated = true;
+  				  newItem = lastOrder.getOrderItem(lastOrder.numberOfOrderItems()-1);
+  			  }
+  		  }
   	  }
   	  
-  	  
-  	  //check if menuItem exists
-  	  //but we don't need to check this condition since we have a dropdown selection list only
-  	  if(r.getMenu().getMenuItems().contains(item)) {
-  		  throw new Exception("Item does not exist");
+  	  if(!itemCreated) {
+  		  throw new Exception("Unaable to create new item");
   	  }
-  	  
-  	  OrderItem newOrder = new OrderItem(quantity, item.getCurrentPricedMenuItem(), null /*seat.getTable().getOrder(-1)*/, (Seat[]) seatsList.toArray());
   	  
   	  RestoAppApplication.save();
     }
