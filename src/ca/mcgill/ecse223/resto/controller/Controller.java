@@ -470,7 +470,31 @@ public class Controller {
 	  RestoAppApplication.save();
 	 
   }
-   	
+   
+    public static List<OrderItem>getOrderItems(Table table) throws InvalidInputException {
+	    RestoApp r = RestoAppApplication.getRestoApp();
+	    List<Table> currentTables = r.getCurrentTables();
+	    if(!currentTable.contains(table)) {
+	    	throw new InvalidInputException("Table should be valid"); 
+	    }
+	    Status status = table.getStatus();
+	    (if status = Status.Available) {
+	    	throw new InvalidInputException("Table is available");
+	    }
+	    List<Seat> currentSeats = table.getCurrentSeats();
+	    ArrayList<OrderItem> result = new ArrayList<OrderItem>(); 
+	    for (Seat seat : currentSeats) {
+	    	List<OrderItem> orderItems = seat.getOrderItems();
+	    	for (List<OrderItem> orderItem : orderItems) {
+	    		Order order = orderItem.getOrder();
+	    		if(lastOrder.equals(order)&& !result.contains(orderItem)) {
+	    			result.add(orderItem);
+	    		}
+	    	}
+	    }
+	    
+	    return result;
+  }
 
   
 }
