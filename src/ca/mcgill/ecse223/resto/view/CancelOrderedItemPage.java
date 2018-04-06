@@ -31,7 +31,7 @@ public class CancelOrderedItemPage extends JFrame {
 	
 	private JLabel errorMessage;
 	private JLabel orderItemSelected;
-	private JTextField orderItemTF;
+	private JComboBox orderItemTF;
 	private JButton cancelOrderItemButton;
 	private JButton homeButton;
 	
