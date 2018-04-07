@@ -203,7 +203,7 @@ public class OrderHomePage extends JFrame {
         
         protected void addToOrderButtonActionPerformed(ActionEvent evt) {
     		// TODO Auto-generated method stub
-        	//new OrderItemPage().setVisible(true);
+        	new OrderItemPage().setVisible(true);
         	this.setVisible(false);
     	}
         

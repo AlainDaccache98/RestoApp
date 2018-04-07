@@ -33,6 +33,7 @@ import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 
 import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
+import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Table;
@@ -53,7 +54,10 @@ public class OrderItemPage extends JFrame {
   private JLabel qtyLabel;
   private JTextField qtyTextField;
   
-  private JButton selectItemButton; 
+  private JLabel itemLabel;
+  private JTextField itemTextField;
+  
+  private JButton viewMenuButton; 
 
   private JButton orderItemButton;
   private JButton homeButton;
@@ -82,12 +86,15 @@ public class OrderItemPage extends JFrame {
     qtyLabel = new JLabel();
     qtyTextField = new JTextField();
     
+    itemLabel = new JLabel();
+    itemTextField = new JTextField();
+    
     selectSeatLabel = new JLabel();
     
     tableVisualizer = new TableVisualizer();
     tableVisualizer.setMinimumSize(new Dimension(WIDTH_Table_VISUALIZATION, HEIGHT_Table_VISUALIZATION));
 
-    selectItemButton = new JButton();
+    viewMenuButton = new JButton();
     homeButton = new JButton();
     orderItemButton = new JButton();
 
@@ -136,12 +143,13 @@ public class OrderItemPage extends JFrame {
     setTitle("resto Management System");
 
     qtyLabel.setText("Quantity:");
-    selectSeatLabel = new JLabel();
+    itemLabel.setText("Item:");
+    selectSeatLabel.setText("Select Seats:");
 
-    selectItemButton.setText("Select Item");
-    selectItemButton.addActionListener(new java.awt.event.ActionListener() {
+    viewMenuButton.setText("View Menu");
+    viewMenuButton.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
-        selectItemButtonActionPerformed(evt);
+        viewMenuButtonActionPerformed(evt);
       }
     });
     
@@ -175,9 +183,11 @@ public class OrderItemPage extends JFrame {
         .addComponent(homeButton)
         .addComponent(horizontalLineMiddle)
         .addGroup(layout.createSequentialGroup()
+        		.addComponent(itemLabel)
         		.addComponent(selectSeatLabel)
                 .addComponent(qtyLabel))
         .addGroup(layout.createSequentialGroup()
+        	.addComponent(itemTextField)
             .addComponent(displayList)
             .addComponent(qtyTextField))
         .addGroup(layout.createSequentialGroup()
@@ -195,6 +205,9 @@ public class OrderItemPage extends JFrame {
         .addComponent(homeButton)
         .addGroup(layout.createParallelGroup()
             .addComponent(horizontalLineMiddle))
+        .addGroup(layout.createParallelGroup()
+        		.addComponent(itemLabel)
+                .addComponent(itemTextField))
         .addGroup(layout.createParallelGroup()
         	.addComponent(selectSeatLabel)
             .addComponent(displayList))
@@ -231,8 +244,12 @@ public class OrderItemPage extends JFrame {
     
     int quantity = Integer.parseInt(qtyTextField.getText());
     
+    System.out.println(itemTextField.getText()+"m");
+    MenuItem item = MenuItem.getWithName(itemTextField.getText());
+    System.out.println(item + " wow");
+    
     try {
-      //Controller.orderItem(item, quantity, seats););
+      Controller.orderItem(item, quantity, seats);
     } catch (Exception e) {
       // TODO Auto-generated catch block
       error = e.getMessage();
@@ -242,10 +259,9 @@ public class OrderItemPage extends JFrame {
     refreshData();
   }
   
-  private void selectItemButtonActionPerformed(java.awt.event.ActionEvent evt) {
+  private void viewMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {
 	  
-	  	//INCOMPLETE*****************************************************************
-	  
+	  new ViewMenuPage().setVisible(true);
 	    // update visuals
 	    refreshData();
 	  }
