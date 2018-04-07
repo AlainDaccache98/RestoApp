@@ -98,3 +98,9 @@ class Bill {
   isA Serializable;
   private static final long serialVersionUID =  1301576255893682821L;
 }
+
+class Card {
+ depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID =  1301571235893682821L;
+}
