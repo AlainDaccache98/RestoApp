@@ -19,11 +19,11 @@ public class RestoAppApplication {
             public void run() {
 
             	//new CancelOrderPage().setVisible(true);
-            	new UpdateTablePage().setVisible(true);
+            	//new UpdateTablePage().setVisible(true);
             	//new CancelOrderedItemPage().setVisible(true);
             	//new MenuPage().setVisible(true);
             	//new AddLoyaltyCardPage().setVisible(true);
-            	//new RestoHomePage().setVisible(true);
+            	new RestoHomePage().setVisible(true);
             }
         });
         

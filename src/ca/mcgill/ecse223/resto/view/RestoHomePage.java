@@ -115,7 +115,7 @@ public class RestoHomePage extends JFrame {
             }
         });
         
-        menuButton.setText("View Menu");
+        menuButton.setText("Menu");
         menuButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	menuButtonActionPerformed(evt);
