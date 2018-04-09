@@ -84,9 +84,7 @@ public class CancelOrderPage extends JFrame {
 		
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("Cancel Order");
-		
-		tableNumberSelected.setText("Select table: ");
-		
+				
 		cancelOrderButton.setText("Cancel Order");
 		cancelOrderButton.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt){
