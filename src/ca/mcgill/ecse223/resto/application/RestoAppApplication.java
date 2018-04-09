@@ -18,12 +18,12 @@ public class RestoAppApplication {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
 
-            	new CancelOrderPage().setVisible(true);
-            	//new UpdateTablePage().setVisible(true);
-            	new CancelOrderedItemPage().setVisible(true);
+            	//new CancelOrderPage().setVisible(true);
+            	new UpdateTablePage().setVisible(true);
+            	//new CancelOrderedItemPage().setVisible(true);
             	//new MenuPage().setVisible(true);
-
-            	new RestoHomePage().setVisible(true);
+            	//new AddLoyaltyCardPage().setVisible(true);
+            	//new RestoHomePage().setVisible(true);
             }
         });
         

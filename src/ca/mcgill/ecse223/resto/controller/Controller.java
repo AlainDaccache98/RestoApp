@@ -91,12 +91,12 @@ public class Controller {
  	 	
  	    RestoApp r = RestoAppApplication.getRestoApp();
 
- 	    List<Card> currentCards =  r.getCards();
- 	 	for (Card card : currentCards) {
- 	 		if(card.getNumber() == number) {
- 	 			throw new Exception("card is already registered");
- 	 		}
- 	 	}
+ 	    //List<Card> currentCards =  r.getCards();
+// 	 	for (Card card : currentCards) {
+// 	 		if(card.getNumber() == number) {
+// 	 			throw new Exception("card is already registered");
+// 	 		}
+// 	 	}
  	 	Card card = new Card(number, r);
  	 	r.addCard(card);
  	    RestoAppApplication.save();	
@@ -711,6 +711,11 @@ public class Controller {
     }
     RestoAppApplication.save();
   }
+	
+	public static List<PricedMenuItem> getCurrentPricedMenuItems() {
+	    RestoAppApplication.load();
+	    return RestoAppApplication.getRestoApp().getPricedMenuItems();
+	 }
 
   
 }

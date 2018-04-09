@@ -201,9 +201,9 @@ public class UpdateTablePage extends JFrame {
 			int newTableNumber = Integer.parseInt(newTableNumberTextField.getText());
 			String object = (String)tableList.getSelectedItem();
 			//System.out.println(object);
-			String number = object.substring(2,3);
+			//String number = object.substring(2,3);
 			//System.out.println(number);
-			int originalTableNumber = Integer.parseInt(number);
+			int originalTableNumber = Integer.parseInt(object);
 			//System.out.println(originalTableNumber);
 			Table table = Table.getWithNumber(originalTableNumber);
 			int newSeatCount = Integer.parseInt(updatedSeatsTextField.getText());
@@ -246,7 +246,7 @@ public class UpdateTablePage extends JFrame {
 			
 			for(Table table : Controller.getCurrentTables()){
 				tables.put(index, table);
-				tableList.addItem("# " + table.getNumber());
+				tableList.addItem("" + table.getNumber());
 				index++;
 			}
 			

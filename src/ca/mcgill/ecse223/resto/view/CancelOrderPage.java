@@ -102,13 +102,6 @@ public class CancelOrderPage extends JFrame {
 		});
 		
 		
-		/*updatedSeatsButton.addActionListener(new java.awt.event.ActionListener(){
-			public void actionPerformed(java.awt.event.ActionEvent evt){
-				updateSeatsButtonActionPerformed(evt);
-			}
-
-		});*/
-		
 		JSeparator horizontalLineTop = new JSeparator();
 		JSeparator horizontalLineMiddle = new JSeparator();
 		JSeparator horizontalLineBottom = new JSeparator();
@@ -136,11 +129,7 @@ public class CancelOrderPage extends JFrame {
 						.addComponent(tableVisualizer)))
 				);
 		
-		/*layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {newTableNumberTextField, newTableNumberButton});
-
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {updatedSeatsTextField, updatedSeatsButton});*/
-
-		
+			
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
 				.addComponent(errorMessage)	
@@ -175,11 +164,9 @@ public class CancelOrderPage extends JFrame {
 			
 			String object = (String)tableList.getSelectedItem();
 			//System.out.println(object);
-			String number = object.substring(2,3);
-			//System.out.println(number);
-			int originalTableNumber = Integer.parseInt(number);
+			int tableNumber = Integer.parseInt(object);
 			//System.out.println(originalTableNumber);
-			Table table = Table.getWithNumber(originalTableNumber);
+			Table table = Table.getWithNumber(tableNumber);
 			Controller.cancelOrder(table);
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
@@ -217,7 +204,7 @@ public class CancelOrderPage extends JFrame {
 			
 			for(Table table : Controller.getCurrentTables()){
 				tables.put(index, table);
-				tableList.addItem("# " + table.getNumber());
+				tableList.addItem("" + table.getNumber());
 				index++;
 			}
 			

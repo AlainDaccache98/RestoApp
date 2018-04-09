@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
+import java.util.Scanner;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -22,6 +23,8 @@ import javax.swing.border.EmptyBorder;
 import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.OrderItem;
+import ca.mcgill.ecse223.resto.model.PricedMenuItem;
+import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Table;
 
 public class CancelOrderedItemPage extends JFrame {
@@ -31,11 +34,13 @@ public class CancelOrderedItemPage extends JFrame {
 	
 	private JLabel errorMessage;
 	private JLabel orderItemSelected;
-	private JComboBox orderItemTF;
+	private JLabel tableAndSeatSelected;
+	private JComboBox<String> pricedMenuItemList;
+	private JComboBox<String> tableAndSeatList;
 	private JButton cancelOrderItemButton;
 	private JButton homeButton;
 	
-    private TableVisualizer tableVisualizer;
+    private TableVisualizerForCancelOI tableVisualizerForCancelOI;
     
 	private static final int WIDTH_Table_VISUALIZATION = 200;
 	private static final int HEIGHT_Table_VISUALIZATION = 200;
@@ -43,6 +48,13 @@ public class CancelOrderedItemPage extends JFrame {
 
 	private String error = null;
 
+	private Integer selectedPricedMenuItem = -1;
+	private HashMap<Integer, PricedMenuItem> pmi ;
+	
+	private Integer selectedTableAndSeat = -1;
+	private HashMap<Integer, Table> tables ;
+	private HashMap<Integer, Seat> seats ;
+	
 	
 	/**
 	 * Create the frame.
@@ -61,9 +73,28 @@ public class CancelOrderedItemPage extends JFrame {
 		//label for selecting table whose features are to be updated
 		
 		orderItemSelected = new JLabel();
-		orderItemTF = new JTextField();
-		tableVisualizer = new TableVisualizer();
-		tableVisualizer.setMinimumSize(new Dimension(WIDTH_Table_VISUALIZATION, HEIGHT_Table_VISUALIZATION));
+		
+		tableAndSeatSelected = new JLabel();
+		pricedMenuItemList = new JComboBox<String>(new String[0]);
+		
+		pricedMenuItemList.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt){ 
+				JComboBox<String> cb   = (JComboBox<String>) evt.getSource();
+				selectedPricedMenuItem = cb.getSelectedIndex();
+			}
+		});
+		
+		tableAndSeatList = new JComboBox<String>(new String[0]);
+
+		tableAndSeatList.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt){ 
+				JComboBox<String> cb   = (JComboBox<String>) evt.getSource();
+				selectedTableAndSeat = cb.getSelectedIndex();
+			}
+		});
+		
+		tableVisualizerForCancelOI = new TableVisualizerForCancelOI();
+		tableVisualizerForCancelOI.setMinimumSize(new Dimension(WIDTH_Table_VISUALIZATION, HEIGHT_Table_VISUALIZATION));
 		
 			
 		cancelOrderItemButton = new JButton();
@@ -74,7 +105,8 @@ public class CancelOrderedItemPage extends JFrame {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("Cancel Order Item");
 		
-		orderItemSelected.setText("Select orderItem: ");
+		orderItemSelected.setText("Select priced menu item: ");
+		tableAndSeatSelected.setText("Select table and seat number: ");
 		
 		cancelOrderItemButton.setText("Cancel Order Item");
 		cancelOrderItemButton.addActionListener(new java.awt.event.ActionListener(){
@@ -109,16 +141,19 @@ public class CancelOrderedItemPage extends JFrame {
 				
 				.addGroup(layout.createSequentialGroup()
 						
-						.addComponent(orderItemSelected)
 						.addGroup(layout.createParallelGroup()
-								.addComponent(orderItemTF,50,50,100)
+								.addComponent(orderItemSelected)
+								.addComponent(tableAndSeatSelected))
+						.addGroup(layout.createParallelGroup()
+								.addComponent(pricedMenuItemList)
+								.addComponent(tableAndSeatList)
 								.addComponent(cancelOrderItemButton, 70,70,140)))
 						
 				
 				.addComponent(horizontalLineBottom)
 				.addGroup(layout.createParallelGroup()
 						.addGroup(layout.createParallelGroup()
-						.addComponent(tableVisualizer)))
+						.addComponent(tableVisualizerForCancelOI)))
 				);
 		
 		
@@ -130,14 +165,17 @@ public class CancelOrderedItemPage extends JFrame {
 				.addComponent(horizontalLineMiddle)
 				.addGroup(layout.createParallelGroup()
 						.addComponent(orderItemSelected)
-						.addComponent(orderItemTF))		
-				
+						.addComponent(pricedMenuItemList))		
+				.addGroup(layout.createParallelGroup()
+						.addComponent(tableAndSeatSelected)
+						.addComponent(tableAndSeatList))		
+
 				.addComponent(cancelOrderItemButton,70,70,140)
 				.addGroup(layout.createParallelGroup()
 						.addComponent(horizontalLineBottom))
 				.addGroup(layout.createParallelGroup()
 						.addGroup(layout.createParallelGroup()
-						.addComponent(tableVisualizer)))
+						.addComponent(tableVisualizerForCancelOI)))
 				);
 		
 		pack();
@@ -148,21 +186,29 @@ public class CancelOrderedItemPage extends JFrame {
 	private void cancelOrderItemButtonActionPerformed(ActionEvent evt) {
 		
 		// clear error message
-		/*error = null;
+		error = null;
 				
 		// call the controller
-		try {
-			//int newTableNumber = Integer.parseInt(newTableNumberTextField.getText());
-			Table table = (Table)tableList.getSelectedItem();
-			//int newSeatCount = Integer.parseInt(updatedSeatsTextField.getText());
+		/*try {
+			PricedMenuItem pmi = (PricedMenuItem)pricedMenuItemList.getSelectedItem();
+			
+			String tableAndSeat = (String) tableAndSeatList.getSelectedItem();
+			
+			Scanner in = new Scanner(tableAndSeat).useDelimiter("[^0-9]+");
+			int tableNumber = in.nextInt();
+			
+			int currentSeatNumber = in.nextInt();
+			
+			Table currentTable = Table.getWithNumber(tableNumber);
+			Order currentOrder = Table.getWithNumber(tableNumber).getCurrentOrder();
 			OrderItem oi = (OrderItem) orderItemList.getSelectedItem();
 			Controller.cancelOrderedItem(oi, table);
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
-		}*/
+		}
 				
 		// update visuals
-		refreshData();
+		refreshData();*/
 			
 	}
 	
@@ -183,7 +229,40 @@ public class CancelOrderedItemPage extends JFrame {
 		
 		errorMessage.setText(error);
 		if (error == null || error.length() == 0) {
-			orderItemTF.setText("");
+			//update the combo box
+			pmi = new HashMap<Integer, PricedMenuItem>();
+			pricedMenuItemList.removeAllItems();
+			Integer index1 = 0;
+			
+			for(PricedMenuItem item : Controller.getCurrentPricedMenuItems()){
+				pmi.put(index1, item);
+				pricedMenuItemList.addItem(item.getMenuItem().getName());
+				index1++;
+			}
+			
+			selectedPricedMenuItem = -1;
+			pricedMenuItemList.setSelectedIndex(selectedPricedMenuItem);
+			
+			Integer index2 = 0;
+			Integer tableCounter = 0;
+
+			seats = new HashMap<Integer, Seat>();
+			tables = new HashMap<Integer, Table>();
+
+			for(Table table: Controller.getCurrentTables()){
+				index2 = 0;
+				tableAndSeatList.addItem("Table " + table.getNumber() + " and no seat");
+				for(Seat seat: table.getCurrentSeats()){
+					seats.put(index2, seat);
+					tableAndSeatList.addItem("Table " + table.getNumber() + " and seat " + index2);
+					index2++;
+				}
+				tables.put(tableCounter, table);
+				tableCounter++;
+			}
+			
+			selectedTableAndSeat = -1;
+			tableAndSeatList.setSelectedIndex(selectedTableAndSeat);
 		}
 		
 		pack();
