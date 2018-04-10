@@ -1024,30 +1024,8 @@ public class Table implements Serializable
             "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
   }  
   
-  public boolean doesOverlap(int x1, int y1, int width, int length){
-
-	  	RestoApp r = RestoAppApplication.getRestoApp();
-		int x2 = x1 + width;
-		int y2 = y1 + length;
-		int x3 = 0;
-		int y3 = 0;
-		int x4 = 0;
-		int y4 = 0;
-		
-		for(Table currentTable : r.getCurrentTables()){
-			x3 = currentTable.getX();
-			y3 = currentTable.getY();
-			x4 = x3 + width;
-			y4 = y3 + length;
-
-			if(x3 > x2 || y3 > y2 || x1 > x4 || y1 > y4){	
-				return false;
-			}
-
-		}
-
-		return true;
-
+ public boolean doesOverlap(int x, int y, int width, int length){
+		return !(this.x > x + width || this.x + width < x || this.y + length < y || this.y > y + length);
 	}
   
   //------------------------
