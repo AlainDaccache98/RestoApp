@@ -45,11 +45,11 @@ public class AddMenuItemPage extends JFrame {
 	private JLabel priceLabel;
 	private JTextField priceTextField;
 
-	private JComboBox<String> menuCategoryList;
+	private JComboBox<ItemCategory> menuCategoryList;
 	private JLabel menuCategorySelected;
 
 	private Integer selectedMenuCategory = -1;
-	private HashMap<Integer, String> menuCategories;
+	private HashMap<Integer, ItemCategory> menuCategories;
 
 	public AddMenuItemPage() {
 		//this.resto = r;
@@ -101,7 +101,7 @@ public class AddMenuItemPage extends JFrame {
 			}
 		});
 
-		menuCategoryList = new JComboBox<String>(new String[0]);
+		menuCategoryList = new JComboBox<ItemCategory>();
 		menuCategoryList.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt){ 
 				JComboBox<String> cb   = (JComboBox<String>) evt.getSource();
@@ -194,8 +194,22 @@ public class AddMenuItemPage extends JFrame {
 
 		errorMessage.setText(error);
 		if (error == null || error.length() == 0) {
+			nameTextField.setText("");
+			priceTextField.setText("");
 			selectedMenuCategory = -1;
 			menuCategoryList.setSelectedIndex(selectedMenuCategory);
+			
+			//update the combo box
+			menuCategories = new HashMap<Integer, ItemCategory>();
+			menuCategoryList.removeAllItems();
+			Integer index = 0;
+			
+			for(ItemCategory category : Controller.getItemCategories()){
+				menuCategories.put(index, category);
+				menuCategoryList.addItem(category);
+				index++;
+			}
+			
 		}
 	}
 }
