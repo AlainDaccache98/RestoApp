@@ -226,7 +226,7 @@ public class StartOrderPage extends JFrame {
     		
     		try {
 				order = Controller.startOrder(tables);
-	    		if(loyaltyCardTextField.getText() != null) {
+	    		if(!loyaltyCardTextField.getText().equals("")) {
 	    			int cardNumber = Integer.parseInt(loyaltyCardTextField.getText());
 	    			//Card card = Card;
 	    			//Controller.addOrderToCard(card, order);
