@@ -33,7 +33,7 @@ public class RemoveMenuItemPage extends JFrame {
 
 	private JButton viewMenu, removeMenuItem, home;
 	private JLabel errorMessage;
-	private JComboBox<String> menuItemList;
+	private JComboBox<MenuItem> menuItemList;
 	private JLabel menuItemSelected;
 	private String error = null;
 
@@ -67,7 +67,7 @@ public class RemoveMenuItemPage extends JFrame {
 		home.setText("Home");
 		menuItemSelected.setText("Item");
 
-		menuItemList = new JComboBox<String>(new String[0]);
+		menuItemList = new JComboBox<MenuItem>();
 		menuItemList.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt){ 
 				JComboBox<String> cb   = (JComboBox<String>) evt.getSource();
@@ -77,7 +77,13 @@ public class RemoveMenuItemPage extends JFrame {
 
 		removeMenuItem.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt){
-				updateMenuItemButtonActionPerformed(evt);
+				removeMenuItemButtonActionPerformed(evt);
+			}
+		});
+
+		home.addActionListener(new java.awt.event.ActionListener(){
+			public void actionPerformed(java.awt.event.ActionEvent evt){
+				new RestoHomePage().setVisible(true);
 			}
 		});
 
@@ -103,7 +109,7 @@ public class RemoveMenuItemPage extends JFrame {
 						.addGroup(layout.createParallelGroup())    
 						.addComponent(menuItemList)
 						.addComponent(removeMenuItem, 30, 30, 140)
-						
+
 						)
 				.addComponent(horizontalLineBottom)
 
@@ -138,11 +144,33 @@ public class RemoveMenuItemPage extends JFrame {
 		if (error == null || error.length() == 0) {
 			selectedMenuItem = -1;
 			menuItemList.setSelectedIndex(selectedMenuItem);
-		}
+
+
+			menuItems = new HashMap<Integer, MenuItem>();
+			menuItemList.removeAllItems();
+			Integer index1 = 0;
+
+			for (ItemCategory category : Controller.getItemCategories()) {
+
+				try {
+					for(MenuItem item : Controller.getMenuItems(category)){
+						menuItems.put(index1, item);
+						menuItemList.addItem(item);
+						index1++;
+					}
+				} catch (InvalidInputException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		} 
 	}
 
 
-	private void updateMenuItemButtonActionPerformed(ActionEvent evt) {
+
+
+	private void removeMenuItemButtonActionPerformed(ActionEvent evt) {
 
 		// clear error message
 		error = null;
