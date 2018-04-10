@@ -105,6 +105,7 @@ private void refreshData() {
   private void backButtonActionPerformed(ActionEvent evt) {
 		// TODO Auto-generated method stub
 		new MenuPage().setVisible(true);
+		this.setVisible(false);
 }
   
 }

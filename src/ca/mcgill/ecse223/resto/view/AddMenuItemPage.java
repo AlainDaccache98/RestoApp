@@ -86,7 +86,7 @@ public class AddMenuItemPage extends JFrame {
 
 		viewMenu.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt){
-				new ViewMenuPage().setVisible(true);
+				viewMenuButtonActionPerformed(evt);
 			}
 		});
 
@@ -97,7 +97,7 @@ public class AddMenuItemPage extends JFrame {
 		});
 		home.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt){
-				new RestoHomePage().setVisible(true);
+				homeButtonActionPerformed(evt);
 			}
 		});
 
@@ -190,6 +190,19 @@ public class AddMenuItemPage extends JFrame {
 		refreshData();
 
 	}
+	
+	protected void homeButtonActionPerformed(ActionEvent evt) {
+		// TODO Auto-generated method stub
+		new ViewMenuPage().setVisible(true);
+		this.setVisible(false);		
+	}
+	
+	protected void viewMenuButtonActionPerformed(ActionEvent evt) {
+		// TODO Auto-generated method stub
+		new RestoHomePage().setVisible(true);
+		this.setVisible(false);		
+	}
+	
 	private void refreshData() {
 
 		errorMessage.setText(error);

@@ -118,7 +118,7 @@ public class UpdateMenuItemPage extends JFrame {
 
 		home.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt){
-				new RestoHomePage().setVisible(true);
+				homeButtonActionPerformed(evt);
 			}
 		});
 
@@ -191,6 +191,12 @@ public class UpdateMenuItemPage extends JFrame {
 
 	}
 
+	protected void homeButtonActionPerformed(ActionEvent evt) {
+		// TODO Auto-generated method stub
+		new RestoHomePage().setVisible(true);
+		this.setVisible(false);		
+	}
+
 	private void updateMenuItemButtonActionPerformed(ActionEvent evt) {
 
 		// clear error message
@@ -244,7 +250,7 @@ public class UpdateMenuItemPage extends JFrame {
 					}
 				} catch (InvalidInputException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					error = e.getMessage();
 				}
 			}
 		}

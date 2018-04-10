@@ -59,31 +59,32 @@ public class MenuPage extends JFrame {
     
 	viewMenu.addActionListener(new java.awt.event.ActionListener(){
 		public void actionPerformed(java.awt.event.ActionEvent evt){
-			new ViewMenuPage().setVisible(true);
+        	viewMenuActionPerformed(evt);
+
 		}
 	});
 
 	updateMenuItem.addActionListener(new java.awt.event.ActionListener(){
 		public void actionPerformed(java.awt.event.ActionEvent evt){
-			//new UpdateMenuPage().setVisible(true);
+			updateMenuActionPerformed(evt);
 		}
 	});
 	
 	addItem.addActionListener(new java.awt.event.ActionListener(){
 		public void actionPerformed(java.awt.event.ActionEvent evt){
-			//new AddItemPage().setVisible(true);
+			addItemActionPerformed(evt);
 		}
 	});
 	
 	removeItem.addActionListener(new java.awt.event.ActionListener(){
 		public void actionPerformed(java.awt.event.ActionEvent evt){
-			//new RemoveItemPage().setVisible(true);
+			removeItemActionPerformed(evt);
 		}
 	});
 	
 	home.addActionListener(new java.awt.event.ActionListener(){
 		public void actionPerformed(java.awt.event.ActionEvent evt){
-			new RestoHomePage().setVisible(true);
+			homeButtonActionPerformed(evt);
 		}
 	});
 
@@ -117,6 +118,36 @@ public class MenuPage extends JFrame {
         		.addComponent(removeItem)));
     pack();
   }
+
+protected void removeItemActionPerformed(ActionEvent evt) {
+	// TODO Auto-generated method stub
+	new RemoveMenuItemPage().setVisible(true);
+	this.setVisible(false);
+}
+
+protected void addItemActionPerformed(ActionEvent evt) {
+	// TODO Auto-generated method stub
+	new AddMenuItemPage().setVisible(true);
+	this.setVisible(false);
+}
+
+protected void updateMenuActionPerformed(ActionEvent evt) {
+	// TODO Auto-generated method stub
+	new UpdateMenuItemPage().setVisible(true);
+	this.setVisible(false);
+}
+
+protected void viewMenuActionPerformed(ActionEvent evt) {
+	// TODO Auto-generated method stub
+	new ViewMenuPage().setVisible(true);
+	this.setVisible(false);
+}
+
+protected void homeButtonActionPerformed(ActionEvent evt) {
+	// TODO Auto-generated method stub
+	new RestoHomePage().setVisible(true);
+	this.setVisible(false);
+}
 
 private void refreshData() {
     pack();
