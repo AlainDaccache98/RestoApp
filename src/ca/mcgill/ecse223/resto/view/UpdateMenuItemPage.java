@@ -44,17 +44,18 @@ public class UpdateMenuItemPage extends JFrame {
 	private JLabel priceLabel;
 	private JTextField priceTextField;
 
-	private JComboBox<String> menuCategoryList;
+	private JComboBox<ItemCategory> menuCategoryList;
 	private JLabel menuCategorySelected;
 
-	private JComboBox<String> menuItemList;
+	private JComboBox<MenuItem> menuItemList;
 	private JLabel menuItemSelected;
 
 	private Integer selectedMenuItem = -1;
 	private HashMap<Integer, MenuItem> menuItems;
 
 	private Integer selectedMenuCategory = -1;
-	private HashMap<Integer, MenuItem> categories;
+	private HashMap<Integer, ItemCategory> menuCategories;
+
 
 	public UpdateMenuItemPage() {
 		//this.resto = r;
@@ -79,7 +80,7 @@ public class UpdateMenuItemPage extends JFrame {
 
 		nameTextField = new JTextField();
 		priceTextField = new JTextField();
-		
+
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("Update Menu Item");
 
@@ -93,15 +94,15 @@ public class UpdateMenuItemPage extends JFrame {
 		menuCategorySelected.setText("Category");
 		menuItemSelected.setText("Item");
 
-		menuItemList = new JComboBox<String>(new String[0]);
+		menuItemList = new JComboBox<MenuItem>();
 		menuItemList.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt){ 
 				JComboBox<String> cb   = (JComboBox<String>) evt.getSource();
 				selectedMenuItem = cb.getSelectedIndex();
 			}
 		});
-		
-		menuCategoryList = new JComboBox<String>(new String[0]);
+
+		menuCategoryList = new JComboBox<ItemCategory>();
 		menuCategoryList.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt){ 
 				JComboBox<String> cb   = (JComboBox<String>) evt.getSource();
@@ -112,6 +113,12 @@ public class UpdateMenuItemPage extends JFrame {
 		updateMenuItem.addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent evt){
 				updateMenuItemButtonActionPerformed(evt);
+			}
+		});
+
+		home.addActionListener(new java.awt.event.ActionListener(){
+			public void actionPerformed(java.awt.event.ActionEvent evt){
+				new RestoHomePage().setVisible(true);
 			}
 		});
 
@@ -215,6 +222,31 @@ public class UpdateMenuItemPage extends JFrame {
 			menuItemList.setSelectedIndex(selectedMenuItem);
 			menuCategoryList.setSelectedIndex(selectedMenuCategory);
 
+			//update the combo box
+			menuCategories = new HashMap<Integer, ItemCategory>();
+			menuCategoryList.removeAllItems();
+			Integer index = 0;
+
+			menuItems = new HashMap<Integer, MenuItem>();
+			menuItemList.removeAllItems();
+			Integer index1 = 0;
+
+
+			for(ItemCategory category : Controller.getItemCategories()){
+				menuCategories.put(index, category);
+				menuCategoryList.addItem(category);
+				index++;
+				try {
+					for(MenuItem item : Controller.getMenuItems(category)){
+						menuItems.put(index1, item);
+						menuItemList.addItem(item);
+						index1++;
+					}
+				} catch (InvalidInputException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 }
