@@ -232,8 +232,7 @@ public class StartOrderPage extends JFrame {
 	    			//Controller.addOrderToCard(card, order);
 	    		}
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				error = e.getMessage();
 			}    	
     		
     		// update visuals
