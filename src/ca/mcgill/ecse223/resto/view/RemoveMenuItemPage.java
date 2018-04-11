@@ -33,7 +33,7 @@ public class RemoveMenuItemPage extends JFrame {
 
 	private JButton viewMenu, removeMenuItem, home;
 	private JLabel errorMessage;
-	private JComboBox<MenuItem> menuItemList;
+	private JComboBox<String> menuItemList;
 	private JLabel menuItemSelected;
 	private String error = null;
 
@@ -67,7 +67,7 @@ public class RemoveMenuItemPage extends JFrame {
 		home.setText("Home");
 		menuItemSelected.setText("Item");
 
-		menuItemList = new JComboBox<MenuItem>();
+		menuItemList = new JComboBox<String>();
 		menuItemList.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt){ 
 				JComboBox<String> cb   = (JComboBox<String>) evt.getSource();
@@ -81,11 +81,14 @@ public class RemoveMenuItemPage extends JFrame {
 			}
 		});
 
-		home.addActionListener(new java.awt.event.ActionListener(){
-			public void actionPerformed(java.awt.event.ActionEvent evt){
-				new RestoHomePage().setVisible(true);
-			}
-		});
+		home.setText("Home");
+	    home.addActionListener(new java.awt.event.ActionListener() {
+	      public void actionPerformed(java.awt.event.ActionEvent evt) {
+	        homeButtonActionPerformed(evt);
+	      }
+	    });
+	    
+		
 
 		// horizontal line elements
 		JSeparator horizontalLineTop = new JSeparator();
@@ -138,6 +141,16 @@ public class RemoveMenuItemPage extends JFrame {
 
 	}
 
+	private void homeButtonActionPerformed(java.awt.event.ActionEvent evt) {
+	    // clear error message
+
+	  new RestoHomePage().setVisible(true);
+	  this.setVisible(false);
+	    // update visuals
+	    refreshData();
+	  }
+	
+
 	private void refreshData() {
 
 		errorMessage.setText(error);
@@ -155,7 +168,7 @@ public class RemoveMenuItemPage extends JFrame {
 				try {
 					for(MenuItem item : Controller.getMenuItems(category)){
 						menuItems.put(index1, item);
-						menuItemList.addItem(item);
+						menuItemList.addItem(item.getName());
 						index1++;
 					}
 				} catch (InvalidInputException e) {
@@ -166,9 +179,7 @@ public class RemoveMenuItemPage extends JFrame {
 
 		} 
 	}
-
-
-
+	
 
 	private void removeMenuItemButtonActionPerformed(ActionEvent evt) {
 
@@ -177,9 +188,9 @@ public class RemoveMenuItemPage extends JFrame {
 
 		// call the controller
 		try {
-			MenuItem menuItem = (MenuItem) menuItemList.getSelectedItem();
+			String menuItem = menuItemList.getSelectedItem().toString();
 
-			Controller.removeMenuItem(menuItem);
+			Controller.removeMenuItem(MenuItem.getWithName(menuItem));
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}
