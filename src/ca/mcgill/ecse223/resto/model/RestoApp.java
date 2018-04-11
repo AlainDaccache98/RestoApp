@@ -924,6 +924,9 @@ public class RestoApp implements Serializable
     Order.reinitializeAutouniqueNumber(this.getOrders());
     Reservation.reinitializeAutouniqueReservationNumber(this.getReservations());
     Table.reinitializeUniqueNumber(this.getTables());
+    if (cards == null) {
+   		cards = new ArrayList<Card>();
+}
   }
   
   //------------------------

@@ -5,9 +5,7 @@ package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
 import java.util.*;
 
-import ca.mcgill.ecse223.resto.application.RestoAppApplication;
-
-// line 35 "../../../../../RestoAppPersistence.ump"
+// line 38 "../../../../../RestoAppPersistence.ump"
 // line 1 "../../../../../RestoAppTableStateMachine.ump"
 // line 29 "../../../../../RestoApp.ump"
 public class Table implements Serializable
@@ -944,7 +942,7 @@ public class Table implements Serializable
     }
   }
 
-  // line 41 "../../../../../RestoAppPersistence.ump"
+  // line 44 "../../../../../RestoAppPersistence.ump"
    public static  void reinitializeUniqueNumber(List<Table> tables){
     tablesByNumber = new HashMap<Integer, Table>();
     for (Table table : tables) {
@@ -1023,16 +1021,14 @@ public class Table implements Serializable
             "length" + ":" + getLength()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
   }  
-  
- public boolean doesOverlap(int x, int y, int width, int length){
+  public boolean doesOverlap(int x, int y, int width, int length){
 		return !(this.x > x + width || this.x + width < x || this.y + length < y || this.y > y + length);
 	}
-  
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 38 "../../../../../RestoAppPersistence.ump"
+  // line 41 "../../../../../RestoAppPersistence.ump"
   private static final long serialVersionUID =  8896099581655989380L ;
 
   
