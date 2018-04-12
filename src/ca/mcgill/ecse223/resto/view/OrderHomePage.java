@@ -215,7 +215,7 @@ public class OrderHomePage extends JFrame {
         
         protected void viewOrderButtonActionPerformed(ActionEvent evt) {
     		// TODO Auto-generated method stub
-//        	new ViewOrderPage().setVisible(true);
+        	new ViewOrderPage().setVisible(true);
         	this.setVisible(false);
     	}
 }
