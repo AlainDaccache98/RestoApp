@@ -42,6 +42,7 @@ import ca.mcgill.ecse223.resto.model.OrderItem;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Table;
+import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
 
 public class ViewOrderPage extends JFrame {
 
@@ -321,7 +322,9 @@ public class ViewOrderPage extends JFrame {
 		error = null;
 
 		try {
-
+			Table table = (Table)tableList.getSelectedItem();
+			Controller.getOrderItems(table);
+			
 			// Converting selectedSeats from Object type to Seat type
 			List<Seat> seatsList = new ArrayList<Seat>();
 			for (int i = 0; i < selectedSeats.length; i++) {
