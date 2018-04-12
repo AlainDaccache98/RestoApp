@@ -105,7 +105,7 @@ public class ViewOrderPage extends JFrame {
                 	JList list = (JList) listSelectionEvent.getSource();
                 	int selections[] = list.getSelectedIndices();
                 	Object selectionValues[] = list.getSelectedValues();
-                	selectTables = list.getSelectedValues();
+                	selectTable = list.getSelectedValues();
                 	for (int i = 0, n = selections.length; i < n; i++) {
                 		if (i == 0) {
                 			System.out.println(" Selections: ");
