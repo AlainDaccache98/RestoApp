@@ -115,7 +115,6 @@ public class IssueBillPage extends JFrame {
 
 		//table
 
-
 		selectTableLabel = new JLabel();
 		selectSeatLabel = new JLabel();
 		items = new JLabel();
@@ -219,21 +218,20 @@ public class IssueBillPage extends JFrame {
 				.addComponent(errorMessage)
 				.addComponent(horizontalLineTop)
 				.addComponent(homeButton)
-				
+
 				.addComponent(horizontalLineMiddle)
-				.addGroup(layout.createSequentialGroup()
-						.addComponent(selectTableLabel)
-						.addComponent(selectSeatLabel))
-				.addGroup(layout.createSequentialGroup()
-						.addComponent(tableList)
-						.addComponent(displaySeatsList))
-				.addGroup(layout.createSequentialGroup()
-						.addComponent(selectTableButton)
-						.addComponent(selectSeatButton))
-				.addGroup(layout.createSequentialGroup()
-						.addGroup(layout.createParallelGroup()
-								.addComponent(issueBillButton, 70,70,140)
-								.addComponent(items)))
+				.addComponent(selectTableLabel)
+				
+				.addComponent(tableList)
+				.addComponent(selectTableButton)
+				
+				.addComponent(selectSeatLabel)
+		
+				.addComponent(displaySeatsList)
+				.addComponent(selectSeatButton)
+
+				.addComponent(issueBillButton, 70,70,140)
+				.addComponent(items)
 				.addComponent(horizontalLineBottom)
 				.addGroup(layout.createParallelGroup()
 						.addGroup(layout.createParallelGroup()
@@ -246,17 +244,18 @@ public class IssueBillPage extends JFrame {
 				.addComponent(homeButton)
 				.addGroup(layout.createParallelGroup()
 						.addComponent(horizontalLineMiddle))
-				.addComponent(selectTableLabel)
-				.addComponent(tableList)
-				.addComponent(items)
-				.addGroup(layout.createParallelGroup()
-						.addComponent(selectTableButton))
-				.addGroup(layout.createParallelGroup()
-						.addComponent(selectSeatLabel)
-						.addComponent(displaySeatsList)
-						.addComponent(selectSeatButton))
-				.addGroup(layout.createParallelGroup()
-						.addComponent(issueBillButton))
+				.addGroup(layout.createParallelGroup().addComponent(selectTableLabel))
+			
+				.addGroup(layout.createParallelGroup().addComponent(tableList))
+				.addGroup(layout.createParallelGroup().addComponent(selectTableButton))	
+				
+				.addGroup(layout.createParallelGroup() .addComponent(selectSeatLabel))
+		
+				
+				.addGroup(layout.createParallelGroup().addComponent(displaySeatsList))
+				.addGroup(layout.createParallelGroup().addComponent(selectSeatButton))
+				.addGroup(layout.createParallelGroup().addComponent(issueBillButton))
+				.addGroup(layout.createParallelGroup().addComponent(items))
 				.addComponent(horizontalLineBottom)
 				.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createSequentialGroup()
@@ -307,7 +306,6 @@ public class IssueBillPage extends JFrame {
 			//		      displaySeatsList = new JList(myList.toArray());
 			displaySeatsList.setListData(myList2.toArray());
 			selectedSeats = null;
-
 		}
 
 		for(Seat seat : listSelectedSeats) {
@@ -340,9 +338,17 @@ public class IssueBillPage extends JFrame {
 			}
 
 			String returned = "";
-		    for (OrderItem item : orderedItems) {
-		      returned += (item.toString() + " : " + item.getPricedMenuItem().getPrice() + "             ");
-		    }
+			for (OrderItem item : orderedItems) {
+				returned += (item.toString() + " : " + item.getPricedMenuItem().getPrice() + "             ");
+				if (item.equals(orderedItems.get(orderedItems.size()-1))) {
+					returned += ("Total = ");
+					double total = 0;
+					for (OrderItem item2: orderedItems) {
+						total += item2.getPricedMenuItem().getPrice();
+					}
+					returned += (total);
+				}
+			}
 
 			items.setText(returned);
 
