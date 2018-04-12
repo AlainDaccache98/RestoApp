@@ -31,8 +31,7 @@ import ca.mcgill.ecse223.resto.*;
 
 public class ViewOrderPage extends JFrame {
 
-	private static final long serialVersionUID = : 2045406856025012133; // Not sure about the serial ID
-
+	private static final long serialVersionUID = : -4426310869335015542L; 
 	// UI elements
 	private JLabel errorMessage;
 
