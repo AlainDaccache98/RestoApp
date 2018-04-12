@@ -203,7 +203,7 @@ public class ViewOrderPage extends JFrame {
 			}
 		});
 
-		// horizontal line elements
+// horizontal line elements
 		JSeparator horizontalLineTop = new JSeparator();
 		JSeparator horizontalLineMiddle = new JSeparator();
 		JSeparator horizontalLineBottom = new JSeparator();
@@ -212,57 +212,53 @@ public class ViewOrderPage extends JFrame {
 		getContentPane().setLayout(layout);
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
-
 		layout.setHorizontalGroup(
 				layout.createParallelGroup()
 				.addComponent(errorMessage)
 				.addComponent(horizontalLineTop)
 				.addComponent(homeButton)
-
 				.addComponent(horizontalLineMiddle)
-				.addComponent(selectTableLabel)
-
-				.addComponent(tableList)
-				.addComponent(selectTableButton)
-
-				.addComponent(selectSeatLabel)
-
-				.addComponent(displaySeatsList)
-				.addComponent(selectSeatButton)
-
-				.addComponent(viewOrderButton, 70,70,140)
-				.addComponent(items)
-				.addComponent(horizontalLineBottom)
-				.addGroup(layout.createParallelGroup()
-						.addGroup(layout.createParallelGroup()
-								.addComponent(tableVisualizer))));
-
-		layout.setVerticalGroup(
-				layout.createSequentialGroup()
-				.addComponent(errorMessage)	
-				.addComponent(horizontalLineTop)
-				.addComponent(homeButton)
-				.addGroup(layout.createParallelGroup()
-						.addComponent(horizontalLineMiddle))
-				.addGroup(layout.createParallelGroup().addComponent(selectTableLabel))
-
-				.addGroup(layout.createParallelGroup().addComponent(tableList))
-				.addGroup(layout.createParallelGroup().addComponent(selectTableButton))	
-
-				.addGroup(layout.createParallelGroup() .addComponent(selectSeatLabel))
-
-
-				.addGroup(layout.createParallelGroup().addComponent(displaySeatsList))
-				.addGroup(layout.createParallelGroup().addComponent(selectSeatButton))
-				.addGroup(layout.createParallelGroup().addComponent(viewOrderButton))
-				.addGroup(layout.createParallelGroup().addComponent(items))
-				.addComponent(horizontalLineBottom)
 				.addGroup(layout.createSequentialGroup()
-						.addGroup(layout.createSequentialGroup()
-								.addComponent(tableVisualizer)))
+						.addGroup(layout.createParallelGroup()
+								.addComponent(selectTableLabel)
+								.addComponent(selectSeatNumberLabel)
+								.addComponent(viewOrderButton, 30, 30, 140)
+
+								)
+
+						.addGroup(layout.createParallelGroup()    
+								.addComponent(tableList)
+								.addComponent(seatList)
+								)
+						)
+				.addComponent(horizontalLineBottom)
+
 				);
 
+		layout.setVerticalGroup(
+				layout.createParallelGroup()
+				.addGroup(layout.createSequentialGroup()
+						.addComponent(errorMessage)
+						.addComponent(horizontalLineTop)
+						.addComponent(homeButton)
+						.addComponent(horizontalLineMiddle)
+						.addGroup(layout.createParallelGroup()
+								.addComponent(selectTableLabel)
+								.addComponent(tableList)
+								)
+						.addGroup(layout.createParallelGroup()
+								.addComponent(selectSeatNumberLabel)
+								.addComponent(seatList)
+								)
+						.addGroup(layout.createParallelGroup()
+								.addComponent(viewOrderButton, 30, 30, 140)
+								)
+						.addGroup(layout.createParallelGroup()
+								.addComponent(horizontalLineBottom))
+						)
+				);
 		pack();
+
 	}
 
 	private void refreshData() {
