@@ -186,8 +186,8 @@ public class Controller {
     test = r.removeCurrentTable(table);
     RestoAppApplication.save();
 
-    System.out.println("after remove size :" + r.getCurrentTables().size() + "done? " + test);
-    System.out.println("RRRRRRRRR: " + r.getCurrentTable(0).getNumber());
+//    System.out.println("after remove size :" + r.getCurrentTables().size() + "done? " + test);
+//    System.out.println("RRRRRRRRR: " + r.getCurrentTable(0).getNumber());
   }
 
   public static void updateTable(Table table, int newNumber, int numberOfSeats ) throws InvalidInputException{
@@ -574,9 +574,9 @@ public class Controller {
   	  for (Seat seat : seatsList) {
   		  Table table = seat.getTable();
   		  
-  		  if(!r.getCurrentTables().contains(table)) {
-  			  throw new InvalidInputException("Table is not a currentTable");
-  		  }
+//  		  if(!r.getCurrentTables().contains(table)) {
+//  			  throw new InvalidInputException("Table is not a currentTable");
+//  		  }
   		  
   		  if(!table.getCurrentSeats().contains(seat)) {
   			  throw new InvalidInputException("Seat does not belong to the current table");
@@ -619,6 +619,8 @@ public class Controller {
   		  
   		  if(itemCreated) {
   			  table.addToOrderItem(newItem, seat);
+  			  System.out.println("aaaaaaaaaaaaaaaaaaaa");
+
   		  }
   		  else {
   			  OrderItem lastItem = null;
@@ -626,18 +628,25 @@ public class Controller {
   			  if(lastOrder.numberOfOrderItems() > 0) {
   				  lastItem = lastOrder.getOrderItem(lastOrder.numberOfOrderItems()-1);
   			  }
-  			  table.orderItem(quantity, lastOrder, seat, pmi);
+  			  System.out.println("bbbbbbbbbbbbbbbbbbbb");
+  			  boolean ans = table.orderItem(quantity, lastOrder, seat, pmi);
+  			  
+  			  System.out.println("2b2b2b2bb2b2b2b2b2" + ans);
+
   			  
   			  if(lastOrder.numberOfOrderItems() > 0 && !lastOrder.getOrderItem(lastOrder.numberOfOrderItems()-1).equals(lastItem)) {
   				  itemCreated = true;
   				  newItem = lastOrder.getOrderItem(lastOrder.numberOfOrderItems()-1);
+  	  			  System.out.println("cccccccccccccccccccc");
+
   			  }
   		  }
   	  }
   	  
   	  if(!itemCreated) {
-  		  throw new Exception("Unaable to create new item");
+  		  throw new Exception("Unable to create new item");
   	  }
+  	  System.out.println("Order successful!");
   	  
   	  RestoAppApplication.save();
     }
@@ -654,10 +663,10 @@ public class Controller {
     Order lastOrder = null;
     for(Seat seat: seats) {
       Table table = seat.getTable();
-      Boolean current = currentTables.contains(table);
-      if (current == false) {
-        throw new InvalidInputException("At least a table is not in use"); 
-      }
+//      Boolean current = currentTables.contains(table);
+//      if (current == false) {
+//        throw new InvalidInputException("At least a table is not in use"); 
+//      }
       List<Seat> currentSeats = table.getCurrentSeats();
       Boolean current2 = currentSeats.contains(seat);
       if (current2 == false) {

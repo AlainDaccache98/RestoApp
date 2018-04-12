@@ -291,11 +291,11 @@ public class ReservationPage extends JFrame {
     		int min = Integer.parseInt(timeTextField.getText().substring(3, 5));
     		int sec = Integer.parseInt(timeTextField.getText().substring(6, 8));    		
     		
-    		Date date = new Date(year, month, day);    		
+    		Date date = new Date(year+100, month, day);    		
     		Time time = new Time(hour, min, sec);;
     		
-//    		int d = Integer.parseInt(dateTextField.getText().substring(0, 2));
-//    		System.out.println("D: " + d);
+//    		int d = Integer.parseInt(dateTextField.getText().substring(, 2));
+    		System.out.println("D: " + date);
 //    		//date.setDate(d);
 //    		System.out.println(date.getDate() + "woianadwoiwnoiawndoi");
     		System.out.println("Date: " + date.getDate());

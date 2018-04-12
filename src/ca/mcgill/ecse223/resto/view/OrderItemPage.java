@@ -227,16 +227,16 @@ public class OrderItemPage extends JFrame {
             .addComponent(horizontalLineTop)
             .addComponent(homeButton)
             .addComponent(horizontalLineMiddle)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup()
             		.addComponent(qtyLabel)
             		.addComponent(selectTableLabel)
             		.addComponent(selectSeatLabel))
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup()
             	.addComponent(qtyTextField)
             	.addComponent(tableList)
                 .addComponent(displaySeatsList)
                 .addComponent(menuItemList))
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup()
             		.addComponent(selectTableButton)
                     .addComponent(selectSeatButton))
             .addGroup(layout.createSequentialGroup()
@@ -260,11 +260,12 @@ public class OrderItemPage extends JFrame {
                     .addComponent(selectTableButton))
             .addGroup(layout.createParallelGroup()
             	.addComponent(selectSeatLabel)
-                .addComponent(displaySeatsList)
-                .addComponent(selectSeatButton))
-            .addComponent(qtyLabel)
-            .addComponent(qtyTextField)
-            .addComponent(menuItemList)
+                .addComponent(displaySeatsList))
+            .addComponent(selectSeatButton)
+            .addGroup(layout.createParallelGroup()
+            		.addComponent(qtyLabel)
+            		.addComponent(qtyTextField))
+    		.addComponent(menuItemList)
             .addGroup(layout.createParallelGroup()
                 .addComponent(orderItemButton))
             .addComponent(horizontalLineBottom)
@@ -338,7 +339,6 @@ public class OrderItemPage extends JFrame {
 		      }
 		      
 		      displaySeatsList.setListData(myList2.toArray());
-		    selectedSeats = null;
 			
 		}
 		
@@ -365,6 +365,7 @@ public class OrderItemPage extends JFrame {
       Controller.orderItem(menuItem, qty, listSelectedSeats);;
     } catch (Exception e) {
       // TODO Auto-generated catch block
+    	e.printStackTrace();
       error = e.getMessage();
     }
 
@@ -376,7 +377,7 @@ public class OrderItemPage extends JFrame {
 	    // clear error message
 	    error = null;
 	    
-		String object = (String)tableList.getSelectedItem();
+		String object = tableList.getSelectedItem().toString();
 		//System.out.println(object);
 		int tableNumber = Integer.parseInt(object);
 		//System.out.println(originalTableNumber);

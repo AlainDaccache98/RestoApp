@@ -184,8 +184,8 @@ public class EndOrderPage extends JFrame {
 				}
 			}
 			
-			System.out.println("OrderNumber: " + order.getNumber());
-			System.out.println(order);
+//			System.out.println("OrderNumber: " + order.getNumber());
+//			System.out.println(order);
 			
 			Controller.endOrder(order);;
 		} catch (InvalidInputException e) {

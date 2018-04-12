@@ -39,9 +39,9 @@ public class PersistenceObjectStream {
             e.printStackTrace();
         }
         
-        for(MenuItem mi: app.getMenu().getMenuItems()){
-        	System.out.println(mi.getName() + " ");
-        }
+//        for(MenuItem mi: app.getMenu().getMenuItems()){
+//        	System.out.println(mi.getName() + " ");
+//        }
         return app;
     }
     

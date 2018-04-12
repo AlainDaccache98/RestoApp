@@ -33,7 +33,7 @@ public class RemoveMenuItemPage extends JFrame {
 
 	private JButton viewMenu, removeMenuItem, home;
 	private JLabel errorMessage;
-	private JComboBox<String> menuItemList;
+	private JComboBox<MenuItem> menuItemList;
 	private JLabel menuItemSelected;
 	private String error = null;
 
@@ -67,10 +67,10 @@ public class RemoveMenuItemPage extends JFrame {
 		home.setText("Home");
 		menuItemSelected.setText("Item");
 
-		menuItemList = new JComboBox<String>();
+		menuItemList = new JComboBox<MenuItem>();
 		menuItemList.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt){ 
-				JComboBox<String> cb   = (JComboBox<String>) evt.getSource();
+				JComboBox<MenuItem> cb   = (JComboBox<MenuItem>) evt.getSource();
 				selectedMenuItem = cb.getSelectedIndex();
 			}
 		});
@@ -168,7 +168,7 @@ public class RemoveMenuItemPage extends JFrame {
 				try {
 					for(MenuItem item : Controller.getMenuItems(category)){
 						menuItems.put(index1, item);
-						menuItemList.addItem(item.getName());
+						menuItemList.addItem(item);
 						index1++;
 					}
 				} catch (InvalidInputException e) {
@@ -188,9 +188,9 @@ public class RemoveMenuItemPage extends JFrame {
 
 		// call the controller
 		try {
-			String menuItem = menuItemList.getSelectedItem().toString();
+			MenuItem menuItem = (MenuItem) menuItemList.getSelectedItem();
 
-			Controller.removeMenuItem(MenuItem.getWithName(menuItem));
+			Controller.removeMenuItem(menuItem);
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
 		}

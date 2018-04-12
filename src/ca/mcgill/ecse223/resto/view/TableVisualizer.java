@@ -118,9 +118,6 @@ class TableVisualizer extends JPanel {
 					//adding seats
 					int distance = 2*(table.getLength() + table.getWidth())/(table.getSeats().size());
 					
-					System.out.println("DISTANCE: " + distance);
-					System.out.println("seats: " + table.getSeats().size());
-
 					int tempX = table.getX();
 					int tempY = table.getY();
 					

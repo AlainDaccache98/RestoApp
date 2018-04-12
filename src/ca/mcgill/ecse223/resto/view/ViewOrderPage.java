@@ -171,6 +171,8 @@ public class ViewOrderPage extends JFrame {
 		};
 
 		displaySeatsList.addListSelectionListener(abcde);
+		
+		items.setText("Items: ");
 
 		// global settings and listeners
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -306,12 +308,12 @@ public class ViewOrderPage extends JFrame {
 
 			//		      displaySeatsList = new JList(myList.toArray());
 			displaySeatsList.setListData(myList2.toArray());
-			selectedSeats = null;
+//			selectedSeats = null;
 		}
 
-		for(Seat seat : listSelectedSeats) {
-			System.out.println("Seat: " + seat);
-		}
+//		for(Seat seat : listSelectedSeats) {
+//			System.out.println("Seat: " + seat);
+//		}
 
 		pack();
 	}
@@ -323,7 +325,7 @@ public class ViewOrderPage extends JFrame {
 
 		try {
 			Table table = (Table)tableList.getSelectedItem();
-			Controller.getOrderItems(table);
+//			Controller.getOrderItems(table);
 			
 			// Converting selectedSeats from Object type to Seat type
 			List<Seat> seatsList = new ArrayList<Seat>();
@@ -365,7 +367,7 @@ public class ViewOrderPage extends JFrame {
 		int tableNumber = Integer.parseInt(object);
 		//System.out.println(originalTableNumber);
 		currentSelectedTable = Table.getWithNumber(tableNumber);	    
-		System.out.println("Tableselected=" + currentSelectedTable.getNumber());
+//		System.out.println("Tableselected=" + currentSelectedTable.getNumber());
 
 		// update visuals
 		refreshData();
