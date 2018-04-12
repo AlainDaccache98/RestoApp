@@ -188,7 +188,6 @@ public class ViewOrderPage extends JFrame {
 								.addComponent(selectSeatNumberLabel)
 						.addGroup(layout.createParallelGroup()
 								.addComponent(showOrderTextField, 200, 200, 400)
-								.addComponent(timeTextField, 200, 200, 400)
 				.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createParallelGroup()
 								.addComponent(viewOrderButton, 70,70,140)))
